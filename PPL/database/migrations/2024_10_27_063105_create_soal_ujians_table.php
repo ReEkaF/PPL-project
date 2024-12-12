@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('soal_ujian', function (Blueprint $table) {
             $table->uuid('id_soal_ujian')->primary();
             $table->uuid('ujian_id');
+            $table->string('judul_ujian');
             $table->string('teks_soal');
             $table->string('opsi_a');
             $table->string('opsi_b');

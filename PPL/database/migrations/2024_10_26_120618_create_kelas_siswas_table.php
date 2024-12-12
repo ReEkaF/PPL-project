@@ -16,6 +16,8 @@ return new class extends Migration
             $table->uuid('id_kelas');
             $table->uuid('id_siswa');
             $table->uuid('tahun_ajaran');
+            $table->uuid('wali_kelas')->nullable(); // Menambahkan kolom wali_kelas
+            $table->foreign('wali_kelas')->references('id_guru')->on('guru')->onDelete('set null');
             $table->foreign('id_kelas')->references('id_kelas')->on('kelas');
             $table->foreign('id_siswa')->references('id_siswa')->on('siswa');
             $table->foreign('tahun_ajaran')->references('id_tahun_ajaran')->on('tahun_ajaran');

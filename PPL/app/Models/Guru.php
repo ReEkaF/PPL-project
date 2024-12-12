@@ -45,4 +45,16 @@ class Guru extends Authenticatable
     {
         return $this->hasMany(Ekstrakurikuler::class, 'guru_id', 'id_guru');
     }
+     public function kelas()
+    {
+        return $this->belongsToMany(Kelas::class, 'kelas_siswas', 'wali_kelas', 'id_kelas');
+    }
+    public function kelasSiswas()
+    {
+        return $this->hasMany(KelasSiswa::class, 'wali_kelas', 'id_guru');
+    }
+    public function kelasMataPelajaran2nd()
+    {
+        return $this->hasMany(KelasMataPelajaran::class, 'guru_id');
+    }
 }

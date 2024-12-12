@@ -83,28 +83,6 @@ aria-label="Sidebar">
                     </x-sidebar-dropdown-list>
                 </li> --}}
             </ul>
-
-            {{-- Sidebar Footer --}}
-            <div class="pt-2 space-y-2">
-                <x-sidebar-link href="#">
-                    <x-sidebar-icon>
-                        <path d="M17.133 12.632v-1.8a5.406 5.406 0 0 0-4.154-5.262.955.955 0 0 0 .021-.106V3.1a1 1 0 0 0-2 0v2.364a.955.955 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C6.867 15.018 5 15.614 5 16.807 5 17.4 5 18 5.538 18h12.924C19 18 19 17.4 19 16.807c0-1.193-1.867-1.789-1.867-4.175ZM8.823 19a3.453 3.453 0 0 0 6.354 0H8.823Z"/>
-                    </x-sidebar-icon>
-                    <span class="ml-3" sidebar-toggle-item>Notifikasi</span>
-                </x-sidebar-link>
-                <x-sidebar-link href="#">
-                    <x-sidebar-icon>
-                        <path fill-rule="evenodd" d="M8 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1h2a2 2 0 0 1 2 2v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h2Zm6 1h-4v2H9a1 1 0 0 0 0 2h6a1 1 0 1 0 0-2h-1V4Zm-6 8a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Zm1 3a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2H9Z" clip-rule="evenodd"/>
-                    </x-sidebar-icon>
-                    <span class="ml-3" sidebar-toggle-item>Absensi</span>
-                </x-sidebar-link>
-                <x-sidebar-link href="#">
-                    <x-sidebar-icon>
-                        <path fill-rule="evenodd" d="M3 6a2 2 0 0 1 2-2h5.532a2 2 0 0 1 1.536.72l1.9 2.28H3V6Zm0 3v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9H3Z" clip-rule="evenodd"/>
-                    </x-sidebar-icon>
-                    <span class="ml-3" sidebar-toggle-item>Raport</span>
-                </x-sidebar-link>
-            </div>
         </div>
     </div>
 </div>

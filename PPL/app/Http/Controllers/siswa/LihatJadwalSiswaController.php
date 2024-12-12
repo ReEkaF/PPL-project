@@ -37,6 +37,7 @@ class LihatJadwalSiswaController extends Controller
             ->join('guru', 'kelas_mata_pelajaran.guru_id', '=', 'guru.id_guru')
             ->join('hari', 'kelas_mata_pelajaran.hari_id', '=', 'hari.id_hari')
             ->where('kelas_mata_pelajaran.kelas_id', $kelasSiswa->id_kelas)
+            ->orderBy('hari.nama_hari', 'desc')
             ->select(
                 'hari.nama_hari',
                 'kelas_mata_pelajaran.waktu_mulai',
@@ -74,7 +75,7 @@ class LihatJadwalSiswaController extends Controller
         ->join('guru', 'kelas_mata_pelajaran.guru_id', '=', 'guru.id_guru')
         ->join('hari', 'kelas_mata_pelajaran.hari_id', '=', 'hari.id_hari')
         ->where('kelas_mata_pelajaran.kelas_id', $kelasSiswa->id_kelas)
-        ->orderBy('hari.id_hari') // Urutkan berdasarkan hari
+        ->orderBy('hari.nama_hari', 'desc')
         ->orderBy('kelas_mata_pelajaran.waktu_mulai') // Urutkan berdasarkan waktu mulai
         ->select(
             'hari.nama_hari',

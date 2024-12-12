@@ -82,4 +82,12 @@ class kelas extends Model
     {
         return $this->belongsToMany(Siswa::class, 'kelas_siswas', 'id_kelas', 'id_siswa');
     }
+     public function getJumlahSiswaAttribute()
+    {
+        return $this->siswa()->count();
+    }
+    public function waliKelas()
+    {
+        return $this->hasOne(KelasSiswa::class, 'id_kelas')->with('guru');
+    }
 }

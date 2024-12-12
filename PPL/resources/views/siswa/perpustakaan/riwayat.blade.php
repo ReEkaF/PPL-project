@@ -9,7 +9,7 @@
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-semibold">Daftar Transaksi Peminjaman Buku</h1>
         </div>
-            <form action="{{ route('guru.perpustakaan.riwayat') }}" method="GET" class="flex space-x-2 mb-5">
+            <form action="{{ route('siswa.perpustakaan.riwayat') }}" method="GET" class="flex space-x-2 mb-5">
                 <input type="text" name="search" value="{{ request()->get('search') }}" class="border border-gray-300 px-4 py-2 rounded-lg" placeholder="Cari berdasarkan judul buku...">
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Cari</button>
             </form>

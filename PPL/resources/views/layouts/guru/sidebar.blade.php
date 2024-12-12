@@ -81,6 +81,23 @@
                     </li>
                     </x-sidebar-dropdown-list>
                     </li>
+                    {{-- KELAS --}}
+                    <li>
+                        <x-sidebar-dropdown label="Kelas" id="master" :active="request()->is('guru/dashboard/*')">
+                            <x-sidebar-icon>
+                                <path fill-rule="evenodd" d="M4 4a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2v14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2V5a1 1 0 0 1-1-1Zm5 2a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-1Zm-5 4a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1h-1Zm-3 4a2 2 0 0 0-2 2v3h2v-3h2v3h2v-3a2 2 0 0 0-2-2h-2Z" clip-rule="evenodd"/>
+                            </x-sidebar-icon>
+                        </x-sidebar-dropdown>
+                        <x-sidebar-dropdown-list id="master" :active="request()->is('guru/dashboard/*')">
+                            <li>
+                                <x-sidebar-dropdown-list-link href="{{route('guru.daftarSiswaWali')}}" :active="request()->is('guru/dashboard/')">Siswa Wali</x-sidebar-dropdown-list-link>
+                            </li>
+                            
+                            <li>
+                                <x-sidebar-dropdown-list-link href="{{route('guru.jadwalPelajaran')}}" :active="request()->is('guru/dashboard/')">Jadwal Pelajaran</x-sidebar-dropdown-list-link>
+                            </li>
+                        </x-sidebar-dropdown-list>
+                    </li>
 
                     {{-- Perpustakaan --}}
                     <li>

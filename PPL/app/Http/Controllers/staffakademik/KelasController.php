@@ -7,7 +7,11 @@ use App\Models\Guru_mata_pelajaran;
 use App\Models\Mata_pelajaran;
 use App\Models\kelas;
 use App\Models\Guru; // Pastikan ini sudah diimport sesuai nama model yang benar
+use App\Models\Siswa;
+use App\Models\tahun_ajaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str; 
 
 class KelasController extends Controller
 {
@@ -214,6 +218,102 @@ public function destroy($id)
     public function showMasterMatpel()
     {
         return view('staff_akademik.matpel.master_matpel');
+    }
+    // Menampilkan semua kelas beserta siswa-siswanya
+    public function daftarkelas()
+    {
+        $kelas = Kelas::withCount('siswa')->orderByRaw('CAST(SUBSTRING(nama_kelas, 7) AS SIGNED)')->get();
+        return view('staff_akademik.managementkelas.index', compact('kelas'));
+    }
+    // Menampilkan form untuk menambah siswa ke dalam kelas
+    public function showSiswa($id_kelas)
+    {
+        $kelas = Kelas::findOrFail($id_kelas);
+        $kelas = Kelas::with(['siswa', 'waliKelas'])->findOrFail($id_kelas);
+
+
+        return view('staff_akademik.managementkelas.siswa', compact('kelas'));
+        
+    }
+    
+    public function tambahSiswa($id_kelas)
+    {
+        $kelas = kelas::findOrFail($id_kelas);
+        $siswa = Siswa::all(); // Tampilkan semua siswa yang bisa dipilih, bisa juga difilter
+        return view('staff_akademik.managementkelas.tambah_siswa', compact('kelas', 'siswa'));
+    }
+    
+    public function simpanSiswa(Request $request, $id_kelas)
+    {
+        $kelas = kelas::findOrFail($id_kelas);
+
+        // Debugging output
+        if (empty($request->siswa_ids)) {
+            return redirect()->back()->with('error', 'Tidak ada siswa yang dipilih.');
+        }
+        // Ambil id_tahun_ajaran yang aktif
+        $tahunAjaranAktif = tahun_ajaran::where('aktif', 1)->pluck('id_tahun_ajaran')->first();
+
+        // Looping untuk setiap siswa yang dipilih, lalu simpan ke kelas_siswas dengan attach data tambahan
+        foreach ($request->siswa_ids as $siswa_id) {
+            
+            $kelas->siswa()->attach($siswa_id, [
+                'id_kelas_siswa' => Str::uuid(),
+                'tahun_ajaran' => $tahunAjaranAktif,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+        
+        
+
+        return redirect()->route('kelas.siswa', $id_kelas)
+                        ->with('success', 'Siswa berhasil ditambahkan ke kelas.');
+    }
+    public function hapusSiswa($id_kelas, $id_siswa)
+    {
+        dd($id_siswa);
+        
+        $kelas = Kelas::findOrFail($id_kelas);
+        
+        // Hapus siswa dari kelas menggunakan detach
+        $kelas->siswa()->detach($id_siswa);
+
+        // Redirect kembali dengan pesan sukses
+        return redirect()->back()->with('success', 'Siswa berhasil dihapus dari kelas.');
+
+    }
+    public function hapusSiswaMassal(Request $request, $id_kelas)
+    {
+        $kelas = kelas::findOrFail($id_kelas);
+
+        // Validasi input siswa_ids yang terpilih
+        $siswa_ids = $request->input('siswa_ids');
+        if ($siswa_ids) {
+            // Hapus siswa yang dipilih dari kelas
+            $kelas->siswa()->detach($siswa_ids);
+        }
+
+        return redirect()->route('kelas.siswa', $id_kelas)
+                        ->with('success', 'Siswa yang dipilih berhasil dihapus dari kelas.');
+    }
+    public function editWaliKelas($id_kelas)
+    {
+        $kelas = Kelas::findOrFail($id_kelas);
+        $gurus = Guru::all();  // Ambil semua guru untuk pilihan wali kelas
+        return view('staff_akademik.managementkelas.edit_wali_kelas', compact('kelas', 'gurus'));
+    }
+    public function updateWaliKelas(Request $request, $id_kelas)
+    {
+        
+        $wali_kelas_id = $request->wali_kelas;
+
+        // Update semua siswa dalam kelas yang sama
+        DB::table('kelas_siswas')
+            ->where('id_kelas', $id_kelas)
+            ->update(['wali_kelas' => $wali_kelas_id]);
+
+        return redirect()->route("kelas.siswa",$id_kelas)->with('success', 'Wali Kelas Berhasil Diperbarui Untuk Seluruh Siswa Di Kelas Ini');
     }
 
 }
