@@ -100,6 +100,10 @@
                         <x-sidebar-dropdown-list-link href="{{ route('guru.perpustakaan.riwayat') }}"
                             :active="request()->is('dashboard/perpustakaan/riwayat')">Transaksi</x-sidebar-dropdown-list-link>
                     </li>
+                    <li>
+                        <x-sidebar-dropdown-list-link href="{{ route('guru.perpustakaan.riwayat') }}"
+                            :active="request()->is('dashboard/perpustakaan/riwayat')">Aturan</x-sidebar-dropdown-list-link>
+                    </li>
                     </x-sidebar-dropdown-list>
                     </li>
 
