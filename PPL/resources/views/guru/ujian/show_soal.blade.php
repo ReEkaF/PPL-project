@@ -61,7 +61,7 @@
                             <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->kunci_jawaban }}</td>
                             <td class="px-4 py-2 border-b text-sm text-gray-700">
                                 <a href="{{ route('soal_ujian.edit', $item->id_soal_ujian) }}" class="text-blue-500 hover:text-blue-700">Edit</a>
-                                <a href="{{ route('soal_ujian.update', $item->id_soal_ujian) }}" class="text-red-500 hover:text-red-700 ml-4" onclick="return confirm('Apakah Anda yakin ingin menghapus soal ini?')">Hapus</a>
+                                <a href="{{ route('soal_ujian.destroy', $item->id_soal_ujian) }}" class="text-red-500 hover:text-red-700 ml-4" onclick="return confirm('Apakah Anda yakin ingin menghapus soal ini?')">Hapus</a>
                             </td>
                         </tr>
                     @endforeach
