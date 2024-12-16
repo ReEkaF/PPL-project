@@ -15,8 +15,8 @@
         rel="stylesheet">
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="{{ asset('build/assets/app-cAc1bIIl.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-BgO_RYd7.css') }}">
+    <!-- <link rel="stylesheet" href="{{ asset('build/assets/app-cAc1bIIl.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-BgO_RYd7.css') }}"> -->
     {{-- <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" /> --}}
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -85,7 +85,7 @@
             @include('layouts.staff_perpus.footer')
         </div>
     </div>
-    <script src="{{asset('build/asset/app-CMQILbDN.js')}}"></script>
+    <!-- <script src="{{asset('build/asset/app-CMQILbDN.js')}}"></script> -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="https://flowbite-admin-dashboard.vercel.app//app.bundle.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.2/datepicker.min.js"></script>

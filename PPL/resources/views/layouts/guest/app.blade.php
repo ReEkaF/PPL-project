@@ -8,8 +8,8 @@
     <title>SMPN 2 Kamal</title>
     <link rel="icon" href="{{ asset('images/logo.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="{{ asset('build/assets/app-cAc1bIIl.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-BgO_RYd7.css') }}">
+    <!-- <link rel="stylesheet" href="{{ asset('build/assets/app-cAc1bIIl.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-BgO_RYd7.css') }}"> -->
 </head>
 
 <body class="font-sans antialiased">
@@ -18,7 +18,7 @@
         {{ $slot }}
     </main>
     @include('layouts.guest.footer')
-    <script src="{{asset('build/asset/app-CMQILbDN.js')}}"></script>
+    <!-- <script src="{{asset('build/asset/app-CMQILbDN.js')}}"></script> -->
     <script src="https://unpkg.com/flowbite@1.6.4/dist/flowbite.min.js"></script>
 </body>
 
