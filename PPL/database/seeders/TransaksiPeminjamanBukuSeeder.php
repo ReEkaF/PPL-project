@@ -2,18 +2,19 @@
 
 namespace Database\Seeders;
 
+use DateTime;
+use Carbon\Carbon;
 use App\Models\buku;
-use App\Models\jenis_buku;
-use App\Models\kategori_buku;
-use App\Models\transaksi_peminjaman;
 use App\Models\Guru;
 use App\Models\Siswa;
+use App\Models\jenis_buku;
 use Illuminate\Support\Str;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\kategori_buku;
 use Illuminate\Database\Seeder;
 
-use Carbon\Carbon;
+use App\Models\transaksi_peminjaman;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class TransaksiPeminjamanBukuSeeder extends Seeder
 {
@@ -30,7 +31,7 @@ class TransaksiPeminjamanBukuSeeder extends Seeder
         // Ambil semua buku
         $bukuList = buku::all();
 
-        for ($i = 0; $i < 20; $i++) { // Misalnya 50 transaksi peminjaman
+        for ($i = 0; $i < 28; $i++) { // Misalnya 50 transaksi peminjaman
             // Pilih jenis peminjam secara acak (0 = Guru, 1 = Siswa)
             $jenisPeminjam = rand(0, 1);
 
@@ -84,14 +85,15 @@ class TransaksiPeminjamanBukuSeeder extends Seeder
 
             $transaksi_peminjaman_id = Str::uuid();
             // Buat transaksi peminjaman
-            if ($i > 10 ) {
+            if ($i > 20) {
                 // Transaksi Telat
+                $datetime = new DateTime('2024-11-01 00:00:00');
                 transaksi_peminjaman::create([
                     'id_transaksi_peminjaman' => $transaksi_peminjaman_id,
                     'id_buku' => $buku->id_buku,
                     'kode_peminjam' => $kodePeminjam,
-                    'tgl_awal_peminjaman' => Carbon::now()->subDays(8),
-                    'tgl_pengembalian' => $tglPengembalian->subDays(8),
+                    'tgl_awal_peminjaman' => $datetime,
+                    'tgl_pengembalian' => $datetime,
                     'denda' => 0,
                     'status_pengembalian' => 0, // Belum dikembalikan
                     'jenis_peminjam' => $jenisPeminjam,

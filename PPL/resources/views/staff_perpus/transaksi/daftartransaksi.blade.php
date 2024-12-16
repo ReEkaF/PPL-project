@@ -76,10 +76,10 @@
                                                         <input type="hidden" name="status_denda_button" value="1">
                                                         <input type="hidden" name="status_denda_id_transaksi"
                                                             value="{{ $transaction->id_transaksi_peminjaman }}">
-                                                        <button type="submit"
+                                                        {{-- <button type="submit"
                                                             class="inline-block px-3 py-1 rounded-full text-xs bg-blue-500 text-white">
                                                             Ubah (Lunas)
-                                                        </button>
+                                                        </button> --}}
                                                     </form>
                                                 @endif
                                             @endif

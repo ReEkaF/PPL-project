@@ -15,8 +15,8 @@
         <div class="w-full py-6 md:block xl:flex">
             <div class="mr-1 xl:w-[40%] md:w-full">@include('staff_perpus/komponen/chart_statbuku')</div>
             <div class="flex xl:w-[60%] md:w-full">
-                <div class="w-1/2 mx-3 md:w-full">@include('staff_perpus/komponen/overviewtabelbuku')</div>
-                <div class="w-1/2 ml-2 md:w-full">@include('staff_perpus/komponen/overviewtabelkategori')</div>
+                <div class="w-1/2 mx-3 md:w-full" style="width: 50% !important">@include('staff_perpus/komponen/overviewtabelbuku')</div>
+                <div class="w-1/2 ml-2 md:w-full" style="width: 50% !important">@include('staff_perpus/komponen/overviewtabelkategori')</div>
             </div>
         </div>
 
@@ -58,7 +58,7 @@
                             <th scope="row"
                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ $tp->nama_kategori ?? 'Buku' }} dipinjam oleh
-                                <b>{{ $Nama_Peminjam?? 'Anonymous' }}</b>
+                                <b>{{ $Nama_Peminjam ?? 'nama peminjam' }}</b>
                             </th>
                             <td class="px-6 py-4">
                                 {{ date_format(date_create($tp->tgl_awal_peminjaman), 'M d, Y') ?? 'Unknown' }}
@@ -68,7 +68,7 @@
                                 {{-- <a href="#">Edit</a> --}}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $tp->judul_buku ?? 'Tidak diketahui' }}
+                                {{ $tp->judul_buku ?? 'Judul Buku' }}
                             </td>
                             <td class="px-6 py-4 text-lg text-black">
                                 {{ $tp->nama_kategori ?? 'Tidak Memiliki Kategori' }}
