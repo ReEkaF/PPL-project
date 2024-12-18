@@ -49,23 +49,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- {{ dd($ujian) }} --}}
-                    @foreach ($ujian as $index => $item)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $index + 1 }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->judul }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->deskripsi ?? 'N/A' }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->topik->judul_topik ?? 'N/A' }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->kelasMataPelajaran->kelas->nama_kelas ?? 'N/A' }} - {{ $item->kelasMataPelajaran->mataPelajaran->nama_matpel ?? 'N/A' }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ \Carbon\Carbon::parse($item->tanggal_dibuat)->format('d M Y') }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">
-                                {{-- <a href="{{ route('guru.ujian.edit', $item->id_ujian) }}" class="text-blue-500 hover:text-blue-700">Edit</a> --}}
-                                {{-- <a href="{{ route('guru.ujian.delete', $item->id_ujian) }}" class="text-red-500 hover:text-red-700 ml-4" onclick="return confirm('Apakah Anda yakin ingin menghapus ujian ini?')">Hapus</a> --}}
-                                <a href="{{ route('guru.ujian.add.soal', $item->id_ujian) }}" class="text-green-500 hover:text-green-700 ml-4">Tambah Soal</a>
-                                <a href="{{ route('guru.ujian.soal_ujian', $item->id_ujian) }}" class="text-purple-500 hover:text-purple-700 ml-4">Lihat Soal</a>
+                    @if ($ujian->isEmpty())
+                        <tr>
+                            <td colspan="7" class="px-4 py-2 border-b text-center text-sm text-gray-700">
+                                Belum ada ujian yang dibuat
                             </td>
                         </tr>
-                    @endforeach
+                    @else
+                        @foreach ($ujian as $index => $item)
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $index + 1 }}</td>
+                                <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->judul }}</td>
+                                <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->deskripsi ?? 'N/A' }}</td>
+                                <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->topik->judul_topik ?? 'N/A' }}</td>
+                                <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->kelasMataPelajaran->kelas->nama_kelas ?? 'N/A' }} - {{ $item->kelasMataPelajaran->mataPelajaran->nama_matpel ?? 'N/A' }}</td>
+                                <td class="px-4 py-2 border-b text-sm text-gray-700">{{ \Carbon\Carbon::parse($item->tanggal_dibuat)->format('d M Y') }}</td>
+                                <td class="px-4 py-2 border-b text-sm text-gray-700">
+                                    <a href="{{ route('guru.ujian.add.soal', $item->id_ujian) }}" class="text-green-500 hover:text-green-700 ml-4">Tambah Soal</a>
+                                    <a href="{{ route('guru.ujian.soal_ujian', $item->id_ujian) }}" class="text-purple-500 hover:text-purple-700 ml-4">Lihat Soal</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
 

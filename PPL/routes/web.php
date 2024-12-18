@@ -359,7 +359,7 @@ Route::group(['prefix' => 'siswa', 'middleware' => ['siswa']], function () {
         Route::get('/ekstrakurikuler/anggota', [AnggotaController::class, 'index'])->name('pengurus_ekstra.anggota');
         Route::put('/ekstrakurikuler/anggota/update-status/{id}', [AnggotaController::class, 'updateStatus'])->name('pengurus_ekstra.anggota.updateStatus');
 
-        // Penilaian Ekstrakurikuler 
+        // Penilaian Ekstrakurikuler
         Route::get('/ekstrakurikuler/penilaian', [PenilaianEkstraPengurusController::class, 'index'])->name('pengurus_ekstra.penilaian');
         Route::post('/ekstrakurikuler/penilaian/storeOrUpdate/{id}', [PenilaianEkstraPengurusController::class, 'storeOrUpdate'])->name('pengurus_ekstra.penilaian.storeOrUpdate');
 
@@ -563,7 +563,7 @@ Route::group(['prefix' => 'guru', 'middleware' => ['guru']], function () {
     Route::post('jawaban_ujian/import/{ujian_id}', [GuruUjianController::class, 'importSoal'])->name('soal_ujian.import');
     Route::get('/dashboard/ujian/soal_ujian/{id}/soal_edit', [GuruUjianController::class, 'soalEdit'])->name('soal_ujian.edit');
     Route::put('/dashboard/ujian/soal_ujian/{id}/', [GuruUjianController::class, 'soalUpdate'])->name('soal_ujian.update');
-    Route::delete('/dashboard/ujian/soal_ujian/{id}', [GuruUjianController::class, 'destroySoal'])->name('soal_ujian.destroy');
+    Route::delete('/dashboard/ujian/show_soal/{id}', [GuruUjianController::class, 'destroySoal'])->name('soal_ujian.destroy');
 
     //CRUD UJIAN
     Route::get('/dashboard/ujian/create_ujian', [GuruUjianController::class, 'createUjian'])->name('guru.dashboard.ujian.create_ujian');
