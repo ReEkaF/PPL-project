@@ -14,7 +14,7 @@
                     </svg>
                 </div>
                 <li class="flex">
-                    <a href="{{ route('guru.dashboard') }}" class="text-gray-400 hover:text-gray-700">
+                    <a href="{{ route('ujian.show') }}" class="text-gray-400 hover:text-gray-700">
                         <span>Ujian</span>
                     </a>
                 </li>
@@ -49,22 +49,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($soalUjian as $index => $item)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $index + 1 }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->judul_ujian }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->teks_soal }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->opsi_a }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->opsi_b }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->opsi_c }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->opsi_d }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->kunci_jawaban }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">
-                                <a href="{{ route('soal_ujian.edit', $item->id_soal_ujian) }}" class="text-blue-500 hover:text-blue-700">Edit</a>
-                                <a href="{{ route('soal_ujian.destroy', $item->id_soal_ujian) }}" class="text-red-500 hover:text-red-700 ml-4" onclick="return confirm('Apakah Anda yakin ingin menghapus soal ini?')">Hapus</a>
+                    @if ($soalUjian->isEmpty())
+                        <tr>
+                            <td colspan="9" class="px-4 py-2 border-b text-center text-sm text-gray-700">
+                                Belum ada soal yang dibuat
                             </td>
                         </tr>
-                    @endforeach
+                    @else
+                        @foreach ($soalUjian as $index => $item)
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $index + 1 }}</td>
+                                <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->judul_ujian }}</td>
+                                <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->teks_soal }}</td>
+                                <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->opsi_a }}</td>
+                                <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->opsi_b }}</td>
+                                <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->opsi_c }}</td>
+                                <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->opsi_d }}</td>
+                                <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->kunci_jawaban }}</td>
+                                <td class="px-4 py-2 border-b text-sm text-gray-700">
+                                    <a href="{{ route('soal_ujian.edit', $item->id_soal_ujian) }}" class="text-blue-500 hover:text-blue-700">Edit</a>
+                                    <form action="{{ route('soal_ujian.destroy', $item->id_soal_ujian) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus soal ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-500 hover:text-red-700">Hapus</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>

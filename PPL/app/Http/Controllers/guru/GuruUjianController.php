@@ -13,6 +13,7 @@ use App\Imports\SoalUjianImport;
 use App\Models\Siswa;
 use App\Models\topik;
 use App\Models\kelas_mata_pelajaran;
+use Illuminate\Support\Facades\Auth;
 
 class GuruUjianController extends Controller
 {
@@ -67,6 +68,19 @@ class GuruUjianController extends Controller
 
     public function createUjian()
     {
+        // dd(Auth::getDefaultDriver());
+        // dd(Auth::user());
+        // if (Auth::check()) {
+        //     // Pengguna sudah login
+        //     $guruId = Auth::user()->id_guru;
+        // } else {
+        //     // Pengguna belum login
+        //     return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu');
+        // }
+
+        // $guruId = Auth::guard('web')->user()->id_guru;
+
+        // $kelasMataPelajaran = kelas_mata_pelajaran::where('guru_id', $guruId)->with('kelas', 'mataPelajaran')->get();
         $soalUjian = soal_ujian::all();
         $topik = topik::all();
         $kelasMataPelajaran = kelas_mata_pelajaran::with(['kelas', 'mataPelajaran'])->get();
