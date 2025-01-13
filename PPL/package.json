@@ -1,0 +1,32 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite"
+    },
+    "devDependencies": {
+        "@tailwindcss/forms": "^0.5.2",
+        "alpinejs": "^3.4.2",
+        "autoprefixer": "^10.4.20",
+        "axios": "^1.7.4",
+        "concurrently": "^9.0.1",
+        "laravel-vite-plugin": "^1.0",
+        "postcss": "^8.4.47",
+        "tailwindcss": "^3.4.14",
+        "vite": "^5.4.11"
+    },
+    "dependencies": {
+        "@tiptap/core": "^2.9.1",
+        "@tiptap/pm": "^2.9.1",
+        "@tiptap/starter-kit": "^2.9.1",
+        "apexcharts": "^4.0.0",
+        "flowbite": "^2.5.2",
+        "flowbite-typography": "^1.0.4",
+        "simple-datatables": "^9.2.1",
+        "trix": "^2.1.8"
+    },
+    "overrides": {
+        "prosemirror-model": "1.19.3"
+    }
+}

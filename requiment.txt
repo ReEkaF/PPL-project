@@ -1,0 +1,30 @@
+------requiment-----
+----yang perlu diinstall/dilakukan---##jangan lupa tanya chat gpt jika bingung
+##composer->download jika blm ada->kemudian composer install di folder clonenya
+##npm install
+##copy .env.example kemudian ganti nama menjadi .env.example menjadi .env(.env.example->.env),jika benar maka akan ada (.env.example dan .env)
+##php artisan key:generate
+##composer require laravel/socialite
+
+-----KERJA-----
+## sudah dibuat pembagian foldernya
+## untuk membuat model mengunakan perintah php artisan make:model nama_model
+## untuk membuat controller dengan menggunakan perintah php artisan make:controller nama_controller
+## untuk membuat database table/migration bisa mengggunakan perintah php artisan make:migration nama_table
+
+-----tampialan-----
+##untuk mengelola tampilan  bisa dilakuakan di folder resources
+
+-----model------
+##model sangat penting untuk seberapa penting model dapat ditanyakan sendiri di chat gpt
+##jika kalian membuat migration pastikan kalian juga membuat modelnya juga
+
+----controller----
+##semua operasi logika dan dan akses ke datasebe dilakuakn disini untuk selanjutny di lempar ke tampilan
+
+----request---
+##bisa dijadikan satu dengan controlle namun sebaiknya dipisah di folder request
+##guna request untuk memfilter data yang akan masuk ke controller
+
+----note---
+##tolong dipelajari lebih lanjut karena ini hanya seperti daftar isi saja sebagai pengingat dan juga masih basic
