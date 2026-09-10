@@ -4,7 +4,7 @@
             <!-- School Info -->
             <div class="md:col-span-2 space-y-4">
                 <div class="flex items-center gap-3">
-                    <img src="{{ asset('images/beranda/logo.png') }}" alt="Logo SMPN 2 Kamal" class="h-12 w-auto brightness-0 invert">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo SMPN 2 Kamal" class="h-12 w-auto brightness-0 invert">
                     <div>
                         <h4 class="text-white font-bold text-base tracking-tight">SMPN 2 KAMAL</h4>
                         <p class="text-xs text-slate-400">Sistem Sekolah Terintegrasi (SST)</p>

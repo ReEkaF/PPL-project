@@ -21,8 +21,9 @@
                 </button>
 
                 {{-- Logo --}}
-                <a href="https://flowbite-admin-dashboard.vercel.app/" class="flex ml-2 md:mr-24">
-                     <img src="{{ asset('images/beranda/logo.png') }}" alt="Logo" class="h-14">
+                <a href="{{ route('superadmin.dashboard') }}" class="flex ml-2 md:mr-24 items-center gap-2.5">
+                     <img src="{{ asset('images/logo.png') }}" alt="Logo SMPN 2 Kamal" class="h-10 w-auto object-contain">
+                     <span class="text-base font-bold text-slate-900 dark:text-white hidden sm:inline">SMPN 2 KAMAL</span>
                 </a>
             </div>
 

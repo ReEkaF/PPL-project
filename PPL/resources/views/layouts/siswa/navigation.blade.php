@@ -21,7 +21,7 @@
                 </button>
 
                 {{-- Logo --}}
-                <a href="https://flowbite-admin-dashboard.vercel.app/" class="flex ml-2 md:mr-24">
+                <a href="{{ route('beranda.home') }}" class="flex ml-2 md:mr-24">
                     <x-application-logo class="h-12 ml-5" />
                 </a>
 

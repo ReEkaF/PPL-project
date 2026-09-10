@@ -21,8 +21,9 @@
                 </button>
 
                 {{-- Logo --}}
-                <a href="{{ route('beranda.home') }}">
-                    <img src="{{ asset('images/beranda/logo.png') }}" alt="Logo" class="h-16">
+                <a href="{{ route('beranda.home') }}" class="flex items-center gap-2.5">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo SMPN 2 Kamal" class="h-10 w-auto object-contain">
+                    <span class="text-base font-bold text-slate-900 dark:text-white hidden sm:inline">SMPN 2 KAMAL</span>
                 </a>
 
                 {{-- Search Input --}}

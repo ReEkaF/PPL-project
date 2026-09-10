@@ -3,7 +3,7 @@
         <div class="flex items-center justify-between h-20">
             <!-- Brand Identity -->
             <a href="{{ route('beranda.home') }}" class="flex items-center gap-3 group focus:outline-none">
-                <img src="{{ asset('images/beranda/logo.png') }}" alt="Logo SMPN 2 Kamal" class="h-12 w-auto object-contain transition-transform group-hover:scale-105">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo SMPN 2 Kamal" class="h-12 w-auto object-contain transition-transform group-hover:scale-105">
                 <div class="flex flex-col">
                     <span class="text-base font-bold tracking-tight text-slate-900 group-hover:text-brand-800 transition-colors">SMPN 2 KAMAL</span>
                     <span class="text-[11px] font-medium text-slate-500 tracking-wider uppercase">Sistem Sekolah Terintegrasi</span>

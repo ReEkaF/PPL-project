@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Favicon -->
-    <link rel="icon" href="{{ asset('images/beranda/logo.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/png">
 
     <!-- Scripts & Styles via Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -30,7 +30,7 @@
             <!-- Top Showcase Header -->
             <div class="relative z-20 flex items-center justify-between">
                 <div class="flex items-center gap-3.5">
-                    <img src="{{ asset('images/beranda/logo.png') }}" alt="Logo SMPN 2 Kamal" class="h-12 w-auto object-contain bg-white/10 backdrop-blur-md p-1.5 rounded-xl border border-white/20 shadow-sm">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo SMPN 2 Kamal" class="h-12 w-auto object-contain bg-white/10 backdrop-blur-md p-1.5 rounded-xl border border-white/20 shadow-sm">
                     <div>
                         <div class="text-base font-bold tracking-tight text-white leading-tight">SMP NEGERI 2 KAMAL</div>
                         <div class="text-xs font-medium text-brand-300 tracking-wider uppercase">Sistem Sekolah Terintegrasi</div>
@@ -116,7 +116,7 @@
 
                 <!-- Mobile Brand Emblem (Only shown on < lg) -->
                 <div class="flex items-center gap-2 lg:hidden">
-                    <img src="{{ asset('images/beranda/logo.png') }}" alt="Logo" class="h-8 w-auto">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo SMPN 2 Kamal" class="h-8 w-auto">
                     <span class="text-xs font-bold text-slate-900">SMPN 2 KAMAL</span>
                 </div>
             </header>
