@@ -318,11 +318,11 @@ Route::group(['prefix' => 'staff_perpus', 'middleware' => ['staff_perpus']], fun
     // TRANSAKSI
     Route::get('/transaksi', [TransaksiPeminjamanController::class, 'index'])->name('staff_perpus.transaksi.daftartransaksi');
     Route::get('/transaksi/create', [TransaksiPeminjamanController::class, 'create'])->name('staff_perpus.transaksi.create');
-    Route::post('/staff_perpus/transaksi', [TransaksiPeminjamanController::class, 'store'])->name('staff_perpus.transaksi.store');
-    Route::get('/staff_perpus/transaksi/{id}/edit', [TransaksiPeminjamanController::class, 'edit'])->name('staff_perpus.transaksi.edit');
-    Route::put('/staff_perpus/transaksi/{id}', [TransaksiPeminjamanController::class, 'update'])->name('staff_perpus.transaksi.update');
-    Route::delete('/staff_perpus/transaksi/{id}', [TransaksiPeminjamanController::class, 'destroy'])->name('staff_perpus.transaksi.destroy');
-    Route::put('/staff_perpus/transaksi/daftartransaksi/{id}', [TransaksiPeminjamanController::class, 'updateStatus'])->name('updateStatus');
+    Route::post('/transaksi', [TransaksiPeminjamanController::class, 'store'])->name('staff_perpus.transaksi.store');
+    Route::get('/transaksi/{id}/edit', [TransaksiPeminjamanController::class, 'edit'])->name('staff_perpus.transaksi.edit');
+    Route::put('/transaksi/{id}', [TransaksiPeminjamanController::class, 'update'])->name('staff_perpus.transaksi.update');
+    Route::delete('/transaksi/{id}', [TransaksiPeminjamanController::class, 'destroy'])->name('staff_perpus.transaksi.destroy');
+    Route::put('/transaksi/daftartransaksi/{id}', [TransaksiPeminjamanController::class, 'updateStatus'])->name('updateStatus');
     Route::post('/update_status_denda', [TransaksiPeminjamanController::class, 'update_status_denda'])->name('staff_perpus.transaksi.update_status_denda');
 
     // Riwayat transaksi

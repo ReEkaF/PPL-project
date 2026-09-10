@@ -11,6 +11,9 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public array $bindings = [
         \App\Repositories\Contracts\Portal\BerandaRepositoryInterface::class => \App\Repositories\Eloquent\Portal\BerandaRepository::class,
+        \App\Repositories\Contracts\Perpustakaan\BukuRepositoryInterface::class => \App\Repositories\Eloquent\Perpustakaan\BukuRepository::class,
+        \App\Repositories\Contracts\Perpustakaan\KategoriBukuRepositoryInterface::class => \App\Repositories\Eloquent\Perpustakaan\KategoriBukuRepository::class,
+        \App\Repositories\Contracts\Perpustakaan\TransaksiPeminjamanRepositoryInterface::class => \App\Repositories\Eloquent\Perpustakaan\TransaksiPeminjamanRepository::class,
     ];
 
     /**
