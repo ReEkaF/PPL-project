@@ -15,17 +15,19 @@ class PerpustakaanSeeder extends Seeder
      */
     public function run(): void
     {
-        function randomDate($startDate, $endDate)
-        {
-            // Mengonversi tanggal awal dan akhir ke timestamp
-            $startTimestamp = strtotime($startDate);
-            $endTimestamp = strtotime($endDate);
+        if (!function_exists('randomDate')) {
+            function randomDate($startDate, $endDate)
+            {
+                // Mengonversi tanggal awal dan akhir ke timestamp
+                $startTimestamp = strtotime($startDate);
+                $endTimestamp = strtotime($endDate);
 
-            // Mendapatkan timestamp acak di antara tanggal awal dan akhir
-            $randomTimestamp = rand($startTimestamp, $endTimestamp);
+                // Mendapatkan timestamp acak di antara tanggal awal dan akhir
+                $randomTimestamp = rand($startTimestamp, $endTimestamp);
 
-            // Mengonversi timestamp acak ke format tanggal
-            return date('Y-m-d H:i:s', $randomTimestamp);
+                // Mengonversi timestamp acak ke format tanggal
+                return date('Y-m-d H:i:s', $randomTimestamp);
+            }
         }
 
         // Generate unique IDs for each jenis_buku

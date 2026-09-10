@@ -57,9 +57,26 @@ class AuthenticatedSessionController extends Controller
 
     private function attemptLogin($guard, $credentials): bool
     {
-        // Debug guard dan kredensial untuk memastikan validasi
+        if (auth()->guard($guard)->attempt($credentials)) {
+            return true;
+        }
 
-        return auth()->guard($guard)->attempt($credentials);
+        $identifier = $credentials['username'] ?? '';
+        $password = $credentials['password'] ?? '';
+
+        if ($guard === 'web-siswa') {
+            return auth()->guard($guard)->attempt(['nisn' => $identifier, 'password' => $password]);
+        }
+
+        if ($guard === 'web-guru') {
+            return auth()->guard($guard)->attempt(['nip' => $identifier, 'password' => $password]);
+        }
+
+        if (in_array($guard, ['web-superadmin', 'web-staffakademik', 'web-staffperpus'])) {
+            return auth()->guard($guard)->attempt(['email' => $identifier, 'password' => $password]);
+        }
+
+        return false;
     }
 
     private function handleSiswaLogin($request, $redirect = null): RedirectResponse
