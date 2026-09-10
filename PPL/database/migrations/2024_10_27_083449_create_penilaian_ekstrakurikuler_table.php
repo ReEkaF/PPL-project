@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreign('id_tahun_ajaran')->references('id_tahun_ajaran')->on('tahun_ajaran');
             $table->uuid('id_laporan');
             $table->foreign('id_laporan')->references('id_laporan')->on('laporan_penilaian_ekstrakurikuler');
-            $table->enum('penilaian', ["A", "B", "C", "D", "E"]);
+            $table->enum('penilaian', ['A', 'B', 'C', 'D', 'E']);
             $table->timestamp('tgl_penilaian')->useCurrent()->useCurrentOnUpdate();
         });
 

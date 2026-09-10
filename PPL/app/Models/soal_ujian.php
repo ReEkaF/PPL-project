@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+
 class soal_ujian extends Model
 {
     use Notifiable;
@@ -14,16 +15,17 @@ class soal_ujian extends Model
      *
      * @return void
      */
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
         static::creating(function ($model) {
-            if ( ! $model->getKey()) {
+            if (! $model->getKey()) {
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
     }
 
-     /**
+    /**
      * Get the value indicating whether the IDs are incrementing.
      *
      * @return bool
@@ -42,7 +44,6 @@ class soal_ujian extends Model
     {
         return 'string';
     }
-
 
     /**
      * The attributes that are mass assignable.
@@ -71,8 +72,9 @@ class soal_ujian extends Model
     {
         return $this->belongsTo(Ujian::class, 'ujian_id', 'id_ujian');
     }
+
     public function jawabanujian()
     {
-        return $this->hasMany(jawaban_ujian::class,'soal_id', 'id_soal_ujian');
+        return $this->hasMany(jawaban_ujian::class, 'soal_id', 'id_soal_ujian');
     }
 }

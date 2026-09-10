@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\guru\lms;
 
-use App\Models\KelasSiswa;
 use App\Http\Controllers\Controller;
 use App\Models\kelas_mata_pelajaran;
+use App\Models\KelasSiswa;
+use Illuminate\View\View;
 
 class AnggotaGuruController extends Controller
 {
-    public function index($id)
+    public function index(string $id): View
     {
         $kelasMataPelajaran = kelas_mata_pelajaran::with([
             'mataPelajaran:id_matpel,nama_matpel',
@@ -16,12 +17,11 @@ class AnggotaGuruController extends Controller
         ])->findOrFail($id);
 
         $kelasId = $kelasMataPelajaran->kelas->id_kelas;
-        $anggotaKelas = KelasSiswa::with('siswa:id_siswa,nama_siswa,email') //
-        ->where('id_kelas', $kelasId)
+        $anggotaKelas = KelasSiswa::with('siswa:id_siswa,nama_siswa,email')
+            ->where('id_kelas', $kelasId)
             ->get()
-            ->pluck('siswa');
-
-
+            ->pluck('siswa')
+            ->filter();
 
         return view('guru.lms.anggota', [
             'id' => $kelasMataPelajaran->id_kelas_mata_pelajaran,

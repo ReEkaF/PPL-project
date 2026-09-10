@@ -51,12 +51,16 @@ class jenis_buku extends Model
      * @var array
      */
     protected $table = 'jenis_buku';
+
     protected $fillable = [
         'id_jenis_buku',
-        'nama_jenis_buku'
+        'nama_jenis_buku',
     ];
+
     public $timestamps = false;
+
     protected $primaryKey = 'id_jenis_buku';
+
     public function buku()
     {
         return $this->hasMany(Buku::class, 'id_jenis_buku', 'id_jenis_buku');

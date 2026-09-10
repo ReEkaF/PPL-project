@@ -10,9 +10,13 @@ class PenilaianEkstrakurikuler extends Model
     use HasUuids;
 
     protected $table = 'penilaian_ekstrakurikuler';
+
     protected $primaryKey = 'id_penilaian_ekstrakurikuler';
+
     public $incrementing = false;
+
     public $timestamps = false;
+
     protected $keyType = 'string';
 
     protected $fillable = [

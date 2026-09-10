@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+
 class Ekstrakurikuler extends Model
 {
     public $timestamps = false;
+
     protected $primaryKey = 'id_ekstrakurikuler';
 
     /**
@@ -14,16 +16,17 @@ class Ekstrakurikuler extends Model
      *
      * @return void
      */
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot(); // Pastikan memanggil parent::boot()
         static::creating(function ($model) {
-            if ( ! $model->getKey()) {
+            if (! $model->getKey()) {
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
     }
 
-     /**
+    /**
      * Get the value indicating whether the IDs are incrementing.
      *
      * @return bool
@@ -48,18 +51,17 @@ class Ekstrakurikuler extends Model
      *
      * @var array
      */
+    protected $table = 'ekstrakurikuler';
 
+    protected $fillable = [
+        'guru_id',
+        'nama_ekstrakurikuler',
+        'deskripsi',
+        'gambar',
+        'status',
+    ];
 
-     protected $table = 'ekstrakurikuler';
-
-     protected $fillable = [
-         'guru_id',
-         'nama_ekstrakurikuler',
-         'deskripsi',
-         'gambar',
-         'status'
-     ];
-     /**
+    /**
      * Relationship with PembinaEkstra
      */
     public function pembinaEkstra()
@@ -74,30 +76,37 @@ class Ekstrakurikuler extends Model
     {
         return $this->hasMany(Nilai_ekstra::class);
     }
+
     public function pengurusekstra()
     {
         return $this->hasMany(PengurusEkstra::class);
     }
+
     public function inventarisekstra()
     {
         return $this->hasMany(InventarisEkstrakurikuler::class);
     }
+
     public function laporanpenilaianekstra()
     {
         return $this->hasMany(LaporanPenilaianEkstrakurikuler::class);
     }
+
     public function postinganekstra()
     {
         return $this->hasMany(PostingEkstrakurikuler::class);
     }
+
     public function prestasiekstra()
     {
         return $this->hasMany(PrestasiEkstrakurikuler::class);
     }
+
     public function registrasiekstra()
     {
-        return $this->hasMany(RegistrasiEkstrakurikuler::class );
+        return $this->hasMany(RegistrasiEkstrakurikuler::class);
     }
+
     public function penilaianekstra()
     {
         return $this->hasMany(PenilaianEkstrakurikuler::class);

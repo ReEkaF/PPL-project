@@ -1,16 +1,17 @@
 <?php
 
 namespace App\Http\Controllers\Siswa;
+
 use App\Http\Controllers\Controller;
 use App\Models\kelas;
-use Illuminate\Http\Request;
 
 class SiswaController extends Controller
 {
-        public function index()
+    public function index()
     {
         return view('siswa.dashboard');
     }
+
     public function show($id_kelas, $id_siswa)
     {
         // Menggunakan alias untuk kolom id_siswa agar tidak terjadi ambiguitas
@@ -20,7 +21,7 @@ class SiswaController extends Controller
 
         $siswa = $kelas->siswa->first();
 
-        if (!$siswa) {
+        if (! $siswa) {
             abort(403, 'Akses ditolak: Siswa tidak ditemukan di kelas ini.');
         }
 

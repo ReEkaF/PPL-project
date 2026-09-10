@@ -5,11 +5,11 @@ namespace App\Http\Controllers\siswa\lms;
 use App\Http\Controllers\Controller;
 use App\Models\kelas_mata_pelajaran;
 use App\Models\KelasSiswa;
-use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class AnggotaSiswaController extends Controller
 {
-    public function index($id)
+    public function index(string $id): View
     {
         $kelasMataPelajaran = kelas_mata_pelajaran::with([
             'mataPelajaran:id_matpel,nama_matpel',
@@ -17,12 +17,11 @@ class AnggotaSiswaController extends Controller
         ])->findOrFail($id);
 
         $kelasId = $kelasMataPelajaran->kelas->id_kelas;
-        $anggotaKelas = KelasSiswa::with('siswa:id_siswa,nama_siswa,email') //
-        ->where('id_kelas', $kelasId)
+        $anggotaKelas = KelasSiswa::with('siswa:id_siswa,nama_siswa,email')
+            ->where('id_kelas', $kelasId)
             ->get()
-            ->pluck('siswa');
-
-
+            ->pluck('siswa')
+            ->filter();
 
         return view('siswa.lms.anggota', [
             'id' => $kelasMataPelajaran->id_kelas_mata_pelajaran,

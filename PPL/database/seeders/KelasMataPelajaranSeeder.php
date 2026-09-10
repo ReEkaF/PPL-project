@@ -9,8 +9,8 @@ use App\Models\kelas;
 use App\Models\kelas_mata_pelajaran;
 use App\Models\mata_pelajaran;
 use App\Models\tahun_ajaran;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class KelasMataPelajaranSeeder extends Seeder
 {
@@ -20,11 +20,13 @@ class KelasMataPelajaranSeeder extends Seeder
     public function run(): void
     {
         $tahunAjaran = tahun_ajaran::where('aktif', 1)->first();
-        if (!$tahunAjaran) {
+        if (! $tahunAjaran) {
             echo "No active academic year found.\n";
+
             return;
         }
-        // $kelasList = kelas::all();
+        $kelasList = kelas::all();
+        $hariList = hari::all();
 
         $assignments = [
             ['guru_nama' => 'Abdul Rahem Faqih', 'mata_pelajaran' => 'Matematika'],
@@ -42,31 +44,39 @@ class KelasMataPelajaranSeeder extends Seeder
         foreach ($assignments as $data) {
             $guru = Guru::where('nama_guru', $data['guru_nama'])->first();
             $matpel = mata_pelajaran::where('nama_matpel', $data['mata_pelajaran'])->first();
-            guru_mata_pelajaran::create([
-                "guru_id" => $guru['id_guru'],
-                "matpel_id" => $matpel['id_matpel']
-            ]);
+            if ($guru && $matpel) {
+                guru_mata_pelajaran::firstOrCreate([
+                    'guru_id' => $guru->id_guru,
+                    'matpel_id' => $matpel->id_matpel,
+                ]);
+            }
         }
 
-        // $hari = hari::all()->first()->id_hari;
+        $hariCount = $hariList->count();
 
-        // foreach ($kelasList as $kelas) {
-        //     foreach ($assignments as $assignment) {
-        //         $guru = Guru::where('nama_guru', $assignment['guru_nama'])->first();
-        //         $matpel = mata_pelajaran::where('nama_matpel', $assignment['mata_pelajaran'])->first();
+        foreach ($kelasList as $kelas) {
+            foreach ($assignments as $index => $assignment) {
+                $guru = Guru::where('nama_guru', $assignment['guru_nama'])->first();
+                $matpel = mata_pelajaran::where('nama_matpel', $assignment['mata_pelajaran'])->first();
 
-        //         if ($guru && $matpel) {
-        //             kelas_mata_pelajaran::create([
-        //                 'kelas_id' => $kelas->id_kelas,
-        //                 'mata_pelajaran_id' => $matpel->id_matpel,
-        //                 'guru_id' => $guru->id_guru,
-        //                 'hari_id' => $hari,
-        //                 'waktu_mulai' => "10:00",
-        //                 'waktu_selesai' => "12:00",
-        //                 'tahun_ajaran_id' => $tahunAjaran->id_tahun_ajaran,
-        //             ]);
-        //         }
-        //     }
-        // }
+                if ($guru && $matpel) {
+                    $hariId = $hariCount > 0 ? $hariList[$index % $hariCount]->id_hari : null;
+                    kelas_mata_pelajaran::firstOrCreate(
+                        [
+                            'kelas_id' => $kelas->id_kelas,
+                            'mata_pelajaran_id' => $matpel->id_matpel,
+                            'tahun_ajaran_id' => $tahunAjaran->id_tahun_ajaran,
+                        ],
+                        [
+                            'id_kelas_mata_pelajaran' => (string) Str::uuid(),
+                            'guru_id' => $guru->id_guru,
+                            'hari_id' => $hariId,
+                            'waktu_mulai' => '08:00',
+                            'waktu_selesai' => '10:00',
+                        ]
+                    );
+                }
+            }
+        }
     }
 }

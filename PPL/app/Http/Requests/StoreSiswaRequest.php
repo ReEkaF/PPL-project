@@ -7,8 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class StoreSiswaRequest extends FormRequest
 {
     /**
-     * 
-     *
      * @return bool
      */
     public function authorize()
@@ -17,9 +15,7 @@ class StoreSiswaRequest extends FormRequest
     }
 
     /**
-     * 
-     *
-     * @return array<string, 
+     * @return array<string,
      */
     public function rules()
     {
@@ -34,13 +30,11 @@ class StoreSiswaRequest extends FormRequest
             'username' => 'required|string|min:8|max:50|unique:siswa,username',
             'email' => 'required|email|max:255|unique:siswa,email',
             'role_siswa' => 'required|in:siswa,pengurus',
-            'foto_siswa' => 'required|image|max:25000', 
+            'foto_siswa' => 'required|image|max:25000',
         ];
     }
 
     /**
-     * 
-     *
      * @return array
      */
     public function messages()

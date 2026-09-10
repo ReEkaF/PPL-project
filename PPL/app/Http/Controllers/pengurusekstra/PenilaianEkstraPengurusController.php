@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\pengurusekstra;
 
-use App\Models\KelasSiswa;
-use App\Models\tahun_ajaran;
-use Illuminate\Http\Request;
-use App\Models\PengurusEkstra;
-use App\Models\Ekstrakurikuler;
 use App\Http\Controllers\Controller;
+use App\Models\Ekstrakurikuler;
+use App\Models\KelasSiswa;
+use App\Models\LaporanPenilaianEkstrakurikuler;
+use App\Models\PengurusEkstra;
 use App\Models\PenilaianEkstrakurikuler;
 use App\Models\RegistrasiEkstrakurikuler;
-use App\Models\LaporanPenilaianEkstrakurikuler;
+use App\Models\tahun_ajaran;
+use Illuminate\Http\Request;
 
 class PenilaianEkstraPengurusController extends Controller
 {
@@ -19,11 +19,11 @@ class PenilaianEkstraPengurusController extends Controller
         $tahun_ajaran = tahun_ajaran::get();
         $tahun_ajaran_aktif = tahun_ajaran::where('aktif', '1')->firstOrFail();
 
-        try{
-        // Ambil data pengurus dari tabel pengurus_ekstra
-        $pengurusEkstra = PengurusEkstra::with('ekstrakurikuler')
-            ->where('id_siswa', auth()->guard('web-siswa')->user()->id_siswa)
-            ->firstOrFail();
+        try {
+            // Ambil data pengurus dari tabel pengurus_ekstra
+            $pengurusEkstra = PengurusEkstra::with('ekstrakurikuler')
+                ->where('id_siswa', auth()->guard('web-siswa')->user()->id_siswa)
+                ->firstOrFail();
         } catch (\Exception) {
             return view('pengurus_ekstra.laporan_nilai.index', ['laporan_anggota' => [], 'nama_ekstra' => 'Tidak Ada Ekstrakurikuler', 'penilaian', 'tahun_ajaran_aktif', 'id_ekstra', 'tahun_ajaran']);
         }
@@ -61,6 +61,7 @@ class PenilaianEkstraPengurusController extends Controller
             $penilaianItem = $penilaian->firstWhere('id_siswa', $item->id_siswa);
             $item->laporan = $laporanItem;
             $item->penilaian = $penilaianItem;
+
             return $item;
         });
 
@@ -76,16 +77,14 @@ class PenilaianEkstraPengurusController extends Controller
 
         $laporan = LaporanPenilaianEkstrakurikuler::where('id_siswa', $id_siswa)->first();
         // Jika data laporan sudah ada, maka akan diupdate
-        if($laporan)
-        {
+        if ($laporan) {
             $laporan->update([
                 'isi_laporan' => $request->isi_laporan,
             ]);
         }
 
         // Jika data laporan belum ada, maka akan disimpan
-        else
-        {
+        else {
             $laporan = LaporanPenilaianEkstrakurikuler::create([
                 'id_siswa' => $id_siswa,
                 'id_ekstrakurikuler' => $id_ekstra,

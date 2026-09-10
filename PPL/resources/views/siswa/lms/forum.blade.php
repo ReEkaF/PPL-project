@@ -1,122 +1,132 @@
 <x-siswa-layout>
-    <div class="px-3 py-5 mx-4 my-6 bg-white rounded-lg shadow xl:p-6">
-        {{-- Breadcrumb --}}
-        @php
-            $breadcrumbs = [
-                ['label' => 'Dashboard', 'route' => route('siswa.dashboard')],
-                ['label' => 'LMS', 'route' => route('siswa.dashboard.lms')],
-                ['label' => $mataPelajaran->nama_matpel, 'route' => route('siswa.dashboard.lms.forum', $id)],
-            ];
-        @endphp
+    <div class="max-w-6xl mx-auto space-y-5">
 
-        <x-breadcrumb :breadcrumbs="$breadcrumbs" />
+        {{-- Header --}}
+        <div class="flex items-center gap-3">
+            <a href="{{ route('siswa.dashboard.lms') }}"
+                class="p-2 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </a>
+            <div>
+                <h1 class="text-xl font-bold text-slate-900">{{ $mataPelajaran->nama_matpel }}</h1>
+                <p class="text-sm text-slate-500">{{ $guru->nama_guru }} · {{ $hari->nama_hari }}, {{ substr($waktu_mulai,0,5) }}–{{ substr($waktu_selesai,0,5) }} WIB</p>
+            </div>
+        </div>
 
+        {{-- Tabs --}}
+        <div class="flex gap-1 bg-slate-100 p-1 rounded-xl w-fit">
+            @php
+                $tabs = [
+                    ['route' => 'siswa.dashboard.lms.forum',        'label' => 'Forum',   'param' => $id],
+                    ['route' => 'siswa.dashboard.lms.forum.tugas',  'label' => 'Tugas',   'param' => $id],
+                    ['route' => 'siswa.dashboard.lms.forum.anggota','label' => 'Anggota', 'param' => $id],
+                ];
+            @endphp
+            @foreach ($tabs as $tab)
+                @php $isActive = request()->routeIs($tab['route']); @endphp
+                <a href="{{ route($tab['route'], $tab['param']) }}"
+                    class="px-4 py-2 text-sm font-medium rounded-lg transition-colors
+                    {{ $isActive ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">
+                    {{ $tab['label'] }}
+                </a>
+            @endforeach
+        </div>
 
-        {{-- Main Content --}}
-        <div class="px-3">
-            {{-- Tabs --}}
-            <div class="flex gap-2 mb-4 mt-6">
-                <x-nav-button-lms route="siswa.dashboard.lms.forum" :id="$id" label="Forum" />
+        {{-- Main 2-col layout --}}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
-                <x-nav-button-lms route="siswa.dashboard.lms.forum.tugas" :id="$id" label="Tugas" />
+            {{-- Left: Feed (2/3) --}}
+            <div class="lg:col-span-2 space-y-3">
+                @if ($materiTugas && $materiTugas->count() > 0)
+                    @foreach ($materiTugas as $item)
+                        @php
+                            $isMateri = $item->type === 'materi';
+                            $route = $isMateri
+                                ? route('siswa.dashboard.lms.detail.materi', $item->id)
+                                : route('siswa.dashboard.lms.detail.tugas', $item->id);
+                        @endphp
+                        <a href="{{ $route }}" class="group block bg-white border border-slate-200 rounded-xl p-4 hover:shadow-md hover:border-slate-300 transition-all">
+                            <div class="flex items-start gap-3">
+                                {{-- Type Icon --}}
+                                <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0
+                                    {{ $isMateri ? 'bg-brand-50 text-brand-700' : 'bg-amber-50 text-amber-700' }}">
+                                    @if ($isMateri)
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                        </svg>
+                                    @else
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                                        </svg>
+                                    @endif
+                                </div>
 
-                <x-nav-button-lms route="siswa.dashboard.lms.forum.anggota" :id="$id" label="Anggota" />
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <span class="text-xs font-semibold px-2 py-0.5 rounded-full
+                                            {{ $isMateri ? 'bg-brand-100 text-brand-700' : 'bg-amber-100 text-amber-700' }}">
+                                            {{ $isMateri ? 'Materi' : 'Tugas' }}
+                                        </span>
+                                        <span class="text-xs text-slate-400">{{ \Carbon\Carbon::parse($item->date)->translatedFormat('d M Y') }}</span>
+                                    </div>
+                                    <p class="font-semibold text-slate-800 group-hover:text-brand-800 transition-colors">{{ $item->judul }}</p>
+                                </div>
 
+                                <svg class="w-4 h-4 text-slate-300 group-hover:text-slate-500 group-hover:translate-x-1 transition-all shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </div>
+                        </a>
+                    @endforeach
+                @else
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-10 text-center">
+                        <p class="text-slate-500 text-sm">Belum ada materi atau tugas di kelas ini.</p>
+                    </div>
+                @endif
             </div>
 
-            {{-- Main Content with Sidebar and Material/Tugas --}}
-            <div class="flex flex-col md:flex-row gap-4">
-                {{-- Left Sidebar --}}
-                <div class="flex flex-col gap-4 w-full md:w-1/3">
-                    {{-- Instructor Info --}}
-                    <div class="p-4 bg-gray-100 rounded-lg  border border-black">
-                        <div class="flex items-center gap-2">
-                            <div>
-                                <h3 class="font-semibold text-gray-800">{{ $guru->nama_guru }}</h3>
-                                <p class="text-sm text-gray-500">{{ $hari->nama_hari }}, {{ $waktu_mulai }} -
-                                    {{ $waktu_selesai }} WIB</p>
-                            </div>
+            {{-- Right Sidebar (1/3) --}}
+            <div class="space-y-4">
+
+                {{-- Instructor Card --}}
+                <div class="bg-white border border-slate-200 rounded-xl p-4">
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Pengajar</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-brand-100 text-brand-800 flex items-center justify-center font-bold text-sm shrink-0">
+                            {{ strtoupper(substr($guru->nama_guru, 0, 2)) }}
+                        </div>
+                        <div>
+                            <p class="font-semibold text-slate-800 text-sm">{{ $guru->nama_guru }}</p>
+                            <p class="text-xs text-slate-500">{{ $mataPelajaran->nama_matpel }}</p>
                         </div>
                     </div>
-
-                    {{-- Upcoming Assignments --}}
-                    <div class="p-4 rounded-lg border border-black">
-                        <h4 class="font-semibold text-gray-800 mb-2">Mendatang</h4>
-                        <ul class="text-sm text-gray-600 space-y-3">
-                            @forelse ($tugasMendatang as $tugas)
-                                <li>
-                                    <p class="text-gray-600">Tenggat:
-                                        {{ Carbon\Carbon::parse($tugas->deadline)->translatedFormat('l, d F Y') }}</p>
-                                    <a href="{{ route('siswa.dashboard.lms.detail.tugas', $tugas->id_tugas) }}"
-                                        class="text-blue-500 underline">
-                                        {{ $tugas->judul }}
-                                    </a>
-                                </li>
-                            @empty
-                                <p class="text-gray-500">Tidak ada tugas mendatang</p>
-                            @endforelse
-                        </ul>
-
+                    <div class="mt-3 pt-3 border-t border-slate-100 flex items-center gap-2 text-xs text-slate-500">
+                        <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        <span>{{ $hari->nama_hari }}, {{ substr($waktu_mulai,0,5) }}–{{ substr($waktu_selesai,0,5) }} WIB</span>
                     </div>
-
                 </div>
 
-                {{-- Right Sidebar/Main Content --}}
-                <div class="flex flex-col gap-4 w-full md:w-2/3">
-                    {{-- List of Materi & Tugas --}}
-                    <div class="space-y-4">
-                        {{-- Sample Item --}}
-
-                        @if ($materiTugas && $materiTugas->count() > 0)
-                            @foreach ($materiTugas as $item)
-                                @php
-                                    $route =
-                                        $item->type === 'materi'
-                                            ? route('siswa.dashboard.lms.detail.materi', $item->id)
-                                            : route('siswa.dashboard.lms.detail.tugas', $item->id);
-                                    $titlePrefix = $item->type === 'materi' ? 'Materi Baru: ' : 'Tugas Baru: ';
-                                @endphp
-                                <a href="{{ $route }}" class="block">
-                                    <div
-                                        class="flex items-center p-4 bg-white border border-black rounded-lg shadow hover:bg-gray-100 transition duration-200">
-                                        <div class="mr-2 p-2 rounded-full">
-                                            @if ($item->type == 'materi')
-                                                <svg width="36" height="39" viewBox="0 0 36 39" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M2.58025 4.28389C0.75 6.80302 0.75 10.3965 0.75 17.5835V21.4168C0.75 28.6038 0.75 32.1973 2.58025 34.7164C3.17135 35.53 3.88682 36.2455 4.70039 36.8366C7.21952 38.6668 10.813 38.6668 18 38.6668C25.187 38.6668 28.7805 38.6668 31.2996 36.8366C32.1132 36.2455 32.8287 35.53 33.4197 34.7164C35.25 32.1973 35.25 28.6038 35.25 21.4168V17.5835C35.25 10.3965 35.25 6.80302 33.4197 4.28389C32.8287 3.47031 32.1132 2.75485 31.2996 2.16375C28.7805 0.333496 25.187 0.333496 18 0.333496C10.813 0.333496 7.21952 0.333496 4.70039 2.16375C3.88682 2.75485 3.17135 3.47031 2.58025 4.28389ZM10.3333 10.396C9.53942 10.396 8.89583 11.0396 8.89583 11.8335C8.89583 12.6274 9.53942 13.271 10.3333 13.271H25.6667C26.4606 13.271 27.1042 12.6274 27.1042 11.8335C27.1042 11.0396 26.4606 10.396 25.6667 10.396H10.3333ZM10.3333 18.0627C9.53942 18.0627 8.89583 18.7063 8.89583 19.5002C8.89583 20.2941 9.53942 20.9377 10.3333 20.9377H25.6667C26.4606 20.9377 27.1042 20.2941 27.1042 19.5002C27.1042 18.7063 26.4606 18.0627 25.6667 18.0627H10.3333ZM10.3333 25.7293C9.53942 25.7293 8.89583 26.3729 8.89583 27.1668C8.89583 27.9607 9.53942 28.6043 10.3333 28.6043H25.6667C26.4606 28.6043 27.1042 27.9607 27.1042 27.1668C27.1042 26.3729 26.4606 25.7293 25.6667 25.7293H10.3333Z"
-                                                        fill="#2D264B" />
-                                                </svg>
-                                            @else
-                                                <svg width="28" height="36" viewBox="0 0 28 36" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M1.05254 6.87192C0.583496 8.31548 0.583496 10.0992 0.583496 13.6667V27.8258C0.583496 31.5003 0.583496 33.3375 1.23891 34.3092C2.0396 35.4962 3.43508 36.138 4.8574 35.9734C6.02166 35.8387 7.41659 34.6431 10.2064 32.2518C11.4345 31.1991 12.0486 30.6728 12.7231 30.4345C13.5494 30.1425 14.4509 30.1425 15.2773 30.4345C15.9517 30.6728 16.5658 31.1991 17.7938 32.2517C20.5837 34.643 21.9787 35.8387 23.1429 35.9734C24.5652 36.138 25.9607 35.4962 26.7614 34.3092C27.4168 33.3375 27.4168 31.5003 27.4168 27.8258V13.6667C27.4168 10.0992 27.4168 8.31548 26.9478 6.87192C25.9998 3.95439 23.7124 1.667 20.7949 0.719042C19.3513 0.25 17.5676 0.25 14.0002 0.25C10.4327 0.25 8.64898 0.25 7.20542 0.719042C4.28789 1.667 2.0005 3.95439 1.05254 6.87192ZM8.25016 10.3125C7.45625 10.3125 6.81266 10.9561 6.81266 11.75C6.81266 12.5439 7.45625 13.1875 8.25016 13.1875H19.7502C20.5441 13.1875 21.1877 12.5439 21.1877 11.75C21.1877 10.9561 20.5441 10.3125 19.7502 10.3125H8.25016Z"
-                                                        fill="#2D264B" />
-                                                </svg>
-                                            @endif
-
-                                        </div>
-                                        <div class="flex-1">
-                                            <h4 class="font-semibold text-gray-800">
-                                                @if ($item->type === 'materi')
-                                                    Materi Baru: {{ $item->judul }}
-                                                @else
-                                                    Tugas Baru: {{ $item->judul }}
-                                                @endif
-                                            </h4>
-                                            <div class="flex items-center gap-2">
-                                                <p class="text-sm text-gray-500 ">
-                                                    {{ Carbon\Carbon::parse($item->date)->format('d F Y') }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            @endforeach
-                        @else
-                            <p class="text-gray-700 font-semibold text-lg text-center">Tidak ada materi atau tugas baru.</p>
-                        @endif
-                    </div>
+                {{-- Upcoming Tasks --}}
+                <div class="bg-white border border-slate-200 rounded-xl p-4">
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Tugas Mendatang</p>
+                    @forelse ($tugasMendatang as $tugas)
+                        <a href="{{ route('siswa.dashboard.lms.detail.tugas', $tugas->id_tugas) }}"
+                            class="block group mb-3 last:mb-0">
+                            <p class="text-sm font-medium text-slate-700 group-hover:text-brand-800 transition-colors">{{ $tugas->judul }}</p>
+                            <p class="text-xs text-slate-400 mt-0.5 flex items-center gap-1">
+                                <svg class="w-3 h-3 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                {{ \Carbon\Carbon::parse($tugas->deadline)->translatedFormat('d F Y') }}
+                            </p>
+                        </a>
+                    @empty
+                        <p class="text-sm text-slate-400">Tidak ada tugas mendatang.</p>
+                    @endforelse
                 </div>
             </div>
         </div>

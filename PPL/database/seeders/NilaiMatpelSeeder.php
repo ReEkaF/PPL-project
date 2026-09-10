@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Str;
 
 class NilaiMatpelSeeder extends Seeder
 {
@@ -14,22 +13,37 @@ class NilaiMatpelSeeder extends Seeder
      */
     public function run(): void
     {
-        // Mengambil semua mata pelajaran dan semua rapor
         $mataPelajaranList = DB::table('mata_pelajaran')->get();
         $raporList = DB::table('rapor')->get();
 
-        // Untuk setiap rapor dan setiap mata pelajaran, buat nilai matpel
+        $feedbackNotes = [
+            'Sangat baik dalam memahami konsep dasar dan terampil dalam penyelesaian soal analitis.',
+            'Menunjukkan kemajuan yang signifikan. Pertahankan konsistensi belajar dan keaktifan di kelas.',
+            'Mampu menguasai materi dengan sangat memuaskan, rajin berdiskusi, dan disiplin dalam tugas.',
+            'Prestasi belajar sangat memuaskan. Tingkatkan daya nalar kritis untuk materi tingkat lanjut.',
+            'Pemahaman konsep materi sudah baik. Disarankan lebih teliti dalam evaluasi perhitungan.',
+            'Sangat tekun dan memiliki motivasi belajar tinggi. Terus pertahankan prestasimu.',
+        ];
+
         foreach ($raporList as $rapor) {
             foreach ($mataPelajaranList as $matpel) {
-                DB::table('nilai_matpel')->insert([
-                    'id_nilai_matpel' => Str::uuid(),
-                    'matpel_id' => $matpel->id_matpel,
-                    'rapor_id' => $rapor->id_rapor,
-                    'nilai_rata_rata_matpel' => rand(50, 100), // Nilai rata-rata antara 50 dan 100
-                    'pesan' => 'Pertahankan prestasi dan terus tingkatkan!',
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
+                $exists = DB::table('nilai_matpel')
+                    ->where('rapor_id', $rapor->id_rapor)
+                    ->where('matpel_id', $matpel->id_matpel)
+                    ->exists();
+
+                if (!$exists) {
+                    $score = rand(74, 96);
+                    DB::table('nilai_matpel')->insert([
+                        'id_nilai_matpel' => (string) Str::uuid(),
+                        'matpel_id' => $matpel->id_matpel,
+                        'rapor_id' => $rapor->id_rapor,
+                        'nilai_rata_rata_matpel' => $score,
+                        'pesan' => $feedbackNotes[array_rand($feedbackNotes)],
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
             }
         }
     }

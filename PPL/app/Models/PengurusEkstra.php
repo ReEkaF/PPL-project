@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
 class PengurusEkstra extends Model
@@ -11,7 +11,7 @@ class PengurusEkstra extends Model
     use HasUuids, Notifiable;
 
     protected $table = 'pengurus_ekstra';
-    
+
     protected $primaryKey = 'id_pengurus_ekstra';
 
     public $incrementing = false;

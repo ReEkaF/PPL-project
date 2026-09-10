@@ -61,7 +61,7 @@ class kelas extends Model
     {
         parent::boot();
         static::creating(function ($model) {
-            if (!$model->getKey()) {
+            if (! $model->getKey()) {
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
@@ -74,18 +74,22 @@ class kelas extends Model
     {
         return $this->hasMany(Kelas_mata_pelajaran::class, 'kelas_id', 'id_kelas');
     }
+
     public function kelas_siswa()
     {
         return $this->hasMany(KelasSiswa::class, 'id_kelas', 'id_kelas');
     }
+
     public function siswa()
     {
         return $this->belongsToMany(Siswa::class, 'kelas_siswas', 'id_kelas', 'id_siswa');
     }
-     public function getJumlahSiswaAttribute()
+
+    public function getJumlahSiswaAttribute()
     {
         return $this->siswa()->count();
     }
+
     public function waliKelas()
     {
         return $this->hasOne(KelasSiswa::class, 'id_kelas')->with('guru');

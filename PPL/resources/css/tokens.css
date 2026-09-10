@@ -1,0 +1,47 @@
+:root {
+  /* Brand Primary: Deep Institutional Navy (SMPN 2 Kamal) */
+  --color-brand-50: #f0f7ff;
+  --color-brand-100: #e0effe;
+  --color-brand-200: #bae0fd;
+  --color-brand-300: #7cc5fb;
+  --color-brand-400: #36a7f6;
+  --color-brand-500: #0c8be5;
+  --color-brand-600: #026aa2;
+  --color-brand-700: #025380;
+  --color-brand-800: #06466c;
+  --color-brand-900: #0b3b5b;
+  --color-brand-950: #07253b;
+
+  /* Accent: Warm Educational Amber/Gold */
+  --color-accent-50: #fffbeb;
+  --color-accent-100: #fef3c7;
+  --color-accent-500: #f59e0b;
+  --color-accent-600: #d97706;
+  --color-accent-700: #b45309;
+
+  /* Semantic Feedback */
+  --color-success-50: #f0fdf4;
+  --color-success-600: #16a34a;
+  --color-success-700: #15803d;
+  --color-danger-50: #fef2f2;
+  --color-danger-600: #dc2626;
+  --color-danger-700: #b91c1c;
+  --color-warning-50: #fffbeb;
+  --color-warning-600: #d97706;
+
+  /* Surface & Typography */
+  --surface-page: #f8fafc;
+  --surface-card: #ffffff;
+  --surface-card-subtle: #f1f5f9;
+  --surface-border: #e2e8f0;
+  --surface-border-strong: #cbd5e1;
+
+  --text-headline: #0f172a;
+  --text-body: #334155;
+  --text-muted: #64748b;
+
+  /* Elevation */
+  --shadow-subtle: 0 1px 3px 0 rgb(15 23 42 / 0.06), 0 1px 2px -1px rgb(15 23 42 / 0.04);
+  --shadow-card: 0 4px 6px -1px rgb(15 23 42 / 0.07), 0 2px 4px -2px rgb(15 23 42 / 0.05);
+  --shadow-raised: 0 10px 15px -3px rgb(15 23 42 / 0.08), 0 4px 6px -4px rgb(15 23 42 / 0.04);
+}

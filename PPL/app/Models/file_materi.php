@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
 class file_materi extends Model
 {
     public $timestamps = false;
+
     protected $primaryKey = 'id_file_materi';
 
     /**
@@ -51,9 +51,8 @@ class file_materi extends Model
      *
      * @var array
      */
-
-
     protected $table = 'file_materi';
+
     protected $fillable = [
         'materi_id',
         'original_name',
@@ -62,6 +61,7 @@ class file_materi extends Model
         'upload_at',
         'status',
     ];
+
     public function materi()
     {
         return $this->belongsTo(Materi::class, 'materi_id', 'id_materi');

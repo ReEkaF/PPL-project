@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\pembinaekstra;
 
-use App\Models\KelasSiswa;
-use App\Models\tahun_ajaran;
-use Illuminate\Http\Request;
-use App\Models\Ekstrakurikuler;
 use App\Http\Controllers\Controller;
+use App\Models\Ekstrakurikuler;
+use App\Models\KelasSiswa;
+use App\Models\LaporanPenilaianEkstrakurikuler;
 use App\Models\PenilaianEkstrakurikuler;
 use App\Models\RegistrasiEkstrakurikuler;
-use App\Models\LaporanPenilaianEkstrakurikuler;
+use App\Models\tahun_ajaran;
+use Illuminate\Http\Request;
 
 class PenilaianEkstraController extends Controller
 {
@@ -18,7 +18,7 @@ class PenilaianEkstraController extends Controller
         $tahun_ajaran = tahun_ajaran::get();
         $tahun_ajaran_aktif = tahun_ajaran::where('aktif', '1')->firstOrFail();
 
-        try{
+        try {
             $ekstra = Ekstrakurikuler::where('guru_id', auth()->guard('web-guru')->user()->id_guru)->firstOrFail();
             $nama_ekstra = $ekstra->nama_ekstrakurikuler;
             $id_ekstra = $ekstra->id_ekstrakurikuler;
@@ -41,6 +41,7 @@ class PenilaianEkstraController extends Controller
                 $penilaianItem = $penilaian->firstWhere('id_siswa', $item->id_siswa);
                 $item->laporan = $laporanItem;
                 $item->penilaian = $penilaianItem;
+
                 return $item;
             });
 
@@ -48,7 +49,7 @@ class PenilaianEkstraController extends Controller
             return view('pembina_ekstra.penilaian.index', compact('laporan_anggota', 'nama_ekstra', 'penilaian', 'tahun_ajaran_aktif', 'id_ekstra', 'tahun_ajaran'));
 
         } catch (\Exception) {
-            return view('pembina_ekstra.penilaian.index', ['laporan_anggota' => [], 'nama_ekstra' => $nama_ekstra='Tidak Ada Ekstrakurikuler', 'penilaian' => $penilaian=[], 'tahun_ajaran_aktif' => $tahun_ajaran_aktif, 'id_ekstra' => $id_ekstra=null, 'tahun_ajaran' => $tahun_ajaran]);
+            return view('pembina_ekstra.penilaian.index', ['laporan_anggota' => [], 'nama_ekstra' => $nama_ekstra = 'Tidak Ada Ekstrakurikuler', 'penilaian' => $penilaian = [], 'tahun_ajaran_aktif' => $tahun_ajaran_aktif, 'id_ekstra' => $id_ekstra = null, 'tahun_ajaran' => $tahun_ajaran]);
         }
     }
 
@@ -56,7 +57,7 @@ class PenilaianEkstraController extends Controller
     {
         $tahun_ajaran = tahun_ajaran::get();
         $tahun_ajaran_aktif = tahun_ajaran::where('id_tahun_ajaran', $id)->firstOrFail();
-        try{
+        try {
             $ekstra = Ekstrakurikuler::where('guru_id', auth()->guard('web-guru')->user()->id_guru)->firstOrFail();
             $nama_ekstra = $ekstra->nama_ekstrakurikuler;
             $id_ekstra = $ekstra->id_ekstrakurikuler;
@@ -77,6 +78,7 @@ class PenilaianEkstraController extends Controller
 
             if ($siswa == null) {
                 $laporan_anggota = [];
+
                 return view('pembina_ekstra.penilaian.index', compact('nama_ekstra', 'penilaian', 'tahun_ajaran_aktif', 'id_ekstra', 'tahun_ajaran', 'laporan_anggota'));
             }
 
@@ -85,17 +87,15 @@ class PenilaianEkstraController extends Controller
                 $penilaianItem = $penilaian->firstWhere('id_siswa', $item->id_siswa);
                 $item->laporan = $laporanItem;
                 $item->penilaian = $penilaianItem;
+
                 return $item;
             });
 
-
             return view('pembina_ekstra.penilaian.index', compact('laporan_anggota', 'nama_ekstra', 'penilaian', 'tahun_ajaran_aktif', 'id_ekstra', 'tahun_ajaran'));
         } catch (\Exception) {
-            return view('pembina_ekstra.penilaian.index', ['laporan_anggota' => [], 'nama_ekstra' => $nama_ekstra='Belum Ada Ekstrakurikuler', 'penilaian' => $penilaian=[], 'tahun_ajaran_aktif' => $tahun_ajaran_aktif, 'id_ekstra' => $id_ekstra=null, 'tahun_ajaran' => $tahun_ajaran]);
+            return view('pembina_ekstra.penilaian.index', ['laporan_anggota' => [], 'nama_ekstra' => $nama_ekstra = 'Belum Ada Ekstrakurikuler', 'penilaian' => $penilaian = [], 'tahun_ajaran_aktif' => $tahun_ajaran_aktif, 'id_ekstra' => $id_ekstra = null, 'tahun_ajaran' => $tahun_ajaran]);
         }
     }
-
-
 
     public function storeOrUpdate(Request $request, $id_siswa)
     {
@@ -130,6 +130,7 @@ class PenilaianEkstraController extends Controller
         }
 
         $tgl_penilaian = PenilaianEkstrakurikuler::where('id_siswa', $id_siswa)->where('id_tahun_ajaran', $tahun_ajaran)->first()->tgl_penilaian;
+
         return response()->json(['success' => true, 'tgl_penilaian' => $tgl_penilaian]);
     }
 }

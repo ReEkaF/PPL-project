@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\staffakademik;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Prestasi;
 use App\Models\Siswa;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class PrestasiController extends Controller
@@ -14,15 +14,16 @@ class PrestasiController extends Controller
     public function create()
     {
         $siswa = Siswa::all();
-        return view("staff_akademik.prestasiSiswa.create", [
-            'siswa' => $siswa
+
+        return view('staff_akademik.prestasiSiswa.create', [
+            'siswa' => $siswa,
         ]);
     }
 
     // Menyimpan data prestasi
     public function store(Request $request)
     {
-        
+
         $request->validate([
             'siswa_id' => 'required|string|max:36|exists:siswa,id_siswa',
             'nama_prestasi' => 'required|string|max:255',
@@ -54,19 +55,19 @@ class PrestasiController extends Controller
         // Query untuk mendapatkan data prestasi, dengan pencarian jika ada
         $prestasi = Prestasi::with('siswa')
             ->when($search, function ($query, $search) {
-                return $query->where('nama_prestasi', 'like', '%' . $search . '%')
-                             ->orWhere('deskripsi_prestasi', 'like', '%' . $search . '%');
+                return $query->where('nama_prestasi', 'like', '%'.$search.'%')
+                    ->orWhere('deskripsi_prestasi', 'like', '%'.$search.'%');
             })
             ->paginate(3); // Hasil dipaginasi, 10 per halaman
 
         return view('staff_akademik.prestasiSiswa.index', compact('prestasi'));
     }
 
-
     // Menampilkan detail prestasi
     public function show($id)
     {
         $prestasi = Prestasi::where('id_prestasi', $id)->first();
+
         return view('staff_akademik.prestasiSiswa.show', compact('prestasi'));
     }
 
@@ -102,18 +103,18 @@ class PrestasiController extends Controller
     public function pengajuan(Request $request)
     {
         $search = $request->input('search');
-    
+
         $pengajuan = Prestasi::with('siswa')
             ->where('status_prestasi', 0) // Mengambil prestasi yang belum diverifikasi
             ->when($search, function ($query, $search) {
-                return $query->where('nama_prestasi', 'like', '%' . $search . '%')
-                             ->orWhere('deskripsi_prestasi', 'like', '%' . $search . '%');
+                return $query->where('nama_prestasi', 'like', '%'.$search.'%')
+                    ->orWhere('deskripsi_prestasi', 'like', '%'.$search.'%');
             })
             ->paginate(3); // Paginasi, 3 data per halaman
-    
-        return view("staff_akademik.prestasiSiswa.pengajuan", compact('pengajuan'));
+
+        return view('staff_akademik.prestasiSiswa.pengajuan', compact('pengajuan'));
     }
-    
+
     // Menyetujui prestasi
     public function setujui($id)
     {

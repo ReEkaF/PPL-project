@@ -3,50 +3,50 @@
 namespace App\Http\Controllers\guru;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Ujian\StoreUjianRequest;
+use App\Http\Requests\Ujian\UpdateSoalRequest;
+use App\Imports\SoalUjianImport;
 use App\Models\jawaban_ujian;
 use App\Models\soal_ujian;
 use App\Models\ujian;
-use App\Models\pengumpulan_ujian;
+use App\Services\Ujian\CbtService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\SoalUjianImport;
-use App\Models\Siswa;
-use App\Models\topik;
-use App\Models\kelas_mata_pelajaran;
 
 class GuruUjianController extends Controller
 {
-    //CRUD JAWABAN========================================================================================================
-    public function showJawabanUjian()
+    public function __construct(
+        protected CbtService $cbtService
+    ) {}
+
+    // CRUD JAWABAN
+    public function showJawabanUjian(): View
     {
         $jawabanUjian = jawaban_ujian::all();
         $soalUjian = soal_ujian::all();
-        return view("guru.ujian.jawaban_ujian", compact("jawabanUjian", "soalUjian"));
+
+        return view('guru.ujian.jawaban_ujian', compact('jawabanUjian', 'soalUjian'));
     }
 
-    // public function editJawabanUjian($id)
-    // {
-    //     $jawaban = jawaban_ujian::findOrFail($id);
-    //     return view('guru.ujian.jawaban_ujian_edit', compact('jawaban'));
-    // }
-
-    public function editJawabanUjian($id)
+    public function editJawabanUjian(string $id): View
     {
         $jawaban = jawaban_ujian::findOrFail($id);
-
         $soalUjian = soal_ujian::all();
 
         return view('guru.ujian.jawaban_ujian_edit', compact('jawaban', 'soalUjian'));
     }
 
-    public function destroyJawabanUjian($id)
+    public function destroyJawabanUjian(string $id): RedirectResponse
     {
         $jawaban = jawaban_ujian::findOrFail($id);
         $jawaban->delete();
+
         return redirect()->route('guru.dashboard.ujian.jawaban_ujian')->with('success', 'Jawaban ujian berhasil dihapus.');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id): RedirectResponse
     {
         $jawaban = jawaban_ujian::findOrFail($id);
         $soalUjian = soal_ujian::findOrFail($id);
@@ -57,82 +57,51 @@ class GuruUjianController extends Controller
         return redirect()->route('guru.dashboard.ujian.jawaban_ujian')->with('success', 'Jawaban ujian berhasil diperbarui.');
     }
 
-    //CRUD SOAL=================================================================================================================
-    public function storeSoal(Request $request, $ujian_id)
+    // CRUD SOAL & UJIAN
+    public function storeSoal(Request $request, string $ujian_id): View
     {
-        $ujian = Ujian::findOrFail($ujian_id);
+        $ujian = ujian::findOrFail($ujian_id);
 
         return view('guru.ujian.create_soal', compact('ujian_id', 'ujian'));
     }
 
-    public function createUjian()
+    public function createUjian(): View
     {
-        $soalUjian = soal_ujian::all();
-        $topik = topik::all();
-        $kelasMataPelajaran = kelas_mata_pelajaran::with(['kelas', 'mataPelajaran'])->get();
+        $data = $this->cbtService->getCreateUjianFormData();
 
-        return view("guru.ujian.create_ujian", compact("soalUjian", "topik", "kelasMataPelajaran"));
+        return view('guru.ujian.create_ujian', $data);
     }
 
-    public function indexUjian()
+    public function indexUjian(): View
     {
-        $ujian = Ujian::paginate(10);
+        $ujian = $this->cbtService->getPaginatedUjian(10);
 
         return view('guru.ujian.view_ujian', compact('ujian'));
     }
 
-    public function ujianEdit(Request $request, $id) {}
-
-    public function ujianDelete() {}
-
-    public function updateUjian(Request $request, Ujian $ujian) {}
-
-    public function storeData(Request $request)
+    public function storeData(StoreUjianRequest $request): RedirectResponse
     {
-        $request->validate([
-            'judul'                => 'required|string|max:255',
-            'deskripsi'            => 'required|string',
-            'jenis_ujian'          => 'required|string',
-            'topik_id'             => 'required|string',
-            'kelas_mata_pelajaran_id' => 'required|string',
-            'tanggal_dibuat'       => 'required|date',
-        ]);
-        // dd($request->all());
-        Ujian::create([
-            'judul'                => $request->judul,
-            'deskripsi'            => $request->deskripsi,
-            'jenis_ujian'          => $request->jenis_ujian,
-            'topik_id'             => $request->topik_id,
-            'kelas_mata_pelajaran_id' => $request->kelas_mata_pelajaran_id,
-            'tanggal_dibuat'       => $request->tanggal_dibuat,
-            'created_at'           => now(),
-            'updated_at'           => now(),
-        ]);
+        $this->cbtService->createUjian($request->validated());
 
         return redirect()->route('ujian.show');
     }
 
-    public function createSoal($ujian_id)
+    public function createSoal(string $ujian_id): View
     {
-        // dd($ujian_id);
         return view('guru.ujian.create_soal', compact('ujian_id'));
     }
-    public function showSoal($id)
+
+    public function showSoal(string $id): View
     {
-        // Cek apakah ujian dengan id ini ada
-        $ujian = Ujian::findOrFail($id);
+        $data = $this->cbtService->getQuestionsForExam($id);
 
-        // Ambil semua soal yang terkait dengan id ujian
-        $soalUjian = Soal_ujian::where('ujian_id', $id)->get();
-
-        // Return view dengan data soal ujian
-        return view('guru.ujian.show_soal', compact('soalUjian', 'ujian'));
+        return view('guru.ujian.show_soal', $data);
     }
 
-    public function importSoal(Request $request, $ujian_id)
+    public function importSoal(Request $request, string $ujian_id): RedirectResponse
     {
         $request->validate([
-            'file' => 'required|mimes:xlsx,csv',
+            'file' => ['required', 'mimes:xlsx,csv'],
         ]);
 
         Excel::import(new SoalUjianImport($ujian_id), $request->file('file'));
@@ -140,73 +109,44 @@ class GuruUjianController extends Controller
         return redirect()->route('ujian.show')->with('success', 'Soal ujian berhasil diimpor!');
     }
 
-    public function soalEdit($id)
+    public function soalEdit(string $id): View
     {
-        $soal = soal_ujian::findOrFail($id); // Find soal by primary key
+        $soal = soal_ujian::findOrFail($id);
         $jawaban = soal_ujian::all();
 
         return view('guru.ujian.soal_edit', compact('soal', 'jawaban'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function soalUpdate(Request $request, $id)
+    public function soalUpdate(UpdateSoalRequest $request, string $id): RedirectResponse
     {
-        $request->validate([
-            'judul_ujian' => 'required|string|max:255',
-            'teks_soal' => 'required|string',
-            'opsi_a' => 'required|string',
-            'opsi_b' => 'required|string',
-            'opsi_c' => 'required|string',
-            'opsi_d' => 'required|string',
-            'kunci_jawaban' => 'required|string',
-        ]);
-
-
-        $soal = soal_ujian::findOrFail($id);
-        $soal->update($request->all());
+        $this->cbtService->updateQuestion($id, $request->validated());
 
         return redirect()->route('ujian.show')->with('success', 'Soal Ujian berhasil diperbarui.');
     }
 
-
-    public function destroySoal($id)
+    public function destroySoal(string $id): RedirectResponse
     {
-        $soal = soal_ujian::findOrFail($id);
-        $soal->delete();
+        $this->cbtService->deleteQuestion($id);
 
-        return redirect()->route('guru.dashboard.ujian.soal_ujian')
-            ->with('success', 'Soal ujian berhasil dihapus.');
-    }
-    public function pengumpulan()
-    {
-        return view("guru.ujian.pengumpulan");
-    }
-    //CRUD PENGUMPULAN UJIAN===============================================================================================
-    public function index()
-    {
-        $pengumpulanUjian = pengumpulan_ujian::with(['siswa', 'ujian'])->get();
-        // $soalUjian = soal_ujian::with('ujian')->get();
-        // $namaSiswa = Siswa::select('nama_siswa')->get();
-
-        return view("guru.ujian.pengumpulan_ujian", compact("pengumpulanUjian"));
+        return redirect()->route('guru.dashboard.ujian.soal_ujian')->with('success', 'Soal ujian berhasil dihapus.');
     }
 
-    public function destroy($id)
+    public function pengumpulan(): View
     {
-        // Hapus semua jawaban ujian yang terkait dengan pengumpulan ujian
-        jawaban_ujian::where('pengumpulan_ujian_id', $id)->delete();
+        return view('guru.ujian.pengumpulan');
+    }
 
-        // Hapus data pengumpulan ujian
-        $pengumpulanUjian = pengumpulan_ujian::findOrFail($id);
-        $pengumpulanUjian->delete();
-        // $pengumpulanUjian = pengumpulan_ujian::findOrFail($id);
-        // $pengumpulanUjian->delete();
+    // CRUD PENGUMPULAN UJIAN
+    public function index(): View
+    {
+        $pengumpulanUjian = $this->cbtService->getSubmissions();
+
+        return view('guru.ujian.pengumpulan_ujian', compact('pengumpulanUjian'));
+    }
+
+    public function destroy(string $id): RedirectResponse
+    {
+        $this->cbtService->deleteSubmission($id);
 
         return redirect()->route('guru.dashboard.ujian.pengumpulan')->with('success', 'Data berhasil dihapus.');
     }

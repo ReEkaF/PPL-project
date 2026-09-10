@@ -7,8 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class UpdateSiswaRequest extends FormRequest
 {
     /**
-     * 
-     *
      * @return bool
      */
     public function authorize()
@@ -17,32 +15,28 @@ class UpdateSiswaRequest extends FormRequest
     }
 
     /**
-     * 
-     *
-     * @return array<string, 
+     * @return array<string,
      */
     public function rules()
     {
         $id_siswa = $this->route('id_siswa');
-    
+
         return [
-            'nisn' => 'required|string|max:20|unique:siswa,nisn,' . $id_siswa . ',id_siswa', 
+            'nisn' => 'required|string|max:20|unique:siswa,nisn,'.$id_siswa.',id_siswa',
             'nama_siswa' => 'required|string|max:125',
             'tgl_lahir_siswa' => 'required|date',
             'jenis_kelamin_siswa' => 'required|in:Laki-laki,Perempuan',
             'alamat_siswa' => 'required|string|max:255',
             'password' => 'nullable|string|min:8', // Optional for update
             'nomor_wa_siswa' => 'required|digits_between:12,13',
-            'username' => 'required|string|min:8|max:50|unique:siswa,username,' . $id_siswa . ',id_siswa', 
-            'email' => 'required|email|max:255|unique:siswa,email,' . $id_siswa . ',id_siswa', 
+            'username' => 'required|string|min:8|max:50|unique:siswa,username,'.$id_siswa.',id_siswa',
+            'email' => 'required|email|max:255|unique:siswa,email,'.$id_siswa.',id_siswa',
             'role_siswa' => 'required|in:siswa,pengurus',
             'foto_siswa' => 'nullable|image|max:25000',
         ];
     }
 
     /**
-     * 
-     *
      * @return array
      */
     public function messages()

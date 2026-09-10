@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('riwayat_penyakit')->nullable();
             $table->text('alasan')->nullable();
             $table->char('no_ortu')->nullable();
-            $table->enum('status', ["diterima","ditolak","menunggu"])->nullable();
+            $table->enum('status', ['diterima', 'ditolak', 'menunggu'])->nullable();
             $table->timestamp('tgl_registrasi')->useCurrent();
             $table->foreign('id_ekstrakurikuler')->references('id_ekstrakurikuler')->on('ekstrakurikuler');
             $table->foreign('id_siswa')->references('id_siswa')->on('siswa');

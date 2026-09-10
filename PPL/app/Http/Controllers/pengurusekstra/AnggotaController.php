@@ -2,61 +2,38 @@
 
 namespace App\Http\Controllers\pengurusekstra;
 
-use App\Models\Siswa;
-use Illuminate\Http\Request;
-use App\Models\PengurusEkstra;
 use App\Http\Controllers\Controller;
-use App\Models\RegistrasiEkstrakurikuler;
+use App\Services\Ekstrakurikuler\EkstrakurikulerService;
+use Exception;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class AnggotaController extends Controller
 {
-    public function index(Request $request)
+    public function __construct(
+        protected EkstrakurikulerService $ekstraService
+    ) {}
+
+    public function index(): View
     {
-        $pengurusEkstra = PengurusEkstra::with('ekstrakurikuler', 'siswa')
-            ->where('id_siswa', auth()->guard('web-siswa')->user()->id_siswa)
-            ->first();
+        $siswaId = auth()->guard('web-siswa')->user()->id_siswa;
+        $data = $this->ekstraService->getPengurusAnggotaData($siswaId);
 
-        if (!$pengurusEkstra) {
-            return view('pengurus_ekstra.anggota.index', ['ekstrakurikuler' => 'Tidak Ada', 'loggedInUsername' => auth()->guard('web-siswa')->user()->nama_siswa, 'totalItems' => 0, 'members' => []]);
-        }
-
-        $siswa = RegistrasiEkstrakurikuler::with('siswa')
-            ->where('id_ekstrakurikuler', $pengurusEkstra->id_ekstrakurikuler)
-            ->get();
-
-        $members = $siswa->map(function ($registrasi) {
-            // Mengatur status dari registrasi pada objek siswa
-            $registrasi->siswa->status = $registrasi->status;
-            return $registrasi->siswa;
-        });
-
-
-        return view('pengurus_ekstra.anggota.index', [
-            'ekstrakurikuler' => $pengurusEkstra->ekstrakurikuler->nama_ekstrakurikuler,
-            'members' => $members,
-            'loggedInUsername' => $pengurusEkstra->siswa->nama_siswa,
-            'totalItems' => $members->count()
-        ]);
+        return view('pengurus_ekstra.anggota.index', $data);
     }
 
-    public function updateStatus(Request $request, $id)
+    public function updateStatus(Request $request, string $id): RedirectResponse
     {
-        // Mendapatkan informasi ekstra untuk siswa saat ini
-        $pengurusEkstra = PengurusEkstra::where('id_siswa', auth()->guard('web-siswa')->user()->id_siswa)->first();
+        try {
+            $siswaId = auth()->guard('web-siswa')->user()->id_siswa;
+            $status = $request->input('status');
 
-        if (!$pengurusEkstra) {
-            return redirect()->route('pengurus_ekstra.anggota')->withErrors('Ekstrakurikuler tidak ditemukan untuk siswa ini.');
+            $this->ekstraService->updateMemberStatusPengurus($siswaId, $id, $status);
+
+            return redirect()->route('pengurus_ekstra.anggota')->with('success', 'Status berhasil diperbarui.');
+        } catch (Exception $e) {
+            return redirect()->route('pengurus_ekstra.anggota')->withErrors('Gagal memperbarui status: '.$e->getMessage());
         }
-
-        // Cari registrasi terkait dalam `RegistrasiEkstrakurikuler` untuk siswa dan ekstrakurikuler tertentu
-        $registration = RegistrasiEkstrakurikuler::where('id_siswa', $id)
-            ->where('id_ekstrakurikuler', $pengurusEkstra->id_ekstrakurikuler)
-            ->firstOrFail();
-
-        // Memperbarui status dari permintaan
-        $registration->status = $request->input('status');
-        $registration->save();
-
-        return redirect()->route('pengurus_ekstra.anggota')->with('success', 'Status berhasil diperbarui.');
     }
 }

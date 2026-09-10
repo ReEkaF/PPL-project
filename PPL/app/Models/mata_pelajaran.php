@@ -5,17 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
 
 class mata_pelajaran extends Model
 {
-    use Notifiable, HasUuids;
-
+    use HasUuids, Notifiable;
 
     protected $table = 'mata_pelajaran';
+
     public $timestamps = false;
+
     protected $primaryKey = 'id_matpel';
+
     public $incrementing = false;
+
     protected $keyType = 'string';
 
     protected $fillable = [
@@ -23,10 +25,12 @@ class mata_pelajaran extends Model
         'nama_matpel',
         'deskripsi_matpel',
     ];
+
     public function kelasMataPelajaran()
     {
         return $this->hasMany(kelas_mata_pelajaran::class, 'mata_pelajaran_id', 'id_matpel');
     }
+
     // public function nilaimapel()
     // {
     //     return $this->hasMany(Nilai_mapel::class,'matpel_id', 'id_matpel');
@@ -35,6 +39,7 @@ class mata_pelajaran extends Model
     {
         return $this->hasMany(guru_mata_pelajaran::class, 'matpel_id', 'id_matpel');
     }
+
     public function topik()
     {
         return $this->hasMany(topik::class, 'mata_pelajaran_id', 'id_matpel');

@@ -3,12 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\Guru;
-use App\Models\kelas;
-use App\Models\mata_pelajaran;
-use App\Models\tahun_ajaran;
 use App\Models\guru_mata_pelajaran;
 use App\Models\hari;
+use App\Models\kelas;
 use App\Models\kelas_mata_pelajaran;
+use App\Models\mata_pelajaran;
+use App\Models\tahun_ajaran;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -29,7 +29,6 @@ class KelasMapelGuruJadwalAjaranSeeder extends Seeder
         $guruid7 = Str::uuid();
         $guruid8 = Str::uuid();
         $guruid9 = Str::uuid();
-
 
         // Guru Pembina
         session(['guruid2' => $guruid2, 'guruid7' => $guruid7, 'guruid8' => $guruid8, 'guruid9' => $guruid9]);
@@ -106,20 +105,18 @@ class KelasMapelGuruJadwalAjaranSeeder extends Seeder
         ]);
         // END GURU SEEDER
 
-
         // START KELAS SEEDER
         $kelasid1 = Str::uuid();
         $kelasid2 = Str::uuid();
         kelas::create([
-            "id_kelas" => $kelasid1,
-            "nama_kelas" => "7A"
+            'id_kelas' => $kelasid1,
+            'nama_kelas' => '7A',
         ]);
         kelas::create([
-            "id_kelas" => $kelasid2,
-            "nama_kelas" => "7B"
+            'id_kelas' => $kelasid2,
+            'nama_kelas' => '7B',
         ]);
         // END KELAS SEEDER
-
 
         // START MATPEL SEEDER
         $mapelid1 = Str::uuid();
@@ -177,7 +174,6 @@ class KelasMapelGuruJadwalAjaranSeeder extends Seeder
         ]);
         // END TAHUN AJARAN SEEDER
 
-
         // START GURU MAPEL SEEDER
         $gurumapelid1 = Str::uuid();
         $gurumapelid2 = Str::uuid();
@@ -191,7 +187,6 @@ class KelasMapelGuruJadwalAjaranSeeder extends Seeder
         $gurumapelid10 = Str::uuid();
         $gurumapelid11 = Str::uuid();
         $gurumapelid12 = Str::uuid();
-
 
         // guru ipa
         guru_mata_pelajaran::create([
@@ -315,7 +310,6 @@ class KelasMapelGuruJadwalAjaranSeeder extends Seeder
         $kelasmapelid12 = Str::uuid();
 
         session(key: ['kelasmapelid1' => $kelasmapelid1, 'kelasmapelid2' => $kelasmapelid2, 'kelasmapelid3' => $kelasmapelid3, 'guruid4' => $guruid4, 'kelasmapelid4' => $kelasmapelid4, 'kelasmapelid5' => $kelasmapelid5, 'kelasmapelid6' => $kelasmapelid6, 'kelasmapelid7' => $kelasmapelid7, 'kelasmapelid8' => $kelasmapelid8, 'kelasmapelid9' => $kelasmapelid9, 'kelasmapelid10' => $kelasmapelid10, 'kelasmapelid11' => $kelasmapelid11, 'kelasmapelid12' => $kelasmapelid12]);
-
 
         // kelas 7A, senin
         kelas_mata_pelajaran::create([

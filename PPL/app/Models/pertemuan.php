@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+
 class pertemuan extends Model
 {
     use Notifiable;
@@ -14,16 +15,17 @@ class pertemuan extends Model
      *
      * @return void
      */
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
         static::creating(function ($model) {
-            if ( ! $model->getKey()) {
+            if (! $model->getKey()) {
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
     }
 
-     /**
+    /**
      * Get the value indicating whether the IDs are incrementing.
      *
      * @return bool
@@ -49,6 +51,7 @@ class pertemuan extends Model
      * @var array
      */
     protected $table = 'pertemuan';
+
     protected $primaryKey = 'id_pertemuan';
 
     protected $fillable = [
@@ -64,6 +67,7 @@ class pertemuan extends Model
     {
         return $this->belongsTo(kelas_mata_pelajaran::class, 'kelas_mata_pelajaran_id', 'id_kelas_mata_pelajaran');
     }
+
     public function absensisiswa()
     {
         return $this->hasMany(absensi_siswa::class, 'pertemuan_id', 'id_pertemuan');

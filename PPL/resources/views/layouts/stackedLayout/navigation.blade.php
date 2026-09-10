@@ -3,11 +3,11 @@
             class="fixed z-30 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 py-3 px-4">
             <div class="flex justify-between items-center max-w-screen-2xl mx-auto">
                 <div class="flex justify-start items-center">
-                    <a href="https://flowbite-admin-dashboard.vercel.app/" class="flex mr-14">
-                        <img src="https://flowbite-admin-dashboard.vercel.app/images/logo.svg" class="mr-3 h-8"
-                            alt="FlowBite Logo" />
+                    <a href="{{ route('beranda.home') }}" class="flex mr-14 items-center">
+                        <img src="{{ asset('images/logo.png') }}" class="mr-3 h-8 w-auto object-contain"
+                            alt="Logo SMPN 2 Kamal" />
                         <span
-                            class="self-center hidden sm:flex text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+                            class="self-center hidden sm:flex text-lg font-bold whitespace-nowrap text-slate-900 dark:text-white">SMPN 2 KAMAL</span>
                     </a>
 
                     <div class="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1">

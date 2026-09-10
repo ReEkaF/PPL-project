@@ -2,18 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-
 
 class InventarisEkstrakurikuler extends Model
 {
-
     use HasUuids, Notifiable;
 
     protected $table = 'inventaris_ekstrakurikuler';
-    
+
     protected $primaryKey = 'id_inventaris';
 
     public $incrementing = false;
@@ -36,7 +34,7 @@ class InventarisEkstrakurikuler extends Model
 
     /**
      * Relationship with HistoriInventaris
-    */
+     */
     public function historiInventaris()
     {
         return $this->hasMany(HistoriInventaris::class, 'id_inventaris', 'id_inventaris');

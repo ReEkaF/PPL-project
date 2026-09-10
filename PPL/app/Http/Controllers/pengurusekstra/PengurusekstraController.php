@@ -2,90 +2,53 @@
 
 namespace App\Http\Controllers\pengurusekstra;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Ekstrakurikuler;
-use App\Models\PengurusEkstra;
+use App\Http\Requests\Ekstrakurikuler\StorePostinganRequest;
+use App\Http\Requests\Ekstrakurikuler\UpdatePostinganRequest;
 use App\Models\PostingEkstrakurikuler;
+use App\Services\Ekstrakurikuler\EkstrakurikulerService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class PengurusekstraController extends Controller
 {
-    public function dashboard()
+    public function __construct(
+        protected EkstrakurikulerService $ekstraService
+    ) {}
+
+    public function dashboard(): View
     {
-        // Ambil data pengurus yang login
-        $pengurusEkstra = auth()->guard('web-siswa')->user()->id_siswa;
-    
-        try {
-            // Pastikan pengurus memiliki id_ekstrakurikuler
-            $ekstra = PengurusEkstra::with('ekstrakurikuler')->where('id_siswa',$pengurusEkstra)->first();
-            $id_ekstra = $ekstra->id_ekstrakurikuler;
-            // Ambil semua postingan terkait ekstrakurikuler
-            $postings = PostingEkstrakurikuler::with(['pengurus.siswa'])
-            ->where('id_ekstrakurikuler', $ekstra->id_ekstrakurikuler)
-                ->orderBy('tgl_uploud', 'desc')
-                ->get();
+        $siswaId = auth()->guard('web-siswa')->user()->id_siswa;
+        $data = $this->ekstraService->getPengurusDashboardData($siswaId);
 
-            $uplouders = $postings->map(function ($posting) {
-                return $posting->pengurus->siswa ?? null;
-            })->filter();
-
-            $rilStatus = Ekstrakurikuler::where('id_ekstrakurikuler', $ekstra->id_ekstrakurikuler)->firstOrFail()->status;
-        } catch (\Exception $e) {
-            $rilStatus = 'Tidak ada status';
-            $postings = [];
-            $id_ekstra = null;
-            $uplouders = [];
-        }
-
-        return view('pengurus_ekstra.dashboard', compact('postings', 'id_ekstra', 'uplouders', 'rilStatus', 'ekstra'));
+        return view('pengurus_ekstra.dashboard', $data);
     }
 
-    public function store(Request $request)
+    public function store(StorePostinganRequest $request): RedirectResponse
     {
-        // Validasi input
-        $validated = $request->validate([
-            'judul' => 'required|string|max:255',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'deskripsi' => 'required|string',
-        ]);
-        
-        // Ambil data pengurus yang login
-        $pengurus = auth()->guard('web-siswa')->user()->id_siswa;
-        $id_ekstra = PengurusEkstra::where('id_siswa',$pengurus)->first();
-        
-
-        // Validasi id_ekstrakurikuler
-        // if (!$id_ekstra) {
-        //     return redirect()->back()->with('error', 'Anda belum terkait dengan ekstrakurikuler tertentu.');
-        // }
-
-        // Upload gambar
-        $path = $request->file('gambar')->store('ekstrakurikuler', 'public');
-
-        // Simpan data ke tabel posting_ekstrakurikuler
-        PostingEkstrakurikuler::create([
-            'id_ekstrakurikuler' => $id_ekstra->id_ekstrakurikuler,
-            'id_pengurus' => $id_ekstra->id_pengurus_ekstra,
-            'judul' => $validated['judul'],
-            'deskripsi' => $validated['deskripsi'],
-            'gambar' => $path,
-        ]);
+        $siswaId = auth()->guard('web-siswa')->user()->id_siswa;
+        $this->ekstraService->storePostingan($siswaId, $request->validated(), $request->file('gambar'));
 
         return redirect()->back()->with('success', 'Postingan berhasil ditambahkan.');
     }
-    public function destroy($id)
+
+    public function destroy(string $id): RedirectResponse
     {
-        $posting = PostingEkstrakurikuler::findOrFail($id);
-        $posting->delete();
+        $this->ekstraService->deletePostingan($id);
 
         return redirect()->back()->with('success', 'Postingan berhasil dihapus.');
     }
-    public function edit($id)
+
+    public function edit(string $id): View
     {
         $posting = PostingEkstrakurikuler::findOrFail($id);
+
         return view('pengurus_ekstra.edit', compact('posting'));
     }
-    public function show($id)
+
+    public function show(string $id): JsonResponse
     {
         $posting = PostingEkstrakurikuler::findOrFail($id);
 
@@ -97,44 +60,21 @@ class PengurusekstraController extends Controller
             'tgl_uploud' => $posting->tgl_uploud,
         ]);
     }
-    public function update(Request $request, $id)
+
+    public function update(UpdatePostinganRequest $request, string $id): RedirectResponse
     {
-        $validated = $request->validate([
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-
-        $posting = PostingEkstrakurikuler::findOrFail($id);
-
-        // Update gambar jika ada
-        if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('ekstrakurikuler', 'public');
-            $posting->gambar = $path;
-        }
-
-        $posting->judul = $validated['judul'];
-        $posting->deskripsi = $validated['deskripsi'];
-        $posting->save();
+        $this->ekstraService->updatePostingan($id, $request->validated(), $request->file('gambar'));
 
         return redirect()->route('pengurus_ekstra.dashboard')->with('success', 'Postingan berhasil diperbarui.');
-        }
-
-    public function updateStatus(Request $request){
-        $pengurusEkstra = auth()->guard('web-siswa')->user()->id_siswa;
-        $status = $request->input('status');
-    
-        // Pastikan pengurus memiliki id_ekstrakurikuler
-        $ekstra = PengurusEkstra::with('ekstrakurikuler')->where('id_siswa',$pengurusEkstra)->first();
-        $id_ekstra = $ekstra->id_ekstrakurikuler;
-
-        // Pastikan pengurus memiliki id_ekstrakurikuler
-        $ekstra = Ekstrakurikuler::where('id_ekstrakurikuler',$id_ekstra)->first();
-
-        $ekstra->status = $status;
-        $ekstra->save();
-
-        return $this->dashboard();
     }
-    
+
+    public function updateStatus(Request $request): RedirectResponse
+    {
+        $siswaId = auth()->guard('web-siswa')->user()->id_siswa;
+        $status = $request->input('status', 'tutup');
+
+        $this->ekstraService->updateStatusEkstra($siswaId, $status);
+
+        return redirect()->route('pengurus_ekstra.dashboard')->with('success', 'Status pendaftaran ekstrakurikuler berhasil diperbarui.');
+    }
 }

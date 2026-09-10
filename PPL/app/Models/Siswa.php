@@ -2,22 +2,25 @@
 
 namespace App\Models;
 
-
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class Siswa extends Authenticatable
 {
-    use Notifiable, HasUuids, HasFactory;
+    use HasFactory, HasUuids, Notifiable;
+
     protected $primaryKey = 'id_siswa';
+
     public $incrementing = false;
+
     public $timestamps = true;
+
     protected $keyType = 'string';
 
-
     protected $table = 'siswa';
+
     protected $fillable = [
         'id_siswa',
         'kelas_id',
@@ -35,6 +38,7 @@ class Siswa extends Authenticatable
         'google_id',
         'google_token',
     ];
+
     public function pengurusEkstra()
     {
         return $this->hasMany(PengurusEkstra::class, 'id_siswa', 'id_siswa');
@@ -44,42 +48,52 @@ class Siswa extends Authenticatable
     {
         return $this->hasMany(Rapor::class);
     }
+
     public function absensisiswa()
     {
         return $this->hasMany(absensi_siswa::class, 'siswa_id', 'id_siswa');
     }
+
     public function notifikasisistem()
     {
         return $this->hasMany(notifikasi_sistem::class);
     }
+
     public function pengumpulantugas()
     {
         return $this->hasMany(pengumpulan_tugas::class, 'siswa_id', 'id_siswa');
     }
+
     public function pengumpulanujian()
     {
-        return $this->hasMany(pengumpulan_ujian::class );
+        return $this->hasMany(pengumpulan_ujian::class);
     }
+
     public function penilaianekstra()
     {
         return $this->hasMany(PenilaianEkstrakurikuler::class);
     }
+
     public function laporanekstra()
     {
         return $this->hasMany(LaporanPenilaianEkstrakurikuler::class);
     }
+
     public function prestasi()
     {
-        return $this->hasMany(prestasi::class );
+        return $this->hasMany(prestasi::class);
     }
+
     public function registrasiekstra()
     {
         return $this->hasMany(RegistrasiEkstrakurikuler::class);
     }
+
     public function kelassiswa()
     {
         return $this->hasMany(KelasSiswa::class, 'id_siswa', 'id_siswa');
     }
+
     public function kelas()
     {
         return $this->belongsToMany(Kelas::class, 'kelas_siswas', 'id_siswa', 'id_kelas');

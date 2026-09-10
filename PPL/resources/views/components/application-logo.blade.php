@@ -1,2 +1,1 @@
-<img src="{{ asset('images/SST-Logo.webp') }}" {{ $attributes }}
-alt="SST Logo" />
+<img src="{{ asset('images/logo.png') }}" {{ $attributes }} alt="Logo SMPN 2 Kamal" />

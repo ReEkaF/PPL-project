@@ -3,321 +3,252 @@
 namespace App\Http\Controllers\StaffAkademik;
 
 use App\Http\Controllers\Controller;
-use App\Models\Guru_mata_pelajaran;
-use App\Models\Mata_pelajaran;
+use App\Http\Requests\Akademik\StoreGuruMatpelRequest;
+use App\Http\Requests\Akademik\StoreKelasRequest;
+use App\Http\Requests\Akademik\StoreMataPelajaranRequest;
+use App\Http\Requests\Akademik\UpdateKelasRequest;
+use App\Http\Requests\Akademik\UpdateMataPelajaranRequest;
+use App\Models\Guru;
+use App\Models\guru_mata_pelajaran;
 use App\Models\kelas;
-use App\Models\Guru; // Pastikan ini sudah diimport sesuai nama model yang benar
-use App\Models\Siswa;
-use App\Models\tahun_ajaran;
+use App\Models\mata_pelajaran;
+use App\Services\Akademik\AkademikManagementService;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str; 
+use Illuminate\View\View;
 
 class KelasController extends Controller
 {
-    public function index(Request $request)
-{
-    // Logika untuk menampilkan daftar mata pelajaran
-    $search = $request->input('search');
-    $mataPelajaran = mata_pelajaran::when($search, function ($query, $search) {
-        return $query->where('nama_matpel', 'like', '%' . $search . '%');
-    })->paginate(5);
+    public function __construct(
+        protected AkademikManagementService $akademikService
+    ) {}
 
-    return view('staff_akademik.matpel.master_matpel', compact('mataPelajaran', 'search'));
-}
+    // ================= MATA PELAJARAN =================
 
-public function store(Request $request)
-{
-    $request->validate([
-        'nama_matpel' => 'required|string|max:255',
-        'deskripsi_matpel' => 'nullable|string',
-    ]);
-
-    mata_pelajaran::create($request->only('nama_matpel', 'deskripsi_matpel'));
-
-    return redirect()->route('staff_akademik.mata-pelajaran.index')->with('success', 'Mata pelajaran berhasil ditambahkan.');
-}
-
-public function edit($id)
-{
-    $mataPelajaran = mata_pelajaran::findOrFail($id);
-    return view('staff_akademik.matpel.edit_matpel', compact('mataPelajaran'));
-}
-
-public function update(Request $request, $id)
-{
-    $request->validate([
-        'nama_matpel' => 'required|string|max:255',
-        'deskripsi_matpel' => 'nullable|string',
-    ]);
-
-    $mataPelajaran = mata_pelajaran::findOrFail($id);
-    $mataPelajaran->update($request->only('nama_matpel', 'deskripsi_matpel'));
-
-    return redirect()->route('staff_akademik.mata-pelajaran.index')->with('update', 'Mata pelajaran berhasil diperbarui.');
-}
-
-public function destroy($id)
-{
-    try {
-        $mataPelajaran = mata_pelajaran::findOrFail($id);
-        $mataPelajaran->delete();
-        return redirect()->route('staff_akademik.mata-pelajaran.index')->with('success', 'Mata pelajaran berhasil dihapus.');
-    } catch (\Exception $e) {
-        return redirect()->route('staff_akademik.mata-pelajaran.index')->with('danger', 'Mata pelajaran tidak bisa dihapus karena sedang digunakan.');
-    }
-}
-
-
-    // CRUD Kelas
-    public function indexKelas(Request $request)
+    public function index(Request $request): View
     {
-        // Logika untuk menampilkan daftar kelas
         $search = $request->input('search');
-        $kelas = kelas::when($search, function ($query, $search) {
-            return $query->where('nama_kelas', 'like', '%' . $search . '%');
-        })->paginate(5);
+        $mataPelajaran = $this->akademikService->getPaginatedMataPelajaran($search, 10);
+
+        return view('staff_akademik.matpel.master_matpel', compact('mataPelajaran', 'search'));
+    }
+
+    public function store(StoreMataPelajaranRequest $request): RedirectResponse
+    {
+        $this->akademikService->createMataPelajaran($request->validated());
+
+        return redirect()->route('staff_akademik.mata-pelajaran.index')
+            ->with('success', 'Mata pelajaran berhasil ditambahkan.');
+    }
+
+    public function edit(string $id): View
+    {
+        $mataPelajaran = mata_pelajaran::findOrFail($id);
+
+        return view('staff_akademik.matpel.edit_matpel', compact('mataPelajaran'));
+    }
+
+    public function update(UpdateMataPelajaranRequest $request, string $id): RedirectResponse
+    {
+        $this->akademikService->updateMataPelajaran($id, $request->validated());
+
+        return redirect()->route('staff_akademik.mata-pelajaran.index')
+            ->with('update', 'Mata pelajaran berhasil diperbarui.');
+    }
+
+    public function destroy(string $id): RedirectResponse
+    {
+        try {
+            $this->akademikService->deleteMataPelajaran($id);
+
+            return redirect()->route('staff_akademik.mata-pelajaran.index')
+                ->with('success', 'Mata pelajaran berhasil dihapus.');
+        } catch (Exception $e) {
+            return redirect()->route('staff_akademik.mata-pelajaran.index')
+                ->with('danger', 'Mata pelajaran tidak bisa dihapus karena sedang digunakan.');
+        }
+    }
+
+    // ================= KELAS =================
+
+    public function indexKelas(Request $request): View
+    {
+        $search = $request->input('search');
+        $kelas = $this->akademikService->getPaginatedKelas($search, 10);
 
         return view('staff_akademik.matpel.master_kelas', compact('kelas', 'search'));
     }
 
-    public function storeKelas(Request $request)
-{
-    $request->validate([
-        'nama_kelas' => 'required|string|max:255',
-    ]);
-
-    kelas::create($request->only('nama_kelas'));
-
-    return redirect()->route('staff_akademik.kelas.index')->with('success', 'Kelas berhasil ditambahkan.');
-}
-
-    public function editKelas($id)
+    public function storeKelas(StoreKelasRequest $request): RedirectResponse
     {
-        $kelas = Kelas::findOrFail($id);
+        $this->akademikService->createKelas($request->validated());
+
+        return redirect()->route('staff_akademik.kelas.index')
+            ->with('success', 'Kelas berhasil ditambahkan.');
+    }
+
+    public function editKelas(string $id): View
+    {
+        $kelas = kelas::findOrFail($id);
+
         return view('staff_akademik.kelas.edit_kelas', compact('kelas'));
     }
 
-    public function updateKelas(Request $request, $id)
-{
-    $request->validate([
-        'nama_kelas' => 'required|string|max:255',
-    ]);
-
-    $kelas = kelas::findOrFail($id);
-    $kelas->update($request->only('nama_kelas'));
-
-    return redirect()->route('staff_akademik.kelas.index')->with('success', 'Kelas berhasil diperbarui.');
-}
-
-    public function destroyKelas($id)
+    public function updateKelas(UpdateKelasRequest $request, string $id): RedirectResponse
     {
-        $kelas = kelas::findOrFail($id);
-        $kelas->delete();
+        $this->akademikService->updateKelas($id, $request->validated());
 
-    return redirect()->route('staff_akademik.kelas.index')->with('danger', 'Kelas berhasil dihapus.');
+        return redirect()->route('staff_akademik.kelas.index')
+            ->with('success', 'Kelas berhasil diperbarui.');
     }
 
-
-     // Method untuk menampilkan daftar Guru Mata Pelajaran
-     public function indexGuruMataPelajaran(Request $request)
+    public function destroyKelas(string $id): RedirectResponse
     {
-        // Ambil semua data guru mata pelajaran dengan relasi
-        $query = guru_mata_pelajaran::with(['guru', 'mataPelajaran']);
-        
-        // Jika ada parameter pencarian, filter berdasarkan nama guru atau nama mata pelajaran
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
-            $query->whereHas('guru', function($q) use ($search) {
-                $q->where('nama_guru', 'like', '%' . $search . '%');
-            })->orWhereHas('mataPelajaran', function($q) use ($search) {
-                $q->where('nama_matpel', 'like', '%' . $search . '%');
-            });
+        $this->akademikService->deleteKelas($id);
+
+        return redirect()->route('staff_akademik.kelas.index')
+            ->with('danger', 'Kelas berhasil dihapus.');
     }
 
-    // Paginate hasil query
-    $guruMataPelajaran = $query->paginate(5);
-    $gurus = Guru::all(); 
-    $mataPelajaran = mata_pelajaran::all(); 
+    // ================= GURU MATA PELAJARAN =================
 
-    return view('staff_akademik.matpel.master_guru', compact('guruMataPelajaran', 'gurus', 'mataPelajaran'));
-}
-     
- 
-     // Method untuk menampilkan form tambah Guru Mata Pelajaran
-     public function createGuruMataPelajaran()
-     {
-         $gurus = Guru::all(); // Ambil semua data guru
-         $mataPelajaran = guru_mata_pelajaran::all(); // Ambil semua data mata pelajaran
-         return view('staff_akademik.guru_mata_pelajaran.create', compact('gurus', 'mataPelajaran'));
-     }
- 
-     // Method untuk menyimpan data Guru Mata Pelajaran
-     public function storeGuruMataPelajaran(Request $request)
-        {
-            $request->validate([
-                'guru_id' => 'required|exists:guru,id_guru',
-                'matpel_id' => 'required|exists:mata_pelajaran,id_matpel',
-            ]);
+    public function indexGuruMataPelajaran(Request $request): View
+    {
+        $search = $request->input('search');
+        $guruMataPelajaran = $this->akademikService->getPaginatedGuruMatpel($search, 10);
+        $gurus = Guru::all();
+        $mataPelajaran = mata_pelajaran::all();
 
-            guru_mata_pelajaran::create([
-                'guru_id' => $request->guru_id,
-                'matpel_id' => $request->matpel_id,
-            ]);
+        return view('staff_akademik.matpel.master_guru', compact('guruMataPelajaran', 'gurus', 'mataPelajaran'));
+    }
 
-            return redirect()->route('staff_akademik.guru_mata_pelajaran.index')
-                            ->with('success', 'Penugasan guru ke mata pelajaran berhasil ditambahkan.');
-        }
- 
-     // Method untuk menampilkan form edit Guru Mata Pelajaran
-     public function editGuruMataPelajaran($id)
-     {
-         $penugasan = guru_mata_pelajaran::findOrFail($id);
-         $gurus = Guru::all(); // Ambil semua data guru
-         $mataPelajaran = guru_mata_pelajaran::all(); // Ambil semua data mata pelajaran
- 
-         return view('staff_akademik.guru_mata_pelajaran.edit', compact('penugasan', 'gurus', 'mataPelajaran'));
-     }
- 
-     // Method untuk memperbarui data Guru Mata Pelajaran
-     public function updateGuruMataPelajaran(Request $request, $id)
-     {
-         $request->validate([
-             'guru_id' => 'required|exists:guru,id_guru',
-             'matpel_id' => 'required|exists:mata_pelajaran,id_matpel',
-         ]);
-     
-         $penugasan = guru_mata_pelajaran::findOrFail($id);
-         $penugasan->update([
-             'guru_id' => $request->guru_id,
-             'matpel_id' => $request->matpel_id,
-         ]);
-     
-         return redirect()->route('staff_akademik.guru_mata_pelajaran.index')
-                          ->with('update', 'Penugasan guru ke mata pelajaran berhasil diperbarui.');
-     }
-     
-     public function destroyGuruMataPelajaran($id)
-     {
-         $penugasan = guru_mata_pelajaran::findOrFail($id);
-         $penugasan->delete();
-     
-         return redirect()->route('staff_akademik.guru_mata_pelajaran.index')
-                          ->with('danger', 'Penugasan guru ke mata pelajaran berhasil dihapus.');
-     }
+    public function createGuruMataPelajaran(): View
+    {
+        $formData = $this->akademikService->getGuruMatpelFormData();
 
+        return view('staff_akademik.guru_mata_pelajaran.create', $formData);
+    }
 
-     //sidebar
-     public function showMasterGuru()
+    public function storeGuruMataPelajaran(StoreGuruMatpelRequest $request): RedirectResponse
+    {
+        $this->akademikService->assignGuruMatpel($request->validated('guru_id'), $request->validated('matpel_id'));
+
+        return redirect()->route('staff_akademik.guru_mata_pelajaran.index')
+            ->with('success', 'Penugasan guru ke mata pelajaran berhasil ditambahkan.');
+    }
+
+    public function editGuruMataPelajaran(string $id): View
+    {
+        $penugasan = guru_mata_pelajaran::findOrFail($id);
+        $formData = $this->akademikService->getGuruMatpelFormData();
+
+        return view('staff_akademik.guru_mata_pelajaran.edit', array_merge(['penugasan' => $penugasan], $formData));
+    }
+
+    public function updateGuruMataPelajaran(StoreGuruMatpelRequest $request, string $id): RedirectResponse
+    {
+        $this->akademikService->updateGuruMatpel($id, $request->validated('guru_id'), $request->validated('matpel_id'));
+
+        return redirect()->route('staff_akademik.guru_mata_pelajaran.index')
+            ->with('update', 'Penugasan guru ke mata pelajaran berhasil diperbarui.');
+    }
+
+    public function destroyGuruMataPelajaran(string $id): RedirectResponse
+    {
+        $this->akademikService->deleteGuruMatpel($id);
+
+        return redirect()->route('staff_akademik.guru_mata_pelajaran.index')
+            ->with('danger', 'Penugasan guru ke mata pelajaran berhasil dihapus.');
+    }
+
+    // Sidebar views
+    public function showMasterGuru(): View
     {
         return view('staff_akademik.matpel.master_guru');
     }
 
-    public function showMasterKelas()
+    public function showMasterKelas(): View
     {
         return view('staff_akademik.matpel.master_kelas');
     }
 
-    public function showMasterMatpel()
+    public function showMasterMatpel(): View
     {
         return view('staff_akademik.matpel.master_matpel');
     }
-    // Menampilkan semua kelas beserta siswa-siswanya
-    public function daftarkelas()
+
+    // ================= MANAGEMENT KELAS & SISWA =================
+
+    public function daftarkelas(): View
     {
-        $kelas = Kelas::withCount('siswa')->orderByRaw('CAST(SUBSTRING(nama_kelas, 7) AS SIGNED)')->get();
+        $kelas = $this->akademikService->getAllKelasWithStudentCount();
+
         return view('staff_akademik.managementkelas.index', compact('kelas'));
     }
-    // Menampilkan form untuk menambah siswa ke dalam kelas
-    public function showSiswa($id_kelas)
-    {
-        $kelas = Kelas::findOrFail($id_kelas);
-        $kelas = Kelas::with(['siswa', 'waliKelas'])->findOrFail($id_kelas);
 
+    public function showSiswa(string $id_kelas): View
+    {
+        $kelas = $this->akademikService->getKelasDetailWithStudents($id_kelas);
 
         return view('staff_akademik.managementkelas.siswa', compact('kelas'));
-        
     }
-    
-    public function tambahSiswa($id_kelas)
-    {
-        $kelas = kelas::findOrFail($id_kelas);
-        $siswa = Siswa::whereDoesntHave('kelas')->get();
-        return view('staff_akademik.managementkelas.tambah_siswa', compact('kelas', 'siswa'));
-    }
-    
-    public function simpanSiswa(Request $request, $id_kelas)
-    {
-        $kelas = kelas::findOrFail($id_kelas);
 
-        // Debugging output
-        if (empty($request->siswa_ids)) {
+    public function tambahSiswa(string $id_kelas): View
+    {
+        $data = $this->akademikService->getTambahSiswaData($id_kelas);
+
+        return view('staff_akademik.managementkelas.tambah_siswa', $data);
+    }
+
+    public function simpanSiswa(Request $request, string $id_kelas): RedirectResponse
+    {
+        $siswaIds = $request->input('siswa_ids');
+        if (empty($siswaIds)) {
             return redirect()->back()->with('error', 'Tidak ada siswa yang dipilih.');
         }
-        // Ambil id_tahun_ajaran yang aktif
-        $tahunAjaranAktif = tahun_ajaran::where('aktif', 1)->pluck('id_tahun_ajaran')->first();
 
-        // Looping untuk setiap siswa yang dipilih, lalu simpan ke kelas_siswas dengan attach data tambahan
-        foreach ($request->siswa_ids as $siswa_id) {
-            
-            $kelas->siswa()->attach($siswa_id, [
-                'id_kelas_siswa' => Str::uuid(),
-                'tahun_ajaran' => $tahunAjaranAktif,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+        try {
+            $this->akademikService->addStudentsToKelas($id_kelas, $siswaIds);
+
+            return redirect()->route('kelas.siswa', $id_kelas)
+                ->with('success', 'Siswa berhasil ditambahkan ke kelas.');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-        
-        
-
-        return redirect()->route('kelas.siswa', $id_kelas)
-                        ->with('success', 'Siswa berhasil ditambahkan ke kelas.');
     }
-    public function hapusSiswa($id_kelas, $id_siswa)
-    {
-        dd($id_siswa);
-        
-        $kelas = Kelas::findOrFail($id_kelas);
-        
-        // Hapus siswa dari kelas menggunakan detach
-        $kelas->siswa()->detach($id_siswa);
 
-        // Redirect kembali dengan pesan sukses
+    public function hapusSiswa(string $id_kelas, string $id_siswa): RedirectResponse
+    {
+        $this->akademikService->removeStudentFromKelas($id_kelas, $id_siswa);
+
         return redirect()->back()->with('success', 'Siswa berhasil dihapus dari kelas.');
-
     }
-    public function hapusSiswaMassal(Request $request, $id_kelas)
-    {
-        $kelas = kelas::findOrFail($id_kelas);
 
-        // Validasi input siswa_ids yang terpilih
-        $siswa_ids = $request->input('siswa_ids');
-        if ($siswa_ids) {
-            // Hapus siswa yang dipilih dari kelas
-            $kelas->siswa()->detach($siswa_ids);
+    public function hapusSiswaMassal(Request $request, string $id_kelas): RedirectResponse
+    {
+        $siswaIds = $request->input('siswa_ids');
+        if (! empty($siswaIds)) {
+            $this->akademikService->removeStudentsMassalFromKelas($id_kelas, $siswaIds);
         }
 
         return redirect()->route('kelas.siswa', $id_kelas)
-                        ->with('success', 'Siswa yang dipilih berhasil dihapus dari kelas.');
+            ->with('success', 'Siswa yang dipilih berhasil dihapus dari kelas.');
     }
-    public function editWaliKelas($id_kelas)
+
+    public function editWaliKelas(string $id_kelas): View
     {
-        $kelas = Kelas::findOrFail($id_kelas);
-        $gurus = Guru::whereDoesntHave('kelasSiswas')->get();
-        return view('staff_akademik.managementkelas.edit_wali_kelas', compact('kelas', 'gurus'));
+        $data = $this->akademikService->getEditWaliKelasData($id_kelas);
+
+        return view('staff_akademik.managementkelas.edit_wali_kelas', $data);
     }
-    public function updateWaliKelas(Request $request, $id_kelas)
+
+    public function updateWaliKelas(Request $request, string $id_kelas): RedirectResponse
     {
-        
-        $wali_kelas_id = $request->wali_kelas;
+        $waliKelasId = $request->input('wali_kelas');
+        $this->akademikService->updateWaliKelas($id_kelas, $waliKelasId);
 
-        // Update semua siswa dalam kelas yang sama
-        DB::table('kelas_siswas')
-            ->where('id_kelas', $id_kelas)
-            ->update(['wali_kelas' => $wali_kelas_id]);
-
-        return redirect()->route("kelas.siswa",$id_kelas)->with('success', 'Wali Kelas Berhasil Diperbarui Untuk Seluruh Siswa Di Kelas Ini');
+        return redirect()->route('kelas.siswa', $id_kelas)
+            ->with('success', 'Wali Kelas Berhasil Diperbarui Untuk Seluruh Siswa Di Kelas Ini');
     }
-
 }
-

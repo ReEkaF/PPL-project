@@ -3,12 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\kelas_mata_pelajaran;
-use Illuminate\Database\Seeder;
-use App\Models\Topik;
 use App\Models\Materi;
-use App\Models\Tugas;
 use App\Models\notifikasi_sistem;
+use App\Models\Topik;
+use App\Models\Tugas;
 use Faker\Factory as Faker;
+use Illuminate\Database\Seeder;
 
 class TopikTugasMateriSeeder extends Seeder
 {

@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
 class buku extends Model
 {
     public $timestamps = false;
+
     protected $primaryKey = 'id_buku';
 
     /**
@@ -67,8 +67,9 @@ class buku extends Model
         'rak_buku',
         'harga_buku',
         'tgl_ditambahkan',
-        'harga_buku'
+        'harga_buku',
     ];
+
     public function kategoriBuku()
     {
         return $this->belongsTo(kategori_buku::class, 'id_kategori_buku', 'id_kategori_buku');
@@ -79,12 +80,11 @@ class buku extends Model
     {
         return $this->belongsTo(jenis_buku::class, 'id_jenis_buku', 'id_jenis_buku');
     }
+
     public function peminjaman()
     {
-        return $this->hasMany(transaksi_peminjaman::class,  'id_buku', 'id_buku');
+        return $this->hasMany(transaksi_peminjaman::class, 'id_buku', 'id_buku');
     }
-
-
 
     public function kategori_buku()
     {

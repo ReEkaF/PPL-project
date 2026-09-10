@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class KelolaStaffPeprusRequest extends FormRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -17,20 +16,19 @@ class KelolaStaffPeprusRequest extends FormRequest
         if (request('id_staff_perpustakaan')) {
             return [
                 'username' => 'required|string|max:255',
-                'nama_staff_perpustakaan'=> 'required|string|max:255',
-                'alamat_staff_perpustakaan'=> 'required|string|max:255',
-                'wa_staff_perpustakaan'=> 'required|regex:/^\+62\d{8,15}$/',
-                'email' => 'required|email|max:255|unique:guru,email|unique:siswa,email|unique:staffakademik,email|unique:staffperpus,email' 
+                'nama_staff_perpustakaan' => 'required|string|max:255',
+                'alamat_staff_perpustakaan' => 'required|string|max:255',
+                'wa_staff_perpustakaan' => 'required|regex:/^\+62\d{8,15}$/',
+                'email' => 'required|email|max:255|unique:guru,email|unique:siswa,email|unique:staffakademik,email|unique:staffperpus,email',
             ];
-        }
-        else{
+        } else {
             return [
                 'username' => 'required|string|max:255',
                 'password' => 'required|string|min:8',
-                'nama_staff_perpustakaan'=> 'required|string|max:255',
-                'alamat_staff_perpustakaan'=> 'required|string|max:255',
-                'wa_staff_perpustakaan'=> 'required|regex:/^\+62\d{8,15}$/',
-                'email' => 'required|email|max:255|unique:guru,email|unique:siswa,email|unique:staffakademik,email|unique:staffperpus,email' 
+                'nama_staff_perpustakaan' => 'required|string|max:255',
+                'alamat_staff_perpustakaan' => 'required|string|max:255',
+                'wa_staff_perpustakaan' => 'required|regex:/^\+62\d{8,15}$/',
+                'email' => 'required|email|max:255|unique:guru,email|unique:siswa,email|unique:staffakademik,email|unique:staffperpus,email',
             ];
         }
 

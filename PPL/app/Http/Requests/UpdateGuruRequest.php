@@ -7,30 +7,26 @@ use Illuminate\Foundation\Http\FormRequest;
 class UpdateGuruRequest extends FormRequest
 {
     /**
-     * 
-     *
-     * @return array<string, 
+     * @return array<string,
      */
     public function rules()
     {
-        $id_guru = $this->route('id_guru'); 
+        $id_guru = $this->route('id_guru');
 
         return [
-            'username' => 'required|string|min:8|max:50|unique:guru,username,' . $id_guru . ',id_guru',
-            'password' => 'nullable|string|min:8', 
+            'username' => 'required|string|min:8|max:50|unique:guru,username,'.$id_guru.',id_guru',
+            'password' => 'nullable|string|min:8',
             'nama_guru' => 'required|string|max:125',
-            'nip' => 'required|string|max:20|unique:guru,nip,' . $id_guru . ',id_guru',
+            'nip' => 'required|string|max:20|unique:guru,nip,'.$id_guru.',id_guru',
             'alamat_guru' => 'required|string|max:255',
             'role_guru' => 'required|in:guru,pembina,wali_kelas',
-            'foto_guru' => 'nullable|image|max:25000', 
+            'foto_guru' => 'nullable|image|max:25000',
             'nomor_wa_guru' => 'required|digits_between:12,13',
-            'email' => 'required|email|max:255|unique:guru,email,' . $id_guru . ',id_guru',
+            'email' => 'required|email|max:255|unique:guru,email,'.$id_guru.',id_guru',
         ];
     }
 
     /**
-     * 
-     *
      * @return array
      */
     public function messages()

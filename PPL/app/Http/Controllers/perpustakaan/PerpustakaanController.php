@@ -2,106 +2,73 @@
 
 namespace App\Http\Controllers\perpustakaan;
 
-use App\Models\buku;
-use App\Models\kategori_buku;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
-use function PHPUnit\Framework\isEmpty;
+use App\Services\Perpustakaan\PerpustakaanCatalogService;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class PerpustakaanController extends Controller
 {
-    public function indexGuru(Request $request)
+    protected PerpustakaanCatalogService $catalogService;
+
+    public function __construct(PerpustakaanCatalogService $catalogService)
     {
-        // Ambil data search dan kategori dari query string
-        $search = $request->input('search');
-        $kategori_buku = $request->input('kategori_buku');
-
-        // Query dasar untuk mendapatkan semua buku
-        $query = buku::query();
-
-        // Filter berdasarkan pencarian (jika ada)
-        if (!empty($search)) {
-            $query->where('judul_buku', 'LIKE', '%' . $search . '%');
-        }
-
-        // Filter berdasarkan kategori (jika ada)
-        if (!empty($kategori_buku)) {
-            $query->where('id_kategori_buku', '=', $kategori_buku);
-        }
-
-        // Dapatkan hasil dengan simple paginasi
-        $pages = $query->paginate(12);
-
-        // Kirim data buku ke view perpustakaan.index
-        // Append the search and kategori_buku filters to the pagination links
-        $pages->appends(['search' => $search, 'kategori_buku' => $kategori_buku]);
-
-        // Dapatkan daftar kategori buku
-        $categories = kategori_buku::all();
-
-        // Kirim data ke view
-        return view('guru.perpustakaan.index', compact('pages', 'categories', 'search', 'kategori_buku'));
+        $this->catalogService = $catalogService;
     }
 
-    public function showGuru($id)
+    public function indexGuru(Request $request): View
     {
-        $buku = buku::findOrFail($id);
-        $kategori = $buku->kategori_buku;
-        return view('guru.perpustakaan.detail', compact('buku', 'kategori'));
+        $data = $this->catalogService->getCatalogPageData(
+            $request->input('search'),
+            $request->input('kategori_buku'),
+            12
+        );
+
+        $data['pages']->appends([
+            'search' => $data['search'],
+            'kategori_buku' => $data['kategori_buku'],
+        ]);
+
+        return view('guru.perpustakaan.index', $data);
     }
 
-
-
-
-
-    public function indexSiswa(Request $request)
+    public function showGuru(string $id): View
     {
-        // Ambil data search dan kategori dari query string
-        $search = $request->input('search');
-        $kategori_buku = $request->input('kategori_buku');
+        $data = $this->catalogService->getBookDetail($id);
 
-        // Query dasar untuk mendapatkan semua buku
-        $query = buku::query();
-
-        // Filter berdasarkan pencarian (jika ada)
-        if (!empty($search)) {  // Use empty() instead of isEmpty()
-            $query->where('judul_buku', 'LIKE', '%' . $search . '%');
-        }
-
-        // Filter berdasarkan kategori (jika ada)
-        if (!empty($kategori_buku)) {
-            $query->where('id_kategori_buku', '=', $kategori_buku);
-        }
-
-        // Dapatkan hasil dengan simple paginasi
-        $pages = $query->paginate(12);
-
-        // Kirim data buku ke view perpustakaan.index
-        // Append the search and kategori_buku filters to the pagination links
-        $pages->appends(['search' => $search, 'kategori_buku' => $kategori_buku]);
-
-        // Dapatkan daftar kategori buku
-        $categories = kategori_buku::all();
-
-        // Kirim data buku ke view perpustakaan.index
-        return view('siswa.perpustakaan.index', compact('pages', 'categories', 'search', 'kategori_buku'));
+        return view('guru.perpustakaan.detail', $data);
     }
 
-    public function showSiswa($id)
-    {
-        $buku = buku::findOrFail($id);
-        $kategori = $buku->kategori_buku;
-        return view('siswa.perpustakaan.detail', compact('buku', 'kategori'));
-    }
-
-    public function showRulesSiswa()
-    {
-        return view('siswa.perpustakaan.rules');
-    }
-
-    public function showRulesGuru()
+    public function showRulesGuru(): View
     {
         return view('guru.perpustakaan.rules');
+    }
+
+    public function indexSiswa(Request $request): View
+    {
+        $data = $this->catalogService->getCatalogPageData(
+            $request->input('search'),
+            $request->input('kategori_buku'),
+            12
+        );
+
+        $data['pages']->appends([
+            'search' => $data['search'],
+            'kategori_buku' => $data['kategori_buku'],
+        ]);
+
+        return view('siswa.perpustakaan.index', $data);
+    }
+
+    public function showSiswa(string $id): View
+    {
+        $data = $this->catalogService->getBookDetail($id);
+
+        return view('siswa.perpustakaan.detail', $data);
+    }
+
+    public function showRulesSiswa(): View
+    {
+        return view('siswa.perpustakaan.rules');
     }
 }

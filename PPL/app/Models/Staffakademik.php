@@ -4,30 +4,30 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Testing\Fluent\Concerns\Has;
 
 class Staffakademik extends Authenticatable
 {
+    use HasFactory, Notifiable;
 
-    use Notifiable, HasFactory;
     /**
      * The "booting" function of model
      *
      * @return void
      */
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot(); // Pastikan memanggil parent::boot()
         static::creating(function ($model) {
-            if ( ! $model->getKey()) {
+            if (! $model->getKey()) {
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
     }
 
-     /**
+    /**
      * Get the value indicating whether the IDs are incrementing.
      *
      * @return bool
@@ -50,22 +50,24 @@ class Staffakademik extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *P
+     *
      * @var array
      */
     public $timestamps = false;
+
     protected $primaryKey = 'id_staff_akademik';
 
     protected $table = 'staffakademik';
+
     protected $fillable = [
         'id_staff_akademik',
         'username',
         'password',
         'email',
-        'nama_staff_akademik', 
-        'wa_staff_akademik', 
-        'alamat_staff_akademik', 
+        'nama_staff_akademik',
+        'wa_staff_akademik',
+        'alamat_staff_akademik',
         'google_id',
         'google_token',
     ];
-    
 }

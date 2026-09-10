@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests\Auth;
 
-use Illuminate\Support\Str;
 use Illuminate\Auth\Events\Lockout;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
@@ -29,22 +29,13 @@ class LoginRequest extends FormRequest
     {
         return [
             'username' => [
-                // 'required',
-                // 'digits:12', // hanya menerima huruf dan angka
+                'required',
             ],
             'password' => [
                 'required',
-                // 'string',
-                // 'min:8',      // minimal 8 karakter
-                // 'max:20',    // maksimal 255 karakter
-                // 'regex:/[a-z]/',    // harus memiliki setidaknya satu huruf kecil
-                // 'regex:/[A-Z]/',    // harus memiliki setidaknya satu huruf besar
-                // 'regex:/[0-9]/',    // harus memiliki setidaknya satu angka
             ],
         ];
-
     }
-
 
     /**
      * Get the custom messages for validator errors.
@@ -64,7 +55,6 @@ class LoginRequest extends FormRequest
             // 'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, dan angka.',
         ];
     }
-
 
     /**
      * Attempt to authenticate the request's credentials.

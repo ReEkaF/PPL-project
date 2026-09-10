@@ -2,96 +2,77 @@
 
 namespace App\Http\Controllers\staffperpus;
 
-use App\Models\buku;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Models\kategori_buku;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
-
-
+use App\Repositories\Contracts\Perpustakaan\KategoriBukuRepositoryInterface;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
-    protected $staff_account;
+    protected KategoriBukuRepositoryInterface $kategoriRepo;
 
-    public function __construct()
+    public function __construct(KategoriBukuRepositoryInterface $kategoriRepo)
     {
-        if (!session()->has('bio') || session('bio') === null) {
-            $this->staff_account = DB::table('staffperpus')
-                ->select('username', 'nama_staff_perpustakaan', 'email')
-                ->where('username', '=', session('username'))
-                ->first();
+        $this->kategoriRepo = $kategoriRepo;
+    }
 
-            session(['bio' => $this->staff_account]);
-        }
-    }
-    public function manageCategory()
+    public function manageCategory(): View
     {
-        $Category = DB::table('kategori_buku')
-            // ->orderBy('nama_kategori')
-            ->get();
-        // ->paginate(7);
-        return view('staff_perpus.kategori_buku', ['arrayCategory' => $Category]);
+        $arrayCategory = $this->kategoriRepo->all();
+
+        return view('staff_perpus.kategori_buku', compact('arrayCategory'));
     }
-    public function addCategory(Request $request)
+
+    public function addCategory(Request $request): RedirectResponse
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'name' => 'required|string|max:255|unique:kategori_buku,nama_kategori',
         ], [
-            'name.required' => 'Please input the name.',
-            'name.max' => 'The maximum length for name is 255 characters.',
-            'name.unique' => 'The name must be unique.',
+            'name.required' => 'Nama kategori wajib diisi.',
+            'name.max' => 'Nama kategori maksimal 255 karakter.',
+            'name.unique' => 'Nama kategori sudah terdaftar.',
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->route('staff_perpus.managecategories')
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        kategori_buku::create([
-            'id_kategori_buku' => Str::uuid(),
+        $this->kategoriRepo->create([
+            'id_kategori_buku' => (string) Str::uuid(),
             'nama_kategori' => $request->input('name'),
         ]);
 
         return redirect()->route('staff_perpus.managecategories')
-            ->with('success', 'Category added successfully!');
+            ->with('success', 'Kategori berhasil ditambahkan!');
     }
 
-    public function deleteCategory(Request $request)
+    public function deleteCategory(Request $request): RedirectResponse
     {
-        $categories = $request->input();
-        $categories = explode(',', $categories['selected_categories']);
-        foreach ($categories as $category) {
-            $categoriesDeleted = DB::table('kategori_buku')->where('id_kategori_buku', '=', $category)->delete();
+        $selected = $request->input('selected_categories');
+        if (empty($selected)) {
+            return redirect()->route('staff_perpus.managecategories')->with('failed', 'Pilih kategori yang akan dihapus!');
         }
-        if ($categoriesDeleted) {
-            return redirect()->route('staff_perpus.managecategories')->with('success', 'Categories Deleted Successfully!');
-        } else {
-            return redirect()->route('staff_perpus.managecategories')->with('failed', 'Cannot Delete Categories!');
+
+        $ids = explode(',', $selected);
+        foreach ($ids as $id) {
+            $this->kategoriRepo->delete(trim($id));
         }
+
+        return redirect()->route('staff_perpus.managecategories')->with('success', 'Kategori terpilih berhasil dihapus!');
     }
-    public function updateCategory(Request $request)
+
+    public function updateCategory(Request $request): RedirectResponse
     {
-        // Validate input
-        $valid = $request->validate([
+        $request->validate([
             'name' => 'required|string|max:255|unique:kategori_buku,nama_kategori',
+            'target' => 'required|exists:kategori_buku,id_kategori_buku',
+        ], [
+            'name.required' => 'Nama kategori wajib diisi.',
+            'name.unique' => 'Nama kategori sudah digunakan.',
         ]);
 
-        // Find the category to update
-        $category = kategori_buku::find($request->input('target'));
-        if ($category) {
-            // Update the category name
-            $category->nama_kategori = $request->input('name');
-            $category->save();
+        $this->kategoriRepo->update($request->input('target'), [
+            'nama_kategori' => $request->input('name'),
+        ]);
 
-            // Redirect with success message
-            return redirect()->route('staff_perpus.managecategories')->with('success', 'Category updated successfully!');
-        }
-
-        // If category not found, return an error message
-        return redirect()->route('staff_perpus.managecategories')->with('failed', 'Category update failed!');
+        return redirect()->route('staff_perpus.managecategories')->with('success', 'Kategori berhasil diperbarui!');
     }
 }

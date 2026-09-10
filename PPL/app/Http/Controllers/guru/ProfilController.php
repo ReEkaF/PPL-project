@@ -1,11 +1,11 @@
 <?php
+
 namespace App\Http\Controllers\Guru;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateProfilGuruRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ProfilController extends Controller
 {
@@ -18,7 +18,7 @@ class ProfilController extends Controller
         $guru = Auth::guard('web-guru')->user();
 
         // Pastikan pengguna login
-        if (!$guru) {
+        if (! $guru) {
             return redirect()->route('login')->withErrors(['username' => 'Sesi Anda telah berakhir. Silakan login kembali.']);
         }
 
@@ -34,13 +34,13 @@ class ProfilController extends Controller
         $guru = Auth::guard('web-guru')->user();
 
         // Pastikan pengguna login
-        if (!$guru) {
+        if (! $guru) {
             return redirect()->route('login')->withErrors(['username' => 'Sesi Anda telah berakhir. Silakan login kembali.']);
         }
 
         // Periksa password lama jika diisi
         if ($request->filled('current_password')) {
-            if (!Hash::check($request->current_password, $guru->password)) {
+            if (! Hash::check($request->current_password, $guru->password)) {
                 return back()->withErrors(['current_password' => 'Password lama tidak sesuai']);
             }
         }

@@ -51,8 +51,6 @@ class transaksi_peminjaman extends Model
      *
      * @var array
      */
-
-
     protected $table = 'transaksi_peminjaman';
 
     protected $fillable = [
@@ -67,13 +65,16 @@ class transaksi_peminjaman extends Model
         'status_denda',
         'stok',
     ];
+
     public $timestamps = false;
+
     protected $primaryKey = 'id_transaksi_peminjaman';
-    
+
     public function buku()
     {
         return $this->belongsTo(Buku::class, 'id_buku', 'id_buku');
     }
+
     public function isOverdue()
     {
         return Carbon::parse($this->tgl_pengembalian)->isPast();

@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Str;
 
 class Staffperpus extends Authenticatable
 {
     public $timestamps = false;
+
     protected $primaryKey = 'id_staff_perpustakaan';
 
     /**
@@ -52,8 +52,8 @@ class Staffperpus extends Authenticatable
      *
      * @var array
      */
-
     protected $table = 'staffperpus';
+
     protected $fillable = [
         'id_staff_perpustakaan',
         'username',

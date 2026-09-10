@@ -3,9 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\transaksi_peminjaman;
-use Illuminate\Console\Command;
 use Carbon\Carbon;
-use Ramsey\Uuid\Type\Integer;
+use Illuminate\Console\Command;
 
 class CalculateDenda extends Command
 {
@@ -45,7 +44,7 @@ class CalculateDenda extends Command
                 $peminjaman->update(['denda' => $denda]);
             }
 
-            $this->info("Denda Keterlambatan Pengembalian Buku Telah Diupdate !!");
+            $this->info('Denda Keterlambatan Pengembalian Buku Telah Diupdate !!');
         }
     }
 }

@@ -7,9 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class StoreGuruRequest extends FormRequest
 {
     /**
-     *
-     *
-     * @return array<string, 
+     * @return array<string,
      */
     public function rules()
     {
@@ -27,8 +25,6 @@ class StoreGuruRequest extends FormRequest
     }
 
     /**
-     * 
-     *
      * @return array
      */
     public function messages()

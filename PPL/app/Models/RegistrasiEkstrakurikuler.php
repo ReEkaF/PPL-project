@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
+
 class RegistrasiEkstrakurikuler extends Model
 {
     use HasUuids,Notifiable;
-
 
     protected $primaryKey = 'id_registrasi';
 
@@ -24,39 +23,37 @@ class RegistrasiEkstrakurikuler extends Model
      *
      * @var array
      */
+    protected $table = 'registrasi_ekstrakurikuler';
 
+    protected $fillable = [
+        'id_registrasi',
+        'id_siswa',
+        'id_ekstrakurikuler',
+        'riwayat_penyakit',
+        'alasan',
+        'no_ortu',
+        'status',
+        'tgl_registrasi',
+    ];
 
-     protected $table = 'registrasi_ekstrakurikuler';
+    /**
+     * Relationship with Siswa
+     */
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class, 'id_siswa', 'id_siswa');
+    }
 
-     protected $fillable = [
-         'id_registrasi',
-         'id_siswa',
-         'id_ekstrakurikuler',
-         'riwayat_penyakit',
-         'alasan',
-         'no_ortu',
-         'status',
-         'tgl_registrasi',
-     ];
+    /**
+     * Relationship with Ekstrakurikuler
+     */
+    public function ekstrakurikuler()
+    {
+        return $this->belongsTo(Ekstrakurikuler::class, 'id_ekstrakurikuler', 'id_ekstrakurikuler');
+    }
 
-     /**
-      * Relationship with Siswa
-      */
-     public function siswa()
-     {
-         return $this->belongsTo(Siswa::class, 'id_siswa', 'id_siswa');
-     }
-
-     /**
-      * Relationship with Ekstrakurikuler
-      */
-     public function ekstrakurikuler()
-     {
-         return $this->belongsTo(Ekstrakurikuler::class, 'id_ekstrakurikuler', 'id_ekstrakurikuler');
-     }
-     public function berkas()
-     {
-         return $this->hasMany(Berkas::class);
-     }
-
+    public function berkas()
+    {
+        return $this->hasMany(Berkas::class);
+    }
 }

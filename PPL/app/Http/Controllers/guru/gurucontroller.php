@@ -4,7 +4,6 @@ namespace App\Http\Controllers\guru;
 
 use App\Http\Controllers\Controller;
 use App\Models\kelas_mata_pelajaran;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class GuruController extends Controller
@@ -15,12 +14,13 @@ class GuruController extends Controller
         // dd($currentGuard);
         return view('guru.dashboard');
     }
+
     public function daftarSiswaWali()
     {
         // Mendapatkan data guru yang sedang login
         $guru = Auth::guard('web-guru')->user();
 
-       // Mendapatkan semua kelas yang diwalikan
+        // Mendapatkan semua kelas yang diwalikan
         $kelasList = $guru->kelas;
 
         // Mendapatkan semua siswa di kelas yang diwalikan
@@ -28,6 +28,7 @@ class GuruController extends Controller
 
         return view('guru.kelas.daftar_siswa_wali', compact('guru', 'kelasList', 'siswaList'));
     }
+
     public function daftarKelasDanJadwal()
     {
         $guru = Auth::guard('web-guru')->user();

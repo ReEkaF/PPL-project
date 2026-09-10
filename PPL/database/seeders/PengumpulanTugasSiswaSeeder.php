@@ -6,7 +6,6 @@ use App\Models\kelas_mata_pelajaran;
 use App\Models\KelasSiswa;
 use App\Models\pengumpulan_tugas;
 use App\Models\tugas;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class PengumpulanTugasSiswaSeeder extends Seeder

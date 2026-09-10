@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Str;
 
 class NilaiEkstraSeeder extends Seeder
 {
@@ -14,24 +13,42 @@ class NilaiEkstraSeeder extends Seeder
      */
     public function run(): void
     {
-        // Mengambil semua rapor
         $raporList = DB::table('rapor')->get();
+        $ekskulList = DB::table('ekstrakurikuler')->get();
 
-        // Untuk setiap rapor, pilih 3 ekstrakurikuler secara acak dan masukkan nilai
+        if ($ekskulList->isEmpty()) {
+            return;
+        }
+
+        $grades = ['A', 'A-', 'B+', 'A', 'A'];
+        $notes = [
+            'Sangat aktif, berdedikasi tinggi, dan menunjukkan jiwa kepemimpinan dalam kegiatan.',
+            'Disiplin dalam menghadiri latihan rutin dan mampu bekerja sama dengan baik dalam tim.',
+            'Menunjukkan bakat dan kemauan berkembang yang tinggi dalam setiap kegiatan ekstrakurikuler.',
+            'Partisipasi sangat memuaskan, konsisten, dan berinisiatif tinggi membantu rekan regu.',
+        ];
+
         foreach ($raporList as $rapor) {
-            // Ambil 3 ekstrakurikuler acak
-            $ekstrakurikulerList = DB::table('ekstrakurikuler')->inRandomOrder()->limit(2)->get();
+            $takeCount = min(2, $ekskulList->count());
+            $selected = $ekskulList->random($takeCount);
 
-            foreach ($ekstrakurikulerList as $ekstrakurikuler) {
-                DB::table('nilai_ekstra')->insert([
-                    'id_nilai_ekstra' => Str::uuid(),
-                    'ekstrakurikuler_id' => $ekstrakurikuler->id_ekstrakurikuler,
-                    'rapor_id' => $rapor->id_rapor,
-                    'nilai_rata_rata_ekstra' => rand(50, 100), // Nilai rata-rata antara 50 dan 100
-                    'pesan' => 'Terus tingkatkan partisipasi dan kinerja!',
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
+            foreach ($selected as $ekstra) {
+                $exists = DB::table('nilai_ekstra')
+                    ->where('rapor_id', $rapor->id_rapor)
+                    ->where('ekstrakurikuler_id', $ekstra->id_ekstrakurikuler)
+                    ->exists();
+
+                if (!$exists) {
+                    DB::table('nilai_ekstra')->insert([
+                        'id_nilai_ekstra' => (string) Str::uuid(),
+                        'ekstrakurikuler_id' => $ekstra->id_ekstrakurikuler,
+                        'rapor_id' => $rapor->id_rapor,
+                        'nilai_rata_rata_ekstra' => $grades[array_rand($grades)],
+                        'pesan' => $notes[array_rand($notes)],
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
             }
         }
     }
