@@ -5,8 +5,13 @@
 @tailwind utilities;
 
 @layer base {
+  [x-cloak] {
+    display: none !important;
+  }
+
   body {
     @apply text-slate-800 bg-slate-50 antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 }
+

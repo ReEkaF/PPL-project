@@ -29,20 +29,12 @@ class LoginRequest extends FormRequest
     {
         return [
             'username' => [
-                // 'required',
-                // 'digits:12', // hanya menerima huruf dan angka
+                'required',
             ],
             'password' => [
                 'required',
-                // 'string',
-                // 'min:8',      // minimal 8 karakter
-                // 'max:20',    // maksimal 255 karakter
-                // 'regex:/[a-z]/',    // harus memiliki setidaknya satu huruf kecil
-                // 'regex:/[A-Z]/',    // harus memiliki setidaknya satu huruf besar
-                // 'regex:/[0-9]/',    // harus memiliki setidaknya satu angka
             ],
         ];
-
     }
 
     /**
