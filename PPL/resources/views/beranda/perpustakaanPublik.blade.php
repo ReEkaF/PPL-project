@@ -1,81 +1,124 @@
 <x-guest-layout>
-    <section class="relative h-96 flex items-center justify-center text-center bg-cover bg-center" style="background-image: url({{ asset('images/beranda/perpustakaan/buku.jpg') }});">
-        <div class="absolute inset-0 bg-black opacity-70"></div>
-        <div class="relative z-10 text-white">
-            <h1 class="text-4xl sm:text-5xl font-bold">Selamat Datang Di</h1>
-            <h2 class="text-4xl sm:text-6xl font-bold mt-2 text-blue-400">Perpustakaan SMPN 2 Kamal</h2>
-            <p class="text-lg mt-4 max-w-3xl mx-auto">Temukan dunia pengetahuan yang luas di Perpustakaan SMPN 2 Kamal. Kami menyediakan berbagai sumber belajar dan ruang yang tenang untuk membantu siswa belajar dan berkembang</p>
-            <a href="{{ route('login') }}" class="mt-8 inline-block bg-blue-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-blue-800 transition duration-300">
-                Mulai Meminjam →
-            </a>
-        </div>
-    </section>
+    <!-- Header Banner -->
+    <section class="relative bg-slate-900 text-white py-16 lg:py-20 border-b border-slate-800">
+        <div class="absolute inset-0 opacity-20 bg-cover bg-center" style="background-image: url('{{ asset('images/beranda/perpus.webp') }}');"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/90 to-slate-900/70"></div>
 
-    <section class="py-40 px-24">
-        <div class="flex items-center justify-center gap-8">
-            <div id="controls-carousel" class="relative w-full" data-carousel="static">
-                <!-- Carousel wrapper -->
-                <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-                    <!-- Item 1 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="{{ asset('images/beranda/perpustakaan/perpus-dalam1.jpg') }}" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 2 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
-                        <img src="{{ asset('images/beranda/perpustakaan/perpus-dalam2.jpg') }}" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 3 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="{{ asset('images/beranda/perpustakaan/perpus-dalam3.jpg') }}" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-2xl space-y-4">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-brand-900/80 border border-brand-700/60 text-brand-200 text-xs font-semibold">
+                    Katalog Terbuka
+                </span>
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Perpustakaan SMPN 2 Kamal</h1>
+                <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+                    Menyediakan ribuan sumber referensi cetak dan digital untuk memfasilitasi riset mandiri, tugas akademik, serta menumbuhkan budaya gemar membaca bagi seluruh civitas akademika.
+                </p>
+                <div class="pt-2 flex flex-wrap items-center gap-3">
+                    <x-ui.button href="{{ route('login') }}" variant="accent" size="md">
+                        <span>Masuk untuk Meminjam Buku</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                    </x-ui.button>
                 </div>
-
-                <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                        <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
-                        </svg>
-                        <span class="sr-only">Previous</span>
-                    </span>
-                </button>
-                <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                        <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                        </svg>
-                        <span class="sr-only">Next</span>
-                    </span>
-                </button>
-            </div>
-
-            <div class="text-gray-900 max-w-3xl mx-auto">
-                <h1 class="text-4xl font-bold pb-8 text-blue-700">Tentang Perpustakaan</h1>
-                <p>Perpustakaan kami terletak di belakang Laboratorium IPA dan menyediakan lingkungan yang tenang dan kaya sumber daya bagi siswa dan staf. Di sini, tersedia beragam buku, majalah, dan bahan referensi lainnya untuk mendukung perjalanan akademik para siswa. Perpustakaan menjadi bagian penting dari SMPN 2 Kamal, yang berperan dalam menumbuhkan minat baca dan penelitian di kalangan pelajar muda kami.</p>
-                <p class="font-bold italic pt-6">"Membaca adalah jendela dunia, di mana kita bisa melihat lebih luas tanpa harus melangkahkan kaki"</p>
-                <p class="italic">— René Descartes</p>
             </div>
         </div>
     </section>
 
-
-    <section class="py-16">
-        <h1 class="text-4xl font-bold mb-4 text-blue-700 text-center">Buku Terbaru</h1>
-        <p class="text-gray-600 max-w-2xl mx-auto mb-8 text-center">Beberapa Buku terbaru yang kami sediakan</p>
-        <div class="grid grid-cols-4 gap-8 md:px-8">
-            @foreach ($buku as $item)
-                <div class="flex bg-white p-4 rounded-lg shadow-lg gap-4">
-                    <img src="{{ $item->foto_buku }}" alt="Category Image" class="w-48 h-64 object-cover rounded-md mb-4 border-black border-2">
-                    <div class="py-2 flex flex-col gap-4">
-                        <h3 class="text-lg font-semibold">{{ $item->judul_buku }}</h3>
-                        <p class="text-sm">{{ $item->publisher_buku }}, {{ $item->tahun_terbit }}</p>
-                        <p class="text-sm">{{ $item->author_buku }}</p>
-                        <a href="{{ route('login') }}" class="bg-white text-blue-600 text-sm font-semibold py-2 px-4 w-[120px] rounded-md border border-blue-600 hover:bg-blue-600 hover:text-white transition duration-300">
-                            Mulai Baca →
-                        </a>
+    <!-- Informasi Perpustakaan & Fasilitas -->
+    <section class="py-14 bg-white border-b border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <!-- Visual Galeri -->
+                <div class="lg:col-span-6 grid grid-cols-2 gap-4">
+                    <div class="space-y-4">
+                        <img src="{{ asset('images/beranda/perpustakaan/perpus-dalam1.jpg') }}" alt="Ruang Baca" class="rounded-xl object-cover h-48 w-full shadow-sm border border-slate-200" loading="lazy">
+                        <img src="{{ asset('images/beranda/perpustakaan/perpus-dalam2.jpg') }}" alt="Rak Buku" class="rounded-xl object-cover h-36 w-full shadow-sm border border-slate-200" loading="lazy">
+                    </div>
+                    <div class="pt-6">
+                        <img src="{{ asset('images/beranda/perpustakaan/perpus-dalam3.jpg') }}" alt="Fasilitas Belajar" class="rounded-xl object-cover h-72 w-full shadow-sm border border-slate-200" loading="lazy">
                     </div>
                 </div>
-            @endforeach
+
+                <!-- Text & Rules -->
+                <div class="lg:col-span-6 space-y-6">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-700">Fasilitas Literasi</span>
+                        <h2 class="text-2xl font-bold text-slate-900 mt-1">Ruang Baca Nyaman & Terbuka</h2>
+                        <p class="text-sm text-slate-600 mt-3 leading-relaxed">
+                            Terletak di area strategis lingkungan sekolah, perpustakaan dilengkapi dengan ruang baca ber-AC, area diskusi kelompok, sistem katalog terkomputerisasi, serta ribuan judul buku teks pelajaran, fiksi bermutu, dan ensiklopedia sains.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <div class="p-4 bg-slate-50 border border-slate-200/80 rounded-lg">
+                            <h4 class="font-semibold text-xs text-slate-900 uppercase tracking-wider">Jam Operasional</h4>
+                            <p class="text-sm text-slate-700 mt-1 font-medium">Senin – Jumat</p>
+                            <p class="text-xs text-slate-500">07.00 – 14.30 WIB</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 border border-slate-200/80 rounded-lg">
+                            <h4 class="font-semibold text-xs text-slate-900 uppercase tracking-wider">Sistem Peminjaman</h4>
+                            <p class="text-sm text-slate-700 mt-1 font-medium">Barcode NISN / NIP</p>
+                            <p class="text-xs text-slate-500">Maksimal 3 buku / minggu</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 border-l-4 border-accent-500 bg-amber-50/60 rounded-r-lg">
+                        <blockquote class="text-xs sm:text-sm text-slate-700 italic">
+                            "Membaca adalah jendela dunia, di mana kita bisa melihat lebih luas tanpa harus melangkahkan kaki."
+                        </blockquote>
+                        <span class="text-xs font-semibold text-slate-500 block mt-1">— René Descartes</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
+    <!-- Daftar Buku Terbaru -->
+    <section class="py-14 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-2xl mb-10">
+                <span class="text-xs font-bold uppercase tracking-wider text-brand-700">Koleksi Terkini</span>
+                <h2 class="text-2xl font-bold text-slate-900 mt-1">Daftar Buku Terbaru</h2>
+                <p class="text-sm text-slate-600 mt-1">Buku-buku yang baru ditambahkan ke katalog perpustakaan.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                @forelse ($buku as $item)
+                    @php
+                        $coverPath = asset('images/image-none.jpg');
+                        if (!empty($item->foto_buku)) {
+                            if (str_starts_with($item->foto_buku, 'http')) {
+                                $coverPath = $item->foto_buku;
+                            } elseif (file_exists(public_path('images/Perpustakaan/foto_buku/' . $item->foto_buku))) {
+                                $coverPath = asset('images/Perpustakaan/foto_buku/' . $item->foto_buku);
+                            }
+                        }
+                    @endphp
+                    <div class="bg-white border border-slate-200/80 rounded-xl overflow-hidden flex flex-col justify-between hover:shadow-md transition">
+                        <div class="p-4 space-y-3">
+                            <div class="h-56 bg-slate-100 rounded-lg overflow-hidden flex items-center justify-center border border-slate-100">
+                                <img src="{{ $coverPath }}" alt="{{ $item->judul_buku }}" class="w-full h-full object-cover" loading="lazy" onerror="this.src='{{ asset('images/image-none.jpg') }}'">
+                            </div>
+                            <div>
+                                <x-ui.badge variant="brand" size="sm">{{ $item->kategoriBuku->nama_kategori ?? 'Umum' }}</x-ui.badge>
+                                <h3 class="font-bold text-sm text-slate-900 line-clamp-2 mt-2" title="{{ $item->judul_buku }}">{{ $item->judul_buku }}</h3>
+                                <p class="text-xs text-slate-500 mt-1">Penulis: {{ $item->author_buku ?? 'Tidak diketahui' }}</p>
+                                <p class="text-xs text-slate-400">{{ $item->publisher_buku ?? '' }} ({{ $item->tahun_terbit ?? '' }})</p>
+                            </div>
+                        </div>
+
+                        <div class="px-4 py-3 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between text-xs">
+                            <span class="text-slate-600">Stok: <strong>{{ $item->stok_buku ?? 0 }}</strong></span>
+                            <a href="{{ route('login') }}" class="text-brand-700 hover:text-brand-900 font-semibold">Pinjam →</a>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-span-full text-center py-12 bg-white rounded-xl border border-slate-200">
+                        <p class="text-sm text-slate-500">Belum ada data buku yang tersedia.</p>
+                    </div>
+                @endforelse
+            </div>
+        </div>
+    </section>
 </x-guest-layout>
