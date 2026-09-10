@@ -18,6 +18,28 @@
             </div>
         </div>
 
+        {{-- Stepper Progress --}}
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-1.5 bg-slate-100 rounded-2xl border border-slate-200">
+            <div class="flex items-center gap-3 px-4 py-3 bg-white rounded-xl shadow-xs border border-slate-200">
+                <div class="w-8 h-8 rounded-lg bg-brand-800 text-white flex items-center justify-center font-bold text-xs shadow-sm">
+                    1
+                </div>
+                <div>
+                    <p class="text-xs font-bold text-brand-900">Step 1: Informasi & Jadwal Ujian</p>
+                    <p class="text-[11px] text-slate-500">Isi data umum, kelas, jenis, jadwal & durasi</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 px-4 py-3 rounded-xl opacity-60">
+                <div class="w-8 h-8 rounded-lg bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-xs">
+                    2
+                </div>
+                <div>
+                    <p class="text-xs font-bold text-slate-700">Step 2: Soal & Kunci Jawaban</p>
+                    <p class="text-[11px] text-slate-500">Input form satu per satu atau upload file Excel</p>
+                </div>
+            </div>
+        </div>
+
         {{-- Validation Error Alerts --}}
         @if (isset($errors) && $errors->any())
             <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs space-y-1.5">
@@ -227,9 +249,9 @@
                         Batal
                     </a>
                     <button type="submit" id="submitUjian"
-                        class="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-brand-800 text-white hover:bg-brand-900 font-semibold text-xs transition-colors shadow-sm">
-                        <i class="fa-solid fa-check text-xs"></i>
-                        <span>Simpan Paket Ujian</span>
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-800 text-white hover:bg-brand-900 font-semibold text-xs transition-colors shadow-sm">
+                        <span>Lanjut ke Step 2: Isi Soal & Jawaban</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
                     </button>
                 </div>
             </form>

@@ -566,12 +566,15 @@ Route::group(['prefix' => 'guru', 'middleware' => ['guru']], function () {
     Route::get('/dashboard/ujian/{id}/delete_ujian', [GuruUjianController::class, 'ujianDelete']);
 
     // Soal Ujian (Hyphenated URLs!)
+    Route::get('/dashboard/ujian/download-template-soal', [GuruUjianController::class, 'downloadTemplateSoal'])->name('guru.ujian.soal.template');
     Route::get('/dashboard/ujian/{id}/soal', [GuruUjianController::class, 'showSoal'])->name('guru.ujian.soal.index');
     Route::get('/dashboard/ujian/{id}/daftar-soal', [GuruUjianController::class, 'showSoal'])->name('guru.ujian.soal_ujian');
     Route::get('/dashboard/ujian/{id}/show_soal', [GuruUjianController::class, 'showSoal']);
-    Route::get('/dashboard/ujian/{id}/create-soal', [GuruUjianController::class, 'storeSoal'])->name('guru.ujian.soal.create');
-    Route::get('/dashboard/ujian/{id}/tambah-soal', [GuruUjianController::class, 'storeSoal'])->name('guru.ujian.add.soal');
-    Route::get('/dashboard/ujian/{id}/create_soal', [GuruUjianController::class, 'storeSoal']);
+    Route::get('/dashboard/ujian/{id}/create-soal', [GuruUjianController::class, 'createSoal'])->name('guru.ujian.soal.create');
+    Route::get('/dashboard/ujian/{id}/tambah-soal', [GuruUjianController::class, 'createSoal'])->name('guru.ujian.add.soal');
+    Route::get('/dashboard/ujian/{id}/create_soal', [GuruUjianController::class, 'createSoal']);
+    Route::post('/dashboard/ujian/{id}/tambah-soal-manual', [GuruUjianController::class, 'storeSoalManual'])->name('guru.ujian.soal.store_manual');
+    Route::delete('/dashboard/ujian/{id}/soal/{id_soal}/hapus-step', [GuruUjianController::class, 'destroySoalStep'])->name('guru.ujian.soal.destroy_step');
     Route::post('/dashboard/ujian/{ujian_id}/import-soal', [GuruUjianController::class, 'importSoal'])->name('guru.ujian.soal.import');
     Route::post('/dashboard/ujian/{ujian_id}/unggah-soal', [GuruUjianController::class, 'importSoal'])->name('soal_ujian.import');
     Route::post('/dashboard/ujian/{ujian_id}/jawaban-import', [GuruUjianController::class, 'importSoal'])->name('jawaban_ujian.import');

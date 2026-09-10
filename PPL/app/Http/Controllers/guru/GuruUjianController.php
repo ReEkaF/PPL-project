@@ -5,6 +5,7 @@ namespace App\Http\Controllers\guru;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Ujian\StoreUjianRequest;
 use App\Http\Requests\Ujian\UpdateSoalRequest;
+use App\Exports\TemplateSoalExport;
 use App\Imports\SoalUjianImport;
 use App\Models\jawaban_ujian;
 use App\Models\KelasSiswa;
@@ -62,9 +63,7 @@ class GuruUjianController extends Controller
     // CRUD SOAL & UJIAN
     public function storeSoal(Request $request, string $ujian_id): View
     {
-        $ujian = ujian::findOrFail($ujian_id);
-
-        return view('guru.ujian.create_soal', compact('ujian_id', 'ujian'));
+        return $this->createSoal($ujian_id);
     }
 
     public function createUjian(): View
@@ -84,9 +83,10 @@ class GuruUjianController extends Controller
 
     public function storeData(StoreUjianRequest $request): RedirectResponse
     {
-        $this->cbtService->createUjian($request->validated());
+        $ujian = $this->cbtService->createUjian($request->validated());
 
-        return redirect()->route('ujian.show');
+        return redirect()->route('guru.ujian.soal.create', $ujian->id_ujian)
+            ->with('success', 'Paket ujian berhasil dibuat! Silakan tambahkan butir soal di Step 2 ini (melalui form manual atau upload file Excel).');
     }
 
     public function detailUjian(string $id): View
@@ -179,7 +179,74 @@ class GuruUjianController extends Controller
 
     public function createSoal(string $ujian_id): View
     {
-        return view('guru.ujian.create_soal', compact('ujian_id'));
+        $guruId = auth()->guard('web-guru')->user()?->id_guru;
+
+        $ujian = ujian::with([
+            'kelasMataPelajaran.kelas',
+            'kelasMataPelajaran.mataPelajaran',
+            'topik',
+            'soalUjian',
+        ])->withCount('soalUjian')->findOrFail($ujian_id);
+
+        if ($guruId && $ujian->kelasMataPelajaran && $ujian->kelasMataPelajaran->guru_id !== $guruId) {
+            abort(403, 'Anda tidak memiliki akses ke paket ujian ini.');
+        }
+
+        return view('guru.ujian.create_soal', compact('ujian', 'ujian_id'));
+    }
+
+    public function storeSoalManual(Request $request, string $ujian_id): RedirectResponse
+    {
+        $request->validate([
+            'teks_soal' => ['required', 'string'],
+            'opsi_a' => ['required', 'string'],
+            'opsi_b' => ['required', 'string'],
+            'opsi_c' => ['required', 'string'],
+            'opsi_d' => ['required', 'string'],
+            'kunci_jawaban' => ['required', 'in:A,B,C,D,a,b,c,d'],
+        ]);
+
+        $guruId = auth()->guard('web-guru')->user()?->id_guru;
+        $ujian = ujian::with('kelasMataPelajaran')->findOrFail($ujian_id);
+
+        if ($guruId && $ujian->kelasMataPelajaran && $ujian->kelasMataPelajaran->guru_id !== $guruId) {
+            abort(403, 'Anda tidak memiliki akses ke paket ujian ini.');
+        }
+
+        soal_ujian::create([
+            'ujian_id' => $ujian->id_ujian,
+            'judul_ujian' => $ujian->judul,
+            'teks_soal' => trim($request->teks_soal),
+            'opsi_a' => trim($request->opsi_a),
+            'opsi_b' => trim($request->opsi_b),
+            'opsi_c' => trim($request->opsi_c),
+            'opsi_d' => trim($request->opsi_d),
+            'kunci_jawaban' => strtoupper($request->kunci_jawaban),
+        ]);
+
+        return redirect()->route('guru.ujian.soal.create', $ujian_id)
+            ->with('success', 'Butir soal berhasil ditambahkan ke ujian!');
+    }
+
+    public function destroySoalStep(string $ujian_id, string $id_soal): RedirectResponse
+    {
+        $guruId = auth()->guard('web-guru')->user()?->id_guru;
+        $ujian = ujian::with('kelasMataPelajaran')->findOrFail($ujian_id);
+
+        if ($guruId && $ujian->kelasMataPelajaran && $ujian->kelasMataPelajaran->guru_id !== $guruId) {
+            abort(403, 'Anda tidak memiliki akses ke paket ujian ini.');
+        }
+
+        $soal = soal_ujian::where('ujian_id', $ujian_id)->where('id_soal_ujian', $id_soal)->firstOrFail();
+        $soal->delete();
+
+        return redirect()->route('guru.ujian.soal.create', $ujian_id)
+            ->with('success', 'Butir soal berhasil dihapus.');
+    }
+
+    public function downloadTemplateSoal()
+    {
+        return Excel::download(new TemplateSoalExport(), 'template_soal_ujian.xlsx');
     }
 
     public function showSoal(string $id): View
@@ -192,12 +259,20 @@ class GuruUjianController extends Controller
     public function importSoal(Request $request, string $ujian_id): RedirectResponse
     {
         $request->validate([
-            'file' => ['required', 'mimes:xlsx,csv'],
+            'file' => ['required', 'mimes:xlsx,csv,xls'],
         ]);
+
+        $guruId = auth()->guard('web-guru')->user()?->id_guru;
+        $ujian = ujian::with('kelasMataPelajaran')->findOrFail($ujian_id);
+
+        if ($guruId && $ujian->kelasMataPelajaran && $ujian->kelasMataPelajaran->guru_id !== $guruId) {
+            abort(403, 'Anda tidak memiliki akses ke paket ujian ini.');
+        }
 
         Excel::import(new SoalUjianImport($ujian_id), $request->file('file'));
 
-        return redirect()->route('ujian.show')->with('success', 'Soal ujian berhasil diimpor!');
+        return redirect()->route('guru.ujian.soal.create', $ujian_id)
+            ->with('success', 'Berhasil mengimpor butir soal dari file Excel! Daftar soal ujian telah diperbarui di bawah.');
     }
 
     public function soalEdit(string $id): View
