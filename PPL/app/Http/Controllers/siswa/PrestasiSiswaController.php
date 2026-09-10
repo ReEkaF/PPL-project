@@ -5,56 +5,53 @@ namespace App\Http\Controllers\Siswa;
 use App\Http\Controllers\Controller;
 use App\Models\Prestasi;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class PrestasiSiswaController extends Controller
 {
+    /**
+     * Halaman Daftar Prestasi Siswa (Read-Only)
+     * Seluruh data prestasi diinput dan diverifikasi oleh Staff Akademik.
+     */
     public function index(Request $request)
     {
-        $search = $request->input('search');
-        // Query untuk mendapatkan data prestasi, dengan pencarian jika ada
-        $prestasi = Prestasi::with('siswa')->where('siswa_id', auth()->guard('web-siswa')->user()->id_siswa)
-            ->when($search, function ($query, $search) {
-                return $query->where('nama_prestasi', 'like', '%'.$search.'%')
-                    ->orWhere('deskripsi_prestasi', 'like', '%'.$search.'%');
-            })
-            ->paginate(3); // Hasil dipaginasi, 10 per halaman
+        $idSiswa = auth()->guard('web-siswa')->user()?->id_siswa;
 
-        return view('siswa.prestasi.index', compact('prestasi'));
-    }
-
-    public function create()
-    {
-        return view('siswa.prestasi.create');
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nama_prestasi' => 'required|string|max:255',
-            'bukti_prestasi' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
-            'deskripsi_prestasi' => 'required|string',
-        ]);
-
-        $buktiPrestasi = null;
-        if ($request->hasFile('bukti_prestasi')) {
-            $buktiPrestasi = $request->file('bukti_prestasi')->store('uploads/prestasi', 'public');
+        if (! $idSiswa) {
+            return redirect()->route('login');
         }
-        Prestasi::create([
-            'id_prestasi' => Str::uuid(),
-            'siswa_id' => auth()->guard('web-siswa')->user()->id_siswa,
-            'nama_prestasi' => $request->nama_prestasi,
-            'bukti_prestasi' => $buktiPrestasi,
-            'deskripsi_prestasi' => $request->deskripsi_prestasi,
-            'status_prestasi' => 0, // Status 'Terverifikasi'
-        ]);
 
-        return redirect()->route('siswa.prestasi')->with('success', 'Data prestasi berhasil ditambahkan!');
+        $search = $request->input('search');
+
+        // Mengambil prestasi siswa yang telah diverifikasi/dicatat oleh Staff Akademik
+        $prestasi = Prestasi::where('siswa_id', $idSiswa)
+            ->where('status_prestasi', 1)
+            ->when($search, function ($query, $search) {
+                return $query->where(function ($q) use ($search) {
+                    $q->where('nama_prestasi', 'like', '%' . $search . '%')
+                        ->orWhere('deskripsi_prestasi', 'like', '%' . $search . '%');
+                });
+            })
+            ->latest('created_at')
+            ->paginate(6)
+            ->withQueryString();
+
+        $totalPrestasi = Prestasi::where('siswa_id', $idSiswa)
+            ->where('status_prestasi', 1)
+            ->count();
+
+        return view('siswa.prestasi.index', compact('prestasi', 'totalPrestasi', 'search'));
     }
 
+    /**
+     * Halaman Rincian Prestasi Siswa
+     */
     public function show($id)
     {
-        $prestasi = Prestasi::where('id_prestasi', $id)->first();
+        $idSiswa = auth()->guard('web-siswa')->user()?->id_siswa;
+
+        $prestasi = Prestasi::where('id_prestasi', $id)
+            ->where('siswa_id', $idSiswa)
+            ->firstOrFail();
 
         return view('siswa.prestasi.show', compact('prestasi'));
     }

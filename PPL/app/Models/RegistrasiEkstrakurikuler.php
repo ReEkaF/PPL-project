@@ -54,6 +54,6 @@ class RegistrasiEkstrakurikuler extends Model
 
     public function berkas()
     {
-        return $this->hasMany(Berkas::class);
+        return $this->hasMany(Berkas::class, 'id_registrasi', 'id_registrasi');
     }
 }

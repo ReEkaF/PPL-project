@@ -16,11 +16,10 @@ class KelasSeeder extends Seeder
         $kelas = ['A', 'B', 'C'];
         for ($i = 7; $i <= 9; $i++) {
             foreach ($kelas as $kelasItem) {
-                $idKelas = Str::uuid();
-                kelas::create([
-                    'id_kelas' => $idKelas,
-                    'nama_kelas' => $i.$kelasItem,
-                ]);
+                kelas::firstOrCreate(
+                    ['nama_kelas' => $i.$kelasItem],
+                    ['id_kelas' => (string) Str::uuid()]
+                );
             }
         }
     }

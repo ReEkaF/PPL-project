@@ -1,141 +1,152 @@
 <x-siswa-layout>
-    <div class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
-        <!-- Bagian Atas -->
-        <div class="flex-grow mb-4 col-span-full xl:mb-2">
-            <div class="p-4 mb-4 space-y-6 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+    <div class="max-w-6xl mx-auto space-y-6">
 
-                <!-- Breadcrumb -->
-                <nav class="flex mb-5" aria-label="Breadcrumb">
-                    <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
-                        <li class="inline-flex items-center">
-                            <a href="#" class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500">
-                                <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
-                                </svg>
-                                Home
-                            </a>
-                        </li>
-                        <li>
-                            <div class="flex items-center">
-                                <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                <a href="#" class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-primary-500">Prestasi</a>
-                            </div>
-                        </li>
-                    </ol>
-                </nav>
+        {{-- Page Header --}}
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-xl font-bold text-slate-900">Prestasi & Penghargaan</h1>
+                <p class="text-sm text-slate-500 mt-0.5">
+                    Rekam jejak prestasi akademik dan non-akademik resmi yang dicatat oleh Staff Akademik sekolah.
+                </p>
+            </div>
 
-                <!-- Header dan Deskripsi -->
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Prestasi</h1>
-                <p class="mb-2 text-gray-300 dark:text-gray-200">Ini merupakan halaman Prestasi</p>
-
-                <!-- Tombol Tambah Data dan Pengajuan -->
-                <div class="flex items-center space-x-4">
-                    <a href="{{ route('siswa.prestasi.create') }}"
-                        class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                            Ajukan Prestasi
-                        </span>
-                    </a>
-                    <span class="h-11 w-px bg-gray-300"></span>
+            {{-- Metric Badge --}}
+            <div class="flex items-center gap-3">
+                <div class="px-4 py-2 bg-amber-50 border border-amber-200 rounded-xl flex items-center gap-2.5 shadow-xs">
+                    <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-[10px] uppercase font-semibold text-amber-700 leading-tight">Total Prestasi</p>
+                        <p class="text-base font-bold text-amber-900 leading-tight">{{ $totalPrestasi }} Prestasi</p>
+                    </div>
                 </div>
             </div>
-            @if (count($prestasi)!=0)
-            <div class="col-span-full xl:col-auto">
-                <div class="p-4 mb-4 space-y-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-                    <div class="px-4 py-2 text-gray-700 border-b border-gray-200 dark:border-gray-600">
-                        <center>
-                            <h3 class="font-semibold text-lg">Data Prestasi</h3>
-                        </center>
-                    </div>
-                    <!-- Tabel Data -->
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 rounded-lg">
-                            <thead class="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 uppercase text-sm leading-normal">
-                                <tr>
-                                    <th class="py-3 px-6 text-left">No</th>
-                                    <th class="py-3 px-6 text-left">Nama Prestasi</th>
-                                    <th class="py-3 px-6 text-left">Bukti</th>
-                                    <th class="py-3 px-6 text-left">Deskripsi</th>
-                                    <th class="py-3 px-6 text-left">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($prestasi as $row)
-                                <tr class="border-b border-gray-200 dark:border-gray-700">
-                                    <td class="py-3 px-6">{{ $loop->iteration }}</td>
-                                    <td class="py-3 px-6">{{ $row->nama_prestasi }}</td>
-                                    <td class="py-3 px-6">
-                                        @if ($row->bukti_prestasi)
-                                        <a href="{{ route('siswa.prestasi.show', $row->id_prestasi) }}" target="_blank" class="text-blue-600 hover:underline">Lihat Detail</a>
-                                        @else
-                                        <span class="text-gray-500">Tidak Ada Bukti</span>
-                                        @endif
-                                    </td>
-                                    <td class="py-3 px-6">{{ $row->deskripsi_prestasi }}</td>
-                                    <td class="py-3 px-6">
-                                        <span class="px-3 py-1 rounded-full text-white {{ $row->status_prestasi == 1 ? 'bg-green-500' : 'bg-red-500' }}">
-                                            {{ $row->status_prestasi == 1 ? 'Verified' : 'Unverified' }}
-                                        </span>
-                                    </td>
-                                </tr>
-
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <!-- Showing and Pagination -->
-                        <div class="mt-4 flex justify-between items-center w-full">
-                            <!-- Showing -->
-                            <div class="text-gray-600 dark:text-gray-300 text-sm">
-                                Showing {{ $prestasi->firstItem() }} to {{ $prestasi->lastItem() }} of {{ $prestasi->total() }} results
-                            </div>
-                        </div>
-                        <br>
-                        <!-- Pagination -->
-                        <div class="flex justify-center">
-                            <nav aria-label="Page navigation example">
-                                <ul class="flex items-center -space-x-px h-8 text-sm">
-                                    <!-- Previous Page Link -->
-                                    <li>
-                                        <a href="{{ $prestasi->previousPageUrl() }}" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                            <span class="sr-only">Previous</span>
-                                            <svg class="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
-                                            </svg>
-                                        </a>
-                                    </li>
-
-                                    <!-- Pagination Links -->
-                                    @foreach ($prestasi->getUrlRange(1, $prestasi->lastPage()) as $page => $url)
-                                    <li>
-                                        <a href="{{ $url }}" class="flex items-center justify-center px-3 h-8 leading-tight {{ $prestasi->currentPage() == $page ? 'z-10 text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white' : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white' }}">
-                                            {{ $page }}
-                                        </a>
-                                    </li>
-                                    @endforeach
-
-                                    <!-- Next Page Link -->
-                                    <li>
-                                        <a href="{{ $prestasi->nextPageUrl() }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                            <span class="sr-only">Next</span>
-                                            <svg class="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
-                                            </svg>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                        <br>
-                    </div>
-
-                </div>
-            </div>
-            @endif
-            <!-- Tabel Data Prestasi -->
-
         </div>
-    </div>
 
+        {{-- Search & Filter Bar --}}
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <form action="{{ route('siswa.prestasi') }}" method="GET" class="flex-1 flex items-center gap-2">
+                <div class="relative flex-1">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                    <input type="text" name="search" value="{{ $search ?? '' }}"
+                        placeholder="Cari nama prestasi, kompetensi, atau penghargaan..."
+                        class="w-full pl-9 pr-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-slate-800 placeholder-slate-400 transition-colors">
+                </div>
+                <button type="submit"
+                    class="px-4 py-2 bg-brand-800 hover:bg-brand-900 text-white text-xs font-semibold rounded-lg transition shadow-xs">
+                    Cari
+                </button>
+                @if (!empty($search))
+                    <a href="{{ route('siswa.prestasi') }}"
+                        class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-semibold rounded-lg transition">
+                        Reset
+                    </a>
+                @endif
+            </form>
+
+            <div class="text-xs text-slate-500 flex items-center gap-1.5 shrink-0">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span>Dikelola resmi oleh <strong>Staff Akademik</strong></span>
+            </div>
+        </div>
+
+        {{-- Prestasi List --}}
+        @if ($prestasi->isEmpty())
+            <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center shadow-xs">
+                <div class="w-16 h-16 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center mx-auto mb-3.5 border border-amber-100">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                    </svg>
+                </div>
+                <h3 class="text-base font-bold text-slate-800">
+                    @if (!empty($search))
+                        Prestasi Tidak Ditemukan
+                    @else
+                        Belum Ada Catatan Prestasi
+                    @endif
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-500 max-w-md mx-auto mt-1.5 leading-relaxed">
+                    @if (!empty($search))
+                        Tidak ditemukan data prestasi dengan kata kunci <em>"{{ $search }}"</em>. Coba gunakan kata kunci lainnya.
+                    @else
+                        Seluruh prestasi siswa dicatat dan diverifikasi langsung oleh <strong>Staff Akademik</strong>. Jika kamu memiliki sertifikat atau piagam lomba terbaru, serahkan salinannya ke ruang Staff Akademik untuk diinput ke portal.
+                    @endif
+                </p>
+
+                @if (!empty($search))
+                    <a href="{{ route('siswa.prestasi') }}"
+                        class="inline-flex items-center gap-1.5 mt-4 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition">
+                        Kembali ke Semua Prestasi
+                    </a>
+                @endif
+            </div>
+        @else
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                @foreach ($prestasi as $item)
+                    <div class="bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-md transition-all duration-200 flex flex-col justify-between group">
+                        <div class="space-y-3">
+                            {{-- Top Badges --}}
+                            <div class="flex items-start justify-between gap-2">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                    Terverifikasi Akademik
+                                </span>
+
+                                @if ($item->bukti_prestasi)
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-brand-50 text-brand-700 border border-brand-200">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
+                                        </svg>
+                                        Piagam Tersedia
+                                    </span>
+                                @endif
+                            </div>
+
+                            {{-- Title --}}
+                            <div>
+                                <h3 class="text-base font-bold text-slate-900 group-hover:text-brand-800 transition-colors leading-snug">
+                                    {{ $item->nama_prestasi }}
+                                </h3>
+                                <p class="text-xs text-slate-600 mt-1.5 line-clamp-3 leading-relaxed">
+                                    {{ $item->deskripsi_prestasi }}
+                                </p>
+                            </div>
+                        </div>
+
+                        {{-- Footer Action --}}
+                        <div class="mt-4 pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs">
+                            <span class="text-slate-400">
+                                Dicatat: {{ $item->created_at ? $item->created_at->translatedFormat('d M Y') : 'Sekolah' }}
+                            </span>
+
+                            <a href="{{ route('siswa.prestasi.show', $item->id_prestasi) }}"
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-brand-50 text-slate-700 hover:text-brand-700 font-semibold rounded-lg transition-colors">
+                                <span>Rincian Piagam</span>
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            {{-- Pagination --}}
+            @if ($prestasi->hasPages())
+                <div class="pt-2">
+                    {{ $prestasi->links() }}
+                </div>
+            @endif
+        @endif
+
+    </div>
 </x-siswa-layout>

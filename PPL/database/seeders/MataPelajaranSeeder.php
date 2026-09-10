@@ -26,7 +26,10 @@ class MataPelajaranSeeder extends Seeder
         ];
 
         foreach ($mataPelajaran as $matpel) {
-            mata_pelajaran::create($matpel);
+            mata_pelajaran::firstOrCreate(
+                ['nama_matpel' => $matpel['nama_matpel']],
+                ['deskripsi_matpel' => $matpel['deskripsi_matpel']]
+            );
         }
     }
 }

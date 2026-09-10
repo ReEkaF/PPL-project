@@ -17,27 +17,42 @@ class UjianSiswaController extends Controller
     /**
      * Halaman Daftar Ujian
      */
-    public function index()
+    public function index(Request $request)
     {
-        $ujians = $this->cbtService->getAvailableExamsForStudent();
+        $idSiswa = Auth::guard('web-siswa')->user()?->id_siswa;
+        $status = $request->query('status', 'semua');
 
-        return view('siswa.ujian.index', compact('ujians'));
+        $data = $this->cbtService->getAvailableExamsForStudentPaginated($idSiswa, $status, 6);
+
+        return view('siswa.ujian.index', $data);
     }
 
     /**
      * Halaman Mulai Ujian
      */
-    public function start($id)
+    public function start(Request $request, $id)
     {
-        $data = $this->cbtService->startExam($id);
+        $idSiswa = Auth::guard('web-siswa')->user()?->id_siswa;
 
-        // Simpan waktu selesai ujian di session
-        Session::put('ujian_end_time', $data['endTime']);
+        if (! $idSiswa) {
+            return redirect()->route('login');
+        }
 
-        return view('siswa.ujian.start', [
-            'ujian' => $data['ujian'],
-            'endTime' => $data['endTime'],
-        ]);
+        $token = $request->query('token') ?? $request->input('token');
+
+        try {
+            $data = $this->cbtService->startExam($id, $idSiswa, $token);
+
+            // Simpan waktu selesai ujian di session
+            Session::put('ujian_end_time', $data['endTime']);
+
+            return view('siswa.ujian.start', [
+                'ujian' => $data['ujian'],
+                'endTime' => $data['endTime'],
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route('siswa.ujian.index')->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -45,10 +60,18 @@ class UjianSiswaController extends Controller
      */
     public function submit(Request $request, $idUjian)
     {
-        $idSiswa = Auth::guard('web-siswa')->user()->id_siswa;
+        $idSiswa = Auth::guard('web-siswa')->user()?->id_siswa;
 
-        $result = $this->cbtService->submitExam($idSiswa, $idUjian, $request->except('_token'));
+        if (! $idSiswa) {
+            return redirect()->route('login');
+        }
 
-        return view('siswa.ujian.end', $result);
+        try {
+            $result = $this->cbtService->submitExam($idSiswa, $idUjian, $request->except('_token'));
+
+            return view('siswa.ujian.end', $result);
+        } catch (\Exception $e) {
+            return redirect()->route('siswa.ujian.index')->with('error', $e->getMessage());
+        }
     }
 }

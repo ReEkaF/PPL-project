@@ -13,23 +13,31 @@ class TahunAjaranSeeder extends Seeder
      */
     public function run(): void
     {
-        tahun_ajaran::create([
-            'id_tahun_ajaran' => Str::uuid(),
-            'tahun_mulai' => '2024',
-            'tahun_selesai' => '2025',
-            'semester' => 1,
-            'aktif' => 1,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        tahun_ajaran::create([
-            'id_tahun_ajaran' => Str::uuid(),
-            'tahun_mulai' => '2024',
-            'tahun_selesai' => '2025',
-            'semester' => 2,
-            'aktif' => 0,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        tahun_ajaran::firstOrCreate(
+            [
+                'tahun_mulai' => '2024',
+                'tahun_selesai' => '2025',
+                'semester' => 1,
+            ],
+            [
+                'id_tahun_ajaran' => (string) Str::uuid(),
+                'aktif' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
+        tahun_ajaran::firstOrCreate(
+            [
+                'tahun_mulai' => '2024',
+                'tahun_selesai' => '2025',
+                'semester' => 2,
+            ],
+            [
+                'id_tahun_ajaran' => (string) Str::uuid(),
+                'aktif' => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
     }
 }

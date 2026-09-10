@@ -40,6 +40,11 @@ interface UjianRepositoryInterface extends BaseRepositoryInterface
     public function deleteQuestion(string $id): bool;
 
     /**
+     * Get exams available for specific kelas mata pelajaran IDs.
+     */
+    public function getExamsByKmpIds(array|\Illuminate\Support\Collection $kmpIds): Collection;
+
+    /**
      * Get exam submissions with student and exam info.
      */
     public function getSubmissions(): Collection;

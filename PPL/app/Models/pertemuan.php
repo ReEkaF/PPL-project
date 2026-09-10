@@ -58,6 +58,7 @@ class pertemuan extends Model
         'kelas_mata_pelajaran_id',
         'tanggal_pertemuan',
         'qr_code',
+        'status',
     ];
 
     /**
@@ -73,3 +74,5 @@ class pertemuan extends Model
         return $this->hasMany(absensi_siswa::class, 'pertemuan_id', 'id_pertemuan');
     }
 }
+
+

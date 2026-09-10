@@ -65,17 +65,17 @@
 
                     {{-- Prestasi --}}
                     <li>
-                        <x-sidebar-dropdown label="Data Prestasi" id="prestasi" :active="request()->is('staff_akademik/prestasi/*')">
+                        <x-sidebar-dropdown label="Data Prestasi" id="prestasi" :active="request()->is('staff_akademik/prestasi*')">
                             <x-sidebar-icon>
                                 <path fill-rule="evenodd" d="M4 4a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2v14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2V5a1 1 0 0 1-1-1Zm5 2a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-1Zm-5 4a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1h-1Zm-3 4a2 2 0 0 0-2 2v3h2v-3h2v3h2v-3a2 2 0 0 0-2-2h-2Z" clip-rule="evenodd" />
                             </x-sidebar-icon>
                         </x-sidebar-dropdown>
                         <x-sidebar-dropdown-list id="prestasi" :active="request()->is('staff_akademik/prestasi*')">
                     <li>
-                        <x-sidebar-dropdown-list-link href="{{route('prestasi.index')}}" :active="request()->is('staff_akademik/prestasi')">Data Prestasi</x-sidebar-dropdown-list-link>
+                        <x-sidebar-dropdown-list-link href="{{route('prestasi.index')}}" :active="request()->is('staff_akademik/prestasi')">Daftar Prestasi</x-sidebar-dropdown-list-link>
                     </li>
                     <li>
-                        <x-sidebar-dropdown-list-link href="{{route('prestasi.pengajuan')}}" :active="request()->is('staff_akademik/prestasi/pengajuan')">Pengajuan Prestasi</x-sidebar-dropdown-list-link>
+                        <x-sidebar-dropdown-list-link href="{{route('prestasi.create')}}" :active="request()->is('staff_akademik/prestasi/create') || request()->is('staff_akademik/prestasi/tambah')">Tambah Prestasi</x-sidebar-dropdown-list-link>
                     </li>
                     </x-sidebar-dropdown-list>
                     </li>

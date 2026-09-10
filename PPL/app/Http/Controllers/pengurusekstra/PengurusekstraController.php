@@ -72,9 +72,11 @@ class PengurusekstraController extends Controller
     {
         $siswaId = auth()->guard('web-siswa')->user()->id_siswa;
         $status = $request->input('status', 'tutup');
+        $tglMulai = $request->input('tgl_mulai_pendaftaran');
+        $tglSelesai = $request->input('tgl_selesai_pendaftaran');
 
-        $this->ekstraService->updateStatusEkstra($siswaId, $status);
+        $this->ekstraService->updateStatusEkstra($siswaId, $status, $tglMulai, $tglSelesai);
 
-        return redirect()->route('pengurus_ekstra.dashboard')->with('success', 'Status pendaftaran ekstrakurikuler berhasil diperbarui.');
+        return redirect()->route('pengurus_ekstra.dashboard')->with('success', 'Status dan jadwal pendaftaran ekstrakurikuler berhasil diperbarui.');
     }
 }

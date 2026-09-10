@@ -27,7 +27,16 @@ class AbsensiRepository extends BaseRepository implements AbsensiRepositoryInter
     public function getStudentAttendanceSchedule(string $siswaId): Collection
     {
         return $this->model
-            ->with(['kelas', 'mataPelajaran', 'guru', 'hari'])
+            ->with([
+                'kelas',
+                'mataPelajaran',
+                'guru',
+                'hari',
+                'pertemuan' => function ($query) use ($siswaId) {
+                    $query->with(['absensiSiswa' => fn ($q) => $q->where('siswa_id', $siswaId)])
+                        ->orderBy('tanggal_pertemuan');
+                },
+            ])
             ->whereHas('kelas.kelas_siswa', fn ($q) => $q->where('id_siswa', $siswaId))
             ->orderBy('hari_id')
             ->orderBy('waktu_mulai')
@@ -43,11 +52,13 @@ class AbsensiRepository extends BaseRepository implements AbsensiRepositoryInter
                 'guru',
                 'hari',
                 'pertemuan' => function ($query) use ($siswaId) {
-                    $query->with(['absensiSiswa' => fn ($q) => $q->where('siswa_id', $siswaId)]);
+                    $query->with(['absensiSiswa' => fn ($q) => $q->where('siswa_id', $siswaId)])
+                        ->orderBy('tanggal_pertemuan');
                 },
             ])
             ->find($kmpId);
     }
+
 
     public function markPresence(string $siswaId, string $pertemuanId): array
     {
@@ -183,6 +194,11 @@ class AbsensiRepository extends BaseRepository implements AbsensiRepositoryInter
 
     public function updatePertemuanStatus(string $pertemuanId, string $status): bool
     {
-        return (bool) pertemuan::where('id_pertemuan', $pertemuanId)->update(['status' => $status]);
+        $pertemuan = pertemuan::find($pertemuanId);
+        if ($pertemuan) {
+            $pertemuan->status = $status;
+            return (bool) $pertemuan->save();
+        }
+        return false;
     }
 }

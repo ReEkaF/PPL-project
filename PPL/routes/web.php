@@ -39,6 +39,7 @@ use App\Http\Controllers\siswa\lms\MateriSiswaController;
 use App\Http\Controllers\siswa\lms\TugasSiswaController;
 use App\Http\Controllers\Siswa\PrestasiSiswaController;
 use App\Http\Controllers\Siswa\SiswaController;
+use App\Http\Controllers\siswa\SiswaEkstrakurikulerController;
 use App\Http\Controllers\Siswa\SiswaProfilController;
 use App\Http\Controllers\siswa\UjianSiswaController;
 use App\Http\Controllers\staffakademik;
@@ -608,10 +609,9 @@ Route::group(['prefix' => 'guru', 'middleware' => ['guru']], function () {
     Route::get('/absensi', [guru\AbsensiController::class, 'index'])->name('guru.absensi.index');
     Route::get('/absensi/{id}/pertemuan', [guru\AbsensiController::class, 'details'])->name('guru.absensi.details');
     Route::get('/absensi/{id}/pertemuan/{pertemuan}', [guru\AbsensiController::class, 'pertemuanDetails'])->name('guru.absensi.pertemuan.details');
-    Route::put('/absensi/update-status', [guru\AbsensiController::class, 'updateStatus'])->name('guru.absensi.update-status');
+    Route::put('/absensi/update-status', [guru\AbsensiController::class, 'updateStatus'])->name('guru.absensi.updateStatus');
     Route::post('/absensi/update-status-qr', [guru\AbsensiController::class, 'updateStatusQr'])->name('guru.absensi.update-status-qr');
-    Route::post('/absensi/perbarui-status-qr', [guru\AbsensiController::class, 'updateStatusQr'])->name('guru.absensi.updateStatus');
-    Route::post('/guru/absensi/update-status', [guru\AbsensiController::class, 'updateStatusQr']);
+    Route::post('/absensi/update-status', [guru\AbsensiController::class, 'updateStatusQr'])->name('guru.absensi.update-status');
 
     // Jadwal Guru
     Route::get('/dashboard/lihat-jadwal', [LihatJadwalGuruController::class, 'index'])->name('guru.jadwal.index');
@@ -706,12 +706,9 @@ Route::group(['prefix' => 'siswa', 'middleware' => ['siswa']], function () {
     Route::post('/ujian/{id}/end', [UjianSiswaController::class, 'submit'])->name('siswa.ujian.end'); // Fixed missing slash!
     Route::post('/ujian{id}/end', [UjianSiswaController::class, 'submit']); // Fallback
 
-    // Prestasi Siswa
+    // Prestasi Siswa (Dikelola penuh oleh Staff Akademik - Read Only untuk Siswa)
     Route::get('/dashboard/prestasi', [PrestasiSiswaController::class, 'index'])->name('siswa.prestasi.index');
     Route::get('/dashboard/daftar-prestasi', [PrestasiSiswaController::class, 'index'])->name('siswa.prestasi');
-    Route::get('/dashboard/prestasi/create', [PrestasiSiswaController::class, 'create'])->name('siswa.prestasi.create');
-    Route::post('/dashboard/prestasi', [PrestasiSiswaController::class, 'store'])->name('siswa.prestasi.store');
-    Route::post('/dashboard/prestasi/store', [PrestasiSiswaController::class, 'store']);
     Route::get('/dashboard/prestasi/show/{id}', [PrestasiSiswaController::class, 'show'])->name('siswa.prestasi.show');
 
     // Perpustakaan untuk Siswa
@@ -720,19 +717,32 @@ Route::group(['prefix' => 'siswa', 'middleware' => ['siswa']], function () {
     Route::get('/dashboard/perpustakaan/detail/{id}', [PerpustakaanController::class, 'showSiswa'])->name('siswa.perpustakaan.detail');
     Route::get('/dashboard/perpustakaan/buku/{id}', [PerpustakaanController::class, 'showSiswa'])->name('siswa.dashboard.perpustakaan.detail');
     Route::get('/dashboard/perpustakaan/riwayat', [RiwayatPengunjungController::class, 'transSiswa'])->name('siswa.perpustakaan.riwayat');
-    Route::get('/dashboard/perpustakaan/rules', [PerpustakaanController::class, 'showRulesGuru'])->name('siswa.perpustakaan.rules');
+    Route::get('/dashboard/perpustakaan/rules', [PerpustakaanController::class, 'showRulesSiswa'])->name('siswa.perpustakaan.rules');
 
     // Absensi Siswa
     Route::get('/absensi', [siswa\AbsensiController::class, 'index'])->name('siswa.absensi.index');
     Route::get('/absensi/{id}/pertemuan', [siswa\AbsensiController::class, 'details'])->name('siswa.absensi.details');
     Route::get('/absensi/scan/{pertemuan_id}', [siswa\AbsensiController::class, 'scanQrCode'])->name('siswa.absensi.scan');
+
+    // Notifikasi Siswa
     Route::get('/notifikasi', [siswa\NotifikasiController::class, 'index'])->name('siswa.notifikasi');
+    Route::post('/notifikasi/mark-all-read', [siswa\NotifikasiController::class, 'markAllAsRead'])->name('siswa.notifikasi.mark-all-read');
+    Route::post('/notifikasi/{id}/mark-read', [siswa\NotifikasiController::class, 'markAsRead'])->name('siswa.notifikasi.mark-read');
+    Route::get('/notifikasi/{id}/open', [siswa\NotifikasiController::class, 'readAndRedirect'])->name('siswa.notifikasi.open');
+
 
     // Jadwal Siswa
     Route::get('/dashboard/lihat-jadwal', [LihatJadwalSiswaController::class, 'index'])->name('siswa.jadwal.index');
     Route::get('/dashboard/jadwal-pelajaran', [LihatJadwalSiswaController::class, 'index'])->name('lihat-jadwal-siswa');
     Route::get('/jadwal/print', [LihatJadwalSiswaController::class, 'print'])->name('siswa.jadwal.print');
     Route::get('/jadwal-siswa/print', [LihatJadwalSiswaController::class, 'print']);
+
+    // Ekstrakurikuler Siswa (Informasi, Pendaftaran & Monitoring Keanggotaan)
+    Route::get('/ekstrakurikuler', [SiswaEkstrakurikulerController::class, 'index'])->name('siswa.ekstrakurikuler.index');
+    Route::get('/ekstrakurikuler/detail/{id}', [SiswaEkstrakurikulerController::class, 'show'])->name('siswa.ekstrakurikuler.detail');
+    Route::get('/ekstrakurikuler/pendaftaran', [SiswaEkstrakurikulerController::class, 'pendaftaran'])->name('siswa.ekstrakurikuler.pendaftaran');
+    Route::post('/ekstrakurikuler/pendaftaran', [SiswaEkstrakurikulerController::class, 'storePendaftaran'])->name('siswa.ekstrakurikuler.pendaftaran.store');
+    Route::get('/ekstrakurikuler/saya', [SiswaEkstrakurikulerController::class, 'ekskulSaya'])->name('siswa.ekstrakurikuler.saya');
 
     // Pengurus Ekstrakurikuler Sub-group
     Route::group(['middleware' => 'pengurus'], function () {

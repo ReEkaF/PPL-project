@@ -41,7 +41,13 @@ class MateriRepository extends BaseRepository implements MateriRepositoryInterfa
     public function findWithDetails(string $id): ?Model
     {
         return $this->model
-            ->with(['fileMateri', 'topik', 'kelasMataPelajaran'])
+            ->with([
+                'fileMateri',
+                'topik',
+                'kelasMataPelajaran.kelas.siswa',
+                'kelasMataPelajaran.mataPelajaran',
+                'kelasMataPelajaran.guru',
+            ])
             ->find($id);
     }
 

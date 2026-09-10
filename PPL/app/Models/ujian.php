@@ -63,6 +63,16 @@ class ujian extends Model
         'topik_id',
         'kelas_mata_pelajaran_id',
         'tanggal_dibuat',
+        'waktu_mulai',
+        'waktu_selesai',
+        'durasi_menit',
+        'token',
+    ];
+
+    protected $casts = [
+        'waktu_mulai' => 'datetime',
+        'waktu_selesai' => 'datetime',
+        'durasi_menit' => 'integer',
     ];
 
     /**

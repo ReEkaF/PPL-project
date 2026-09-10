@@ -46,6 +46,9 @@ class TugasSiswaController extends Controller
     {
         $kelasMataPelajaran = kelas_mata_pelajaran::with([
             'mataPelajaran:id_matpel,nama_matpel',
+            'guru:id_guru,nama_guru',
+            'kelas:id_kelas,nama_kelas',
+            'hari',
             'topik.tugas',
             'topik.materi',
         ])->findOrFail($id);
@@ -61,6 +64,11 @@ class TugasSiswaController extends Controller
         return view('siswa.lms.forum_tugas', [
             'id' => $kelasMataPelajaran->id_kelas_mata_pelajaran,
             'mataPelajaran' => $kelasMataPelajaran->mataPelajaran,
+            'guru' => $kelasMataPelajaran->guru,
+            'kelas' => $kelasMataPelajaran->kelas,
+            'hari' => $kelasMataPelajaran->hari,
+            'waktu_mulai' => $kelasMataPelajaran->waktu_mulai,
+            'waktu_selesai' => $kelasMataPelajaran->waktu_selesai,
             'listTopik' => $kelasMataPelajaran->topik,
             'tugasTanpaTopik' => $tugasTanpaTopik,
             'materiTanpaTopik' => $materiTanpaTopik,

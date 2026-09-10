@@ -77,4 +77,13 @@ class UjianRepository extends BaseRepository implements UjianRepositoryInterface
             return false;
         });
     }
+
+    public function getExamsByKmpIds(array|\Illuminate\Support\Collection $kmpIds): Collection
+    {
+        return $this->model
+            ->whereIn('kelas_mata_pelajaran_id', $kmpIds)
+            ->with(['kelasMataPelajaran.mataPelajaran', 'soalUjian', 'pengumpulanUjian'])
+            ->latest('tanggal_dibuat')
+            ->get();
+    }
 }

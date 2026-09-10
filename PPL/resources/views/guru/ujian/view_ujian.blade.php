@@ -1,83 +1,162 @@
 <x-app-guru-layout>
-    <div class="p-2 mx-4 my-6 bg-white rounded-lg shadow xl:p-6">
-        {{-- Breadcrumb --}}
-        <nav class="flex" aria-label="Breadcrumb">
-            <ol class="flex px-3 space-x-2">
-                <li class="flex">
-                    <a href="{{ route('guru.dashboard') }}" class="text-gray-400 hover:text-gray-700">
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <div class="flex justify-center py-1">
-                    <svg class="flex w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
-                    </svg>
-                </div>
-                <li class="flex">
-                    <a href="{{ route('ujian.show') }}" class="text-gray-400 hover:text-gray-700">
-                        <span>Ujian</span>
-                    </a>
-                </li>
-                <div class="flex justify-center py-1">
-                    <svg class="flex w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
-                    </svg>
-                </div>
-                <li class="flex">
-                    <p class="font-semibold text-gray-700">
-                        <span>Beranda Ujian</span>
-                    </p>
-                </li>
-            </ol>
-        </nav>
+    <div class="max-w-7xl mx-auto space-y-6">
 
-        {{-- Main Content --}}
-        <div class="container mx-auto mt-10">
-            <h2 class="text-lg font-bold text-gray-800 mb-4">Table Ujian</h2>
-
-            {{-- Tabel Daftar Ujian --}}
-            <table class="min-w-full bg-white border border-gray-200 shadow-md rounded-lg">
-                <thead>
-                    <tr>
-                        <th class="px-4 py-2 border-b text-left text-sm font-semibold text-gray-700">No</th>
-                        <th class="px-4 py-2 border-b text-left text-sm font-semibold text-gray-700">Judul Ujian</th>
-                        <th class="px-4 py-2 border-b text-left text-sm font-semibold text-gray-700">Deskripsi</th>
-                        <th class="px-4 py-2 border-b text-left text-sm font-semibold text-gray-700">Topik</th>
-                        <th class="px-4 py-2 border-b text-left text-sm font-semibold text-gray-700">Kelas Mata Pelajaran</th>
-                        <th class="px-4 py-2 border-b text-left text-sm font-semibold text-gray-700">Tanggal Dibuat</th>
-                        <th class="px-4 py-2 border-b text-left text-sm font-semibold text-gray-700">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{-- {{ dd($ujian) }} --}}
-                    @foreach ($ujian as $index => $item)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $index + 1 }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->judul }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->deskripsi ?? 'N/A' }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->topik->judul_topik ?? 'N/A' }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ $item->kelasMataPelajaran->kelas->nama_kelas ?? 'N/A' }} - {{ $item->kelasMataPelajaran->mataPelajaran->nama_matpel ?? 'N/A' }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">{{ \Carbon\Carbon::parse($item->tanggal_dibuat)->format('d M Y') }}</td>
-                            <td class="px-4 py-2 border-b text-sm text-gray-700">
-                                {{-- <a href="{{ route('guru.ujian.edit', $item->id_ujian) }}" class="text-blue-500 hover:text-blue-700">Edit</a> --}}
-                                {{-- <a href="{{ route('guru.ujian.delete', $item->id_ujian) }}" class="text-red-500 hover:text-red-700 ml-4" onclick="return confirm('Apakah Anda yakin ingin menghapus ujian ini?')">Hapus</a> --}}
-                                <a href="{{ route('guru.ujian.add.soal', $item->id_ujian) }}" class="text-green-500 hover:text-green-700 ml-4">Tambah Soal</a>
-                                <a href="{{ route('guru.ujian.soal_ujian', $item->id_ujian) }}" class="text-purple-500 hover:text-purple-700 ml-4">Lihat Soal</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-            {{-- Pagination --}}
-            <div class="mt-4">
-                {{ $ujian->links() }} <!-- Menampilkan pagination -->
+        {{-- Page Header --}}
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-xl font-bold text-slate-900">Manajemen Ujian / CBT</h1>
+                <p class="text-sm text-slate-500 mt-0.5">
+                    Buat jadwal tes, kelola bank soal ujian, pantau token, dan tinjau pengumpulan nilai siswa.
+                </p>
             </div>
-
-            {{-- Tombol Tambah Ujian --}}
-            <div class="mt-4 text-right">
-                <a href="{{ route('guru.dashboard.ujian.create_ujian') }}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Tambah Ujian</a>
+            <div class="flex items-center gap-2 self-start sm:self-auto">
+                <a href="{{ route('guru.dashboard.ujian.create_ujian') }}"
+                    class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-brand-800 text-white hover:bg-brand-900 transition-colors shadow-sm">
+                    <i class="fa-solid fa-plus text-[11px]"></i>
+                    <span>Buat Ujian Baru</span>
+                </a>
+                <a href="{{ route('guru.dashboard.ujian.pengumpulan') }}"
+                    class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors shadow-sm">
+                    <i class="fa-solid fa-square-poll-vertical text-slate-500 text-[11px]"></i>
+                    <span>Hasil Siswa</span>
+                </a>
             </div>
         </div>
+
+        {{-- Flash Messages --}}
+        @if (session('success'))
+            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-circle-check text-emerald-600 text-sm"></i>
+                    <span class="font-medium">{{ session('success') }}</span>
+                </div>
+            </div>
+        @endif
+
+        {{-- Table Card --}}
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+                <div>
+                    <h2 class="font-bold text-slate-900 text-base">Daftar Paket Ujian</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Kelola paket tes, waktu pengerjaan, dan butir soal</p>
+                </div>
+                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600">
+                    {{ $ujian->total() }} Paket Ujian
+                </span>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-slate-50/80 border-b border-slate-100 text-slate-500 uppercase tracking-wider text-[11px] font-semibold">
+                            <th class="py-3.5 px-4 w-12 text-center">No</th>
+                            <th class="py-3.5 px-4">Judul & Detail Ujian</th>
+                            <th class="py-3.5 px-4">Kelas / Mapel</th>
+                            <th class="py-3.5 px-4">Jadwal & Durasi</th>
+                            <th class="py-3.5 px-4 text-center">Token Ujian</th>
+                            <th class="py-3.5 px-4 text-center">Aksi Soal</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        @forelse ($ujian as $index => $item)
+                            <tr class="hover:bg-slate-50/70 transition-colors">
+                                {{-- No --}}
+                                <td class="py-3.5 px-4 text-center text-slate-400 font-medium">
+                                    {{ $ujian->firstItem() + $index }}
+                                </td>
+
+                                {{-- Judul & Deskripsi --}}
+                                <td class="py-3.5 px-4">
+                                    <div class="font-bold text-slate-900 text-sm hover:text-brand-700 transition-colors">
+                                        {{ $item->judul }}
+                                    </div>
+                                    @if ($item->deskripsi)
+                                        <p class="text-[11px] text-slate-500 line-clamp-1 mt-0.5">{{ $item->deskripsi }}</p>
+                                    @endif
+                                    @if ($item->topik)
+                                        <span class="inline-flex items-center gap-1 text-[10px] text-slate-400 mt-1">
+                                            <i class="fa-solid fa-tag text-[9px]"></i>
+                                            Topik: {{ $item->topik->judul_topik }}
+                                        </span>
+                                    @endif
+                                </td>
+
+                                {{-- Kelas / Mapel --}}
+                                <td class="py-3.5 px-4">
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-brand-50 text-brand-700 border border-brand-200/60 mb-1">
+                                        Kelas {{ $item->kelasMataPelajaran->kelas->nama_kelas ?? '-' }}
+                                    </span>
+                                    <p class="text-[11px] text-slate-600 font-medium">
+                                        {{ $item->kelasMataPelajaran->mataPelajaran->nama_matpel ?? '-' }}
+                                    </p>
+                                </td>
+
+                                {{-- Jadwal & Durasi --}}
+                                <td class="py-3.5 px-4 text-slate-600">
+                                    @if ($item->waktu_mulai && $item->waktu_selesai)
+                                        <p class="font-semibold text-slate-800">
+                                            {{ \Carbon\Carbon::parse($item->waktu_mulai)->format('d M Y, H:i') }} WIB
+                                        </p>
+                                        <p class="text-[11px] text-slate-400 mt-0.5">
+                                            Durasi: {{ $item->durasi_menit ?? 60 }} Menit
+                                        </p>
+                                    @else
+                                        <p class="text-slate-500">
+                                            Dibuat: {{ \Carbon\Carbon::parse($item->tanggal_dibuat ?? $item->created_at)->format('d M Y') }}
+                                        </p>
+                                        <p class="text-[11px] text-slate-400 mt-0.5">
+                                            Durasi: {{ $item->durasi_menit ?? 60 }} Menit
+                                        </p>
+                                    @endif
+                                </td>
+
+                                {{-- Token Ujian --}}
+                                <td class="py-3.5 px-4 text-center">
+                                    @if ($item->token_ujian)
+                                        <span class="inline-block px-2.5 py-1 rounded-lg bg-amber-50 text-amber-800 border border-amber-200/80 font-mono font-bold tracking-wider text-xs">
+                                            {{ $item->token_ujian }}
+                                        </span>
+                                    @else
+                                        <span class="text-slate-300 italic text-[11px]">Tanpa Token</span>
+                                    @endif
+                                </td>
+
+                                {{-- Aksi Soal --}}
+                                <td class="py-3.5 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-1.5">
+                                        <a href="{{ route('guru.ujian.soal_ujian', $item->id_ujian) }}"
+                                            class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold transition-colors text-[11px]"
+                                            title="Buka Bank Soal">
+                                            <i class="fa-solid fa-list-ol text-[10px]"></i>
+                                            <span>Soal</span>
+                                        </a>
+                                        <a href="{{ route('guru.ujian.add.soal', $item->id_ujian) }}"
+                                            class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-brand-50 text-brand-700 hover:bg-brand-100 font-semibold transition-colors text-[11px]"
+                                            title="Tambah Butir Soal">
+                                            <i class="fa-solid fa-plus text-[10px]"></i>
+                                            <span>Tambah</span>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="px-6 py-12 text-center text-slate-400 text-xs">
+                                    Belum ada paket ujian yang dibuat.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            {{-- Pagination Footer --}}
+            @if ($ujian->hasPages())
+                <div class="p-4 border-t border-slate-100 bg-slate-50/50">
+                    {{ $ujian->links() }}
+                </div>
+            @endif
+        </div>
+
     </div>
 </x-app-guru-layout>

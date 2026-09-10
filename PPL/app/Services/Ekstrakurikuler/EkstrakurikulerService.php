@@ -138,11 +138,17 @@ class EkstrakurikulerService
         return (bool) $posting->delete();
     }
 
-    public function updateStatusEkstra(string $siswaId, string $status): void
+    public function updateStatusEkstra(string $siswaId, string $status, ?string $tglMulai = null, ?string $tglSelesai = null): void
     {
         $pengurus = PengurusEkstra::where('id_siswa', $siswaId)->firstOrFail();
         $ekstra = ekstrakurikuler::findOrFail($pengurus->id_ekstrakurikuler);
         $ekstra->status = $status;
+        if ($tglMulai !== null) {
+            $ekstra->tgl_mulai_pendaftaran = $tglMulai ? \Carbon\Carbon::parse($tglMulai) : null;
+        }
+        if ($tglSelesai !== null) {
+            $ekstra->tgl_selesai_pendaftaran = $tglSelesai ? \Carbon\Carbon::parse($tglSelesai) : null;
+        }
         $ekstra->save();
     }
 

@@ -40,7 +40,7 @@ class TugasRepository extends BaseRepository implements TugasRepositoryInterface
             ->with([
                 'filetugas',
                 'topik',
-                'kelasMataPelajaran' => fn ($query) => $query->with(['mataPelajaran', 'kelas']),
+                'kelasMataPelajaran' => fn ($query) => $query->with(['mataPelajaran', 'kelas', 'guru']),
             ])
             ->find($id);
     }

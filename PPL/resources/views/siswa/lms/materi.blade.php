@@ -1,5 +1,5 @@
 <x-siswa-layout>
-    <div class="max-w-5xl mx-auto space-y-5">
+    <div class="max-w-6xl mx-auto space-y-6">
 
         {{-- Page Header --}}
         <div>

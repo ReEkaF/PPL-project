@@ -51,8 +51,17 @@ class AbsensiController extends Controller
 
     public function updateStatusQr(Request $request)
     {
+        $request->validate([
+            'id' => 'required|exists:pertemuan,id_pertemuan',
+            'status' => 'required|in:Aktif,Tidak Aktif',
+        ]);
+
         $this->absensiService->updatePertemuanStatus($request->id, $request->status);
 
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Status QR Code berhasil diubah menjadi ' . $request->status,
+            'status' => $request->status,
+        ]);
     }
 }

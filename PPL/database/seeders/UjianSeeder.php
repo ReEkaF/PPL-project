@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\kelas_mata_pelajaran;
+use App\Models\tahun_ajaran;
 use App\Models\topik;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
@@ -16,11 +17,13 @@ class UjianSeeder extends Seeder
      */
     public function run(): void
     {
-        $topiks = topik::with(['kelasMataPelajaran'])->get();
-
-        if ($topiks->isEmpty()) {
-            return;
-        }
+        // Truncate previous exam seeds to prevent record explosion
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('jawaban_ujian')->truncate();
+        DB::table('pengumpulan_ujian')->truncate();
+        DB::table('soal_ujian')->truncate();
+        DB::table('ujian')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         // Realistic question banks by subject keywords
         $sampleQuestions = [
@@ -161,14 +164,20 @@ class UjianSeeder extends Seeder
             ],
         ];
 
-        // Seed 1-2 exams per schedule
-        foreach ($topiks as $topik) {
-            $kelasMapel = $topik->kelasMataPelajaran;
-            if (!$kelasMapel) {
-                continue;
-            }
+        // Retrieve active academic year's class subjects (or all distinct KMP)
+        $tahunAjaran = tahun_ajaran::where('aktif', 1)->first();
+        $kelasMapelList = kelas_mata_pelajaran::with(['mataPelajaran', 'kelas', 'guru'])
+            ->when($tahunAjaran, fn($q) => $q->where('tahun_ajaran_id', $tahunAjaran->id_tahun_ajaran))
+            ->get();
 
+        if ($kelasMapelList->isEmpty()) {
+            $kelasMapelList = kelas_mata_pelajaran::with(['mataPelajaran', 'kelas', 'guru'])->get();
+        }
+
+        // Seed exams per kelas_mata_pelajaran (realistic 2 exams per subject)
+        foreach ($kelasMapelList as $kelasMapel) {
             $matpelName = $kelasMapel->mataPelajaran?->nama_matpel ?? 'Umum';
+            $namaKelas = $kelasMapel->kelas?->nama_kelas ?? '';
             $questionsPool = $sampleQuestions[$matpelName] ?? $sampleQuestions['Umum'];
 
             // Find students in this class
@@ -176,22 +185,32 @@ class UjianSeeder extends Seeder
                 ->where('id_kelas', $kelasMapel->kelas_id)
                 ->pluck('id_siswa');
 
-            if ($students->isEmpty()) {
-                continue;
-            }
+            // Find a valid topic for this KMP
+            $topik = topik::where('kelas_mata_pelajaran_id', $kelasMapel->id_kelas_mata_pelajaran)->first();
+            $topikId = $topik?->id_topik;
 
             $ujianList = [
                 [
-                    'judul' => 'Ulangan Harian 1: ' . $topik->judul_topik,
-                    'jenis' => 'Ulangan Harian',
-                    'deskripsi' => 'Evaluasi kompetensi dasar untuk topik ' . $topik->judul_topik . '. Kerjakan secara mandiri.',
-                    'tanggal' => Carbon::now()->subWeeks(3)->toDateString(),
+                    'judul' => 'Penilaian Tengah Semester (PTS) - ' . $matpelName . ' ' . $namaKelas,
+                    'jenis' => 'PTS',
+                    'deskripsi' => 'Ujian terstruktur tengah semester mencakup pemahaman materi komprehensif ' . $matpelName . '.',
+                    'tanggal' => Carbon::now()->subWeeks(2)->toDateString(),
+                    'waktu_mulai' => Carbon::now()->subWeeks(2)->setTime(8, 0)->toDateTimeString(),
+                    'waktu_selesai' => Carbon::now()->subWeeks(2)->setTime(12, 0)->toDateTimeString(),
+                    'durasi_menit' => 60,
+                    'token' => 'PTS' . strtoupper(substr($namaKelas, 0, 2)) . '1',
+                    'sudah_selesai' => true, // Simulated as completed by students
                 ],
                 [
-                    'judul' => 'Penilaian Tengah Semester (PTS) - ' . $matpelName,
-                    'jenis' => 'PTS',
-                    'deskripsi' => 'Ujian terstruktur tengah semester genap/ganjil mencakup pemahaman materi komprehensif.',
-                    'tanggal' => Carbon::now()->subWeeks(1)->toDateString(),
+                    'judul' => 'Ulangan Harian 1 - ' . $matpelName . ' ' . $namaKelas,
+                    'jenis' => 'Ulangan Harian',
+                    'deskripsi' => 'Evaluasi kompetensi dasar materi awal bab pelajaran ' . $matpelName . '. Kerjakan secara mandiri dan jujur.',
+                    'tanggal' => Carbon::now()->toDateString(),
+                    'waktu_mulai' => Carbon::now()->startOfDay()->toDateTimeString(),
+                    'waktu_selesai' => Carbon::now()->endOfDay()->toDateTimeString(),
+                    'durasi_menit' => 60,
+                    'token' => 'CBT7A1',
+                    'sudah_selesai' => false, // Simulated as open/ready to take today
                 ],
             ];
 
@@ -203,9 +222,13 @@ class UjianSeeder extends Seeder
                     'judul' => $u['judul'],
                     'jenis_ujian' => $u['jenis'],
                     'deskripsi' => $u['deskripsi'],
-                    'topik_id' => $topik->id_topik,
+                    'topik_id' => $topikId,
                     'kelas_mata_pelajaran_id' => $kelasMapel->id_kelas_mata_pelajaran,
                     'tanggal_dibuat' => $u['tanggal'],
+                    'waktu_mulai' => $u['waktu_mulai'],
+                    'waktu_selesai' => $u['waktu_selesai'],
+                    'durasi_menit' => $u['durasi_menit'],
+                    'token' => $u['token'],
                     'created_at' => $u['tanggal'],
                     'updated_at' => $u['tanggal'],
                 ]);
@@ -231,36 +254,37 @@ class UjianSeeder extends Seeder
                     ]);
                 }
 
-                // Insert Pengumpulan Ujian & Jawaban Ujian for students
-                foreach ($students as $siswaId) {
-                    $pengumpulanId = (string) Str::uuid();
-                    $score = rand(70, 96);
+                // If marked as already completed, seed student submissions
+                if ($u['sudah_selesai'] && $students->isNotEmpty()) {
+                    foreach ($students as $siswaId) {
+                        $pengumpulanId = (string) Str::uuid();
+                        $score = rand(75, 95);
 
-                    DB::table('pengumpulan_ujian')->insert([
-                        'id_pengumpulan_ujian' => $pengumpulanId,
-                        'ujian_id' => $ujianId,
-                        'siswa_id' => $siswaId,
-                        'tanggal_pengumpulan' => $u['tanggal'] . ' 10:30:00',
-                        'nilai' => (string) $score,
-                        'created_at' => $u['tanggal'],
-                        'updated_at' => $u['tanggal'],
-                    ]);
-
-                    foreach ($createdSoalIds as $soalItem) {
-                        // 85% chance student answered correctly
-                        $answeredCorrectly = (rand(1, 100) <= 85);
-                        $chosen = $answeredCorrectly
-                            ? $soalItem['kunci']
-                            : collect(['A', 'B', 'C', 'D'])->reject(fn($val) => $val === $soalItem['kunci'])->random();
-
-                        DB::table('jawaban_ujian')->insert([
-                            'id_jawaban_ujian' => (string) Str::uuid(),
-                            'pengumpulan_ujian_id' => $pengumpulanId,
-                            'soal_id' => $soalItem['id'],
-                            'jawaban_dipilih' => $chosen,
+                        DB::table('pengumpulan_ujian')->insert([
+                            'id_pengumpulan_ujian' => $pengumpulanId,
+                            'ujian_id' => $ujianId,
+                            'siswa_id' => $siswaId,
+                            'tanggal_pengumpulan' => $u['tanggal'] . ' 10:30:00',
+                            'nilai' => (string) $score,
                             'created_at' => $u['tanggal'],
                             'updated_at' => $u['tanggal'],
                         ]);
+
+                        foreach ($createdSoalIds as $soalItem) {
+                            $answeredCorrectly = (rand(1, 100) <= 85);
+                            $chosen = $answeredCorrectly
+                                ? $soalItem['kunci']
+                                : collect(['A', 'B', 'C', 'D'])->reject(fn($val) => $val === $soalItem['kunci'])->random();
+
+                            DB::table('jawaban_ujian')->insert([
+                                'id_jawaban_ujian' => (string) Str::uuid(),
+                                'pengumpulan_ujian_id' => $pengumpulanId,
+                                'soal_id' => $soalItem['id'],
+                                'jawaban_dipilih' => $chosen,
+                                'created_at' => $u['tanggal'],
+                                'updated_at' => $u['tanggal'],
+                            ]);
+                        }
                     }
                 }
             }

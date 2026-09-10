@@ -38,19 +38,12 @@
                 <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Kelola Prestasi</h1>
                 <p class="mb-2 text-gray-300 dark:text-gray-200">Ini merupakan halaman kelola Prestasi</p>
                 
-                <!-- Tombol Tambah Data dan Pengajuan -->
+                <!-- Tombol Tambah Data -->
                 <div class="flex items-center space-x-4">
                     <button onclick="window.location.href='{{ route('prestasi.create') }}'"
                             class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
                         <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                            Tambah Data
-                        </span>
-                    </button>
-                    <span class="h-11 w-px bg-gray-300"></span>
-                    <button onclick="window.location.href='{{ route('prestasi.pengajuan') }}'"
-                            class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
-                        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                            Pengajuan
+                            Tambah Prestasi
                         </span>
                     </button>
                 </div>

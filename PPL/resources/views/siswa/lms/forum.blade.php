@@ -25,7 +25,7 @@
                 ];
             @endphp
             @foreach ($tabs as $tab)
-                @php $isActive = request()->routeIs($tab['route']); @endphp
+                @php $isActive = request()->routeIs($tab['route']) || request()->routeIs(str_replace('dashboard.', '', $tab['route'])); @endphp
                 <a href="{{ route($tab['route'], $tab['param']) }}"
                     class="px-4 py-2 text-sm font-medium rounded-lg transition-colors
                     {{ $isActive ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700' }}">

@@ -1,51 +1,94 @@
 <x-app-guru-layout>
-    <div class="px-3 py-5 mx-4 my-6 bg-white rounded-lg shadow xl:p-6">
-        {{-- Breadcrumb --}}
-        @php
-        $breadcrumbs = [
-                ['label' => 'Dashboard', 'route' => route('guru.dashboard')],
-                ['label' => 'LMS', 'route' => route('guru.dashboard.lms')],
-            ];
-        @endphp
+    <div class="max-w-7xl mx-auto space-y-6">
 
-        <x-breadcrumb :breadcrumbs="$breadcrumbs" />
-
-        {{-- Main Content --}}
-        <div class="px-3 mt-6">
-            <h2 class="mb-4 text-3xl font-semibold text-gray-800">Kelas</h2>
-            <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-4">
-
-                <!-- Card 1 -->
-                @if ($kelasGuru->count() > 0)
-                    @foreach ($kelasGuru as $kelas)
-                        <a href="{{ route('guru.dashboard.lms.forum', $kelas->id_kelas_mata_pelajaran) }}" class="block">
-                            <div
-                                class="flex items-center p-4 border-2 border-gray-300 rounded-2xl  hover:bg-gray-100 transition duration-100">
-                                <div class="p-2 mr-2 rounded-full">
-                                    <svg width="40" height="40" viewBox="0 0 42 47" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M2.22813 4.97592C0 8.04268 0 12.4174 0 21.1667V25.8334C0 34.5828 0 38.9575 2.22813 42.0242C2.94773 43.0147 3.81873 43.8857 4.80917 44.6053C7.87594 46.8334 12.2506 46.8334 21 46.8334C29.7494 46.8334 34.1241 46.8334 37.1908 44.6053C38.1813 43.8857 39.0523 43.0147 39.7719 42.0242C42 38.9575 42 34.5828 42 25.8334V21.1667C42 12.4174 42 8.04268 39.7719 4.97592C39.0523 3.98548 38.1813 3.11448 37.1908 2.39488C34.1241 0.166748 29.7494 0.166748 21 0.166748C12.2506 0.166748 7.87594 0.166748 4.80917 2.39488C3.81873 3.11448 2.94773 3.98548 2.22813 4.97592ZM11.6667 12.4167C10.7002 12.4167 9.91667 13.2002 9.91667 14.1667C9.91667 15.1332 10.7002 15.9167 11.6667 15.9167H30.3333C31.2998 15.9167 32.0833 15.1332 32.0833 14.1667C32.0833 13.2002 31.2998 12.4167 30.3333 12.4167H11.6667ZM11.6667 21.7501C10.7002 21.7501 9.91667 22.5336 9.91667 23.5001C9.91667 24.4666 10.7002 25.2501 11.6667 25.2501H30.3333C31.2998 25.2501 32.0833 24.4666 32.0833 23.5001C32.0833 22.5336 31.2998 21.7501 30.3333 21.7501H11.6667ZM11.6667 31.0834C10.7002 31.0834 9.91667 31.8669 9.91667 32.8334C9.91667 33.7999 10.7002 34.5834 11.6667 34.5834H18.6667C19.6332 34.5834 20.4167 33.7999 20.4167 32.8334C20.4167 31.8669 19.6332 31.0834 18.6667 31.0834H11.6667Z"
-                                            fill="#2D264B" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="text-lg lg:text-xl font-semibold text-gray-800">
-                                        {{ $kelas->mataPelajaran->nama_matpel }} {{ $kelas->kelas->nama_kelas }}
-                                    </h4>
-                                    </h4>
-                                    <p class="text-sm text-gray-500">{{ $kelas->hari->nama_hari }},
-                                        {{ $kelas->waktu_mulai }} - {{ $kelas->waktu_selesai }} WIB</p>
-                                </div>
-                            </div>
-                        </a>
-                    @endforeach
-                @else
-                    <div class="flex items-center justify-center p-4 border-2 border-gray-300 rounded-2xl"></div>
-                    <p class="text-lg font-semibold text-gray-800">Siswa belum terdaftar dalam kelas manapun.</p>
-                @endif
+        {{-- Page Header --}}
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-xl font-bold text-slate-900">Ruang Kelas LMS</h1>
+                <p class="text-sm text-slate-500 mt-0.5">
+                    Pilih rombel untuk mengelola modul pembelajaran, penugasan siswa, dan forum interaksi kelas.
+                </p>
+            </div>
+            <div class="flex items-center gap-2 self-start sm:self-auto">
+                <a href="{{ route('guru.lms.materi.create-view') }}"
+                    class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-brand-800 text-white hover:bg-brand-900 transition-colors shadow-sm">
+                    <i class="fa-solid fa-plus text-[11px]"></i>
+                    <span>Tambah Materi</span>
+                </a>
+                <a href="{{ route('guru.dashboard.lms.tugas.periksa') }}"
+                    class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors shadow-sm">
+                    <i class="fa-solid fa-list-check text-slate-500 text-[11px]"></i>
+                    <span>Periksa Tugas</span>
+                </a>
             </div>
         </div>
+
+        {{-- Main Grid of Classes --}}
+        @if ($kelasGuru->isNotEmpty())
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                @foreach ($kelasGuru as $kelas)
+                    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-md hover:border-brand-300 transition-all flex flex-col justify-between gap-4 group">
+                        
+                        <div class="space-y-3">
+                            {{-- Top Badges --}}
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-brand-50 text-brand-700 border border-brand-200/60">
+                                    <i class="fa-solid fa-chalkboard text-[10px]"></i>
+                                    Kelas {{ $kelas->kelas->nama_kelas ?? '-' }}
+                                </span>
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600">
+                                    <i class="fa-regular fa-clock text-[10px]"></i>
+                                    {{ $kelas->hari->nama_hari ?? 'Hari' }}
+                                </span>
+                            </div>
+
+                            {{-- Title & Info --}}
+                            <div>
+                                <a href="{{ route('guru.dashboard.lms.forum', $kelas->id_kelas_mata_pelajaran) }}" class="block">
+                                    <h3 class="font-bold text-slate-900 text-base group-hover:text-brand-700 transition-colors">
+                                        {{ $kelas->mataPelajaran->nama_matpel ?? 'Mata Pelajaran' }}
+                                    </h3>
+                                </a>
+                                <p class="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
+                                    <i class="fa-regular fa-calendar-check text-slate-400"></i>
+                                    <span>Pukul {{ date('H:i', strtotime($kelas->waktu_mulai)) }} - {{ date('H:i', strtotime($kelas->waktu_selesai)) }} WIB</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        {{-- Action Buttons --}}
+                        <div class="pt-3 border-t border-slate-100 flex items-center gap-2">
+                            <a href="{{ route('guru.dashboard.lms.forum', $kelas->id_kelas_mata_pelajaran) }}"
+                                class="flex-1 inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-semibold bg-brand-50 text-brand-700 hover:bg-brand-100 transition-colors">
+                                <i class="fa-solid fa-comments text-[11px]"></i>
+                                <span>Forum Kelas</span>
+                            </a>
+                            <a href="{{ route('guru.dashboard.lms.forum.tugas', $kelas->id_kelas_mata_pelajaran) }}"
+                                class="inline-flex items-center justify-center p-2 w-9 h-9 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
+                                title="Tugas Kelas">
+                                <i class="fa-solid fa-list-check text-xs"></i>
+                            </a>
+                            <a href="{{ route('guru.dashboard.lms.forum.anggota', $kelas->id_kelas_mata_pelajaran) }}"
+                                class="inline-flex items-center justify-center p-2 w-9 h-9 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
+                                title="Anggota Kelas">
+                                <i class="fa-solid fa-users text-xs"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center shadow-sm">
+                <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-graduation-cap text-2xl"></i>
+                </div>
+                <h3 class="text-base font-bold text-slate-800">Belum Ada Rombel LMS</h3>
+                <p class="text-sm text-slate-400 max-w-md mx-auto mt-1">
+                    Anda belum memiliki rombongan belajar aktif yang dialokasikan untuk kegiatan pembelajaran LMS.
+                </p>
+            </div>
+        @endif
 
     </div>
 </x-app-guru-layout>

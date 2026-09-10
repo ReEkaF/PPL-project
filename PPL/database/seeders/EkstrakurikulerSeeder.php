@@ -146,6 +146,8 @@ class EkstrakurikulerSeeder extends Seeder
                 'deskripsi' => $item['deskripsi'],
                 'gambar' => $item['gambar'],
                 'status' => $item['status'],
+                'tgl_mulai_pendaftaran' => ($item['status'] === 'buka') ? Carbon::now()->subDays(3) : Carbon::now()->subMonths(2),
+                'tgl_selesai_pendaftaran' => ($item['status'] === 'buka') ? Carbon::now()->addDays(20) : Carbon::now()->subMonth(),
             ]);
 
             // 2. Assign Student Leaders (Pengurus)
