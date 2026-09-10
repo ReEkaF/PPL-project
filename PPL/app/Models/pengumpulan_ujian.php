@@ -77,8 +77,8 @@ class pengumpulan_ujian extends Model
         return $this->belongsTo(Siswa::class, 'siswa_id', 'id_siswa');
     }
 
-    public function jawabanujian()
+    public function jawabanUjian()
     {
-        return $this->hasMany(jawaban_ujian::class);
+        return $this->hasMany(jawaban_ujian::class, 'pengumpulan_ujian_id', 'id_pengumpulan_ujian');
     }
 }

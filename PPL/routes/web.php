@@ -555,6 +555,10 @@ Route::group(['prefix' => 'guru', 'middleware' => ['guru']], function () {
     Route::post('/dashboard/ujian/simpan-ujian', [GuruUjianController::class, 'storeData'])->name('ujian.stored');
     Route::post('/dashboard/ujian/store-ujian', [GuruUjianController::class, 'storeData'])->name('ujian.store');
     Route::post('/dashboard/ujian/create_ujian', [GuruUjianController::class, 'storeData']);
+    Route::get('/dashboard/ujian/{id}/detail', [GuruUjianController::class, 'detailUjian'])->name('guru.ujian.detail');
+    Route::get('/dashboard/ujian/{id}/pengumpulan', [GuruUjianController::class, 'detailUjian'])->name('guru.ujian.pengumpulan.detail');
+    Route::get('/dashboard/ujian/pengumpulan/{id_pengumpulan}/koreksi', [GuruUjianController::class, 'koreksiJawaban'])->name('guru.ujian.pengumpulan.koreksi');
+    Route::put('/dashboard/ujian/pengumpulan/{id_pengumpulan}/nilai', [GuruUjianController::class, 'updateNilaiPengumpulan'])->name('guru.ujian.pengumpulan.nilai');
     Route::get('/dashboard/ujian/{id}/edit', [GuruUjianController::class, 'ujianEdit'])->name('guru.ujian.edit');
     Route::get('/dashboard/ujian/{id}/ujian_edit', [GuruUjianController::class, 'ujianEdit']);
     Route::delete('/dashboard/ujian/{id}', [GuruUjianController::class, 'ujianDelete'])->name('guru.ujian.destroy');

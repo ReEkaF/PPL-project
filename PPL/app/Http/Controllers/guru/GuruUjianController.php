@@ -7,6 +7,8 @@ use App\Http\Requests\Ujian\StoreUjianRequest;
 use App\Http\Requests\Ujian\UpdateSoalRequest;
 use App\Imports\SoalUjianImport;
 use App\Models\jawaban_ujian;
+use App\Models\KelasSiswa;
+use App\Models\pengumpulan_ujian;
 use App\Models\soal_ujian;
 use App\Models\ujian;
 use App\Services\Ujian\CbtService;
@@ -85,6 +87,94 @@ class GuruUjianController extends Controller
         $this->cbtService->createUjian($request->validated());
 
         return redirect()->route('ujian.show');
+    }
+
+    public function detailUjian(string $id): View
+    {
+        $guruId = auth()->guard('web-guru')->user()?->id_guru;
+
+        $ujian = ujian::with([
+            'kelasMataPelajaran.kelas',
+            'kelasMataPelajaran.mataPelajaran',
+            'topik',
+            'soalUjian',
+        ])->withCount(['soalUjian', 'pengumpulanUjian'])->findOrFail($id);
+
+        if ($guruId && $ujian->kelasMataPelajaran && $ujian->kelasMataPelajaran->guru_id !== $guruId) {
+            abort(403, 'Anda tidak memiliki akses ke paket ujian ini.');
+        }
+
+        $pengumpulan = pengumpulan_ujian::where('ujian_id', $id)
+            ->with(['siswa', 'jawabanUjian.soalUjian'])
+            ->latest('tanggal_pengumpulan')
+            ->get();
+
+        // Cari siswa di kelas ini yang belum mengumpulkan ujian
+        $kelasId = $ujian->kelasMataPelajaran?->kelas_id;
+        $belumMengerjakan = collect();
+        if ($kelasId) {
+            $submittedSiswaIds = $pengumpulan->pluck('siswa_id')->toArray();
+            $belumMengerjakan = KelasSiswa::where('id_kelas', $kelasId)
+                ->whereNotIn('id_siswa', $submittedSiswaIds)
+                ->with('siswa')
+                ->get()
+                ->pluck('siswa')
+                ->filter();
+        }
+
+        // Statistik nilai
+        $nilaiList = $pengumpulan->pluck('nilai')->filter(fn ($n) => is_numeric($n))->map(fn ($n) => (float) $n);
+        $rataRata = $nilaiList->isNotEmpty() ? round($nilaiList->avg(), 1) : 0;
+        $nilaiTertinggi = $nilaiList->isNotEmpty() ? $nilaiList->max() : 0;
+        $nilaiTerendah = $nilaiList->isNotEmpty() ? $nilaiList->min() : 0;
+
+        return view('guru.ujian.detail_ujian', compact(
+            'ujian',
+            'pengumpulan',
+            'belumMengerjakan',
+            'rataRata',
+            'nilaiTertinggi',
+            'nilaiTerendah'
+        ));
+    }
+
+    public function koreksiJawaban(string $id_pengumpulan): View
+    {
+        $guruId = auth()->guard('web-guru')->user()?->id_guru;
+
+        $pengumpulan = pengumpulan_ujian::with([
+            'siswa',
+            'ujian.kelasMataPelajaran.mataPelajaran',
+            'ujian.kelasMataPelajaran.kelas',
+            'ujian.soalUjian',
+            'jawabanUjian.soalUjian',
+        ])->findOrFail($id_pengumpulan);
+
+        if ($guruId && $pengumpulan->ujian?->kelasMataPelajaran && $pengumpulan->ujian->kelasMataPelajaran->guru_id !== $guruId) {
+            abort(403, 'Anda tidak memiliki akses ke lembar jawaban ini.');
+        }
+
+        return view('guru.ujian.koreksi_jawaban', compact('pengumpulan'));
+    }
+
+    public function updateNilaiPengumpulan(Request $request, string $id_pengumpulan): RedirectResponse
+    {
+        $request->validate([
+            'nilai' => ['required', 'numeric', 'min:0', 'max:100'],
+        ]);
+
+        $guruId = auth()->guard('web-guru')->user()?->id_guru;
+        $pengumpulan = pengumpulan_ujian::with('ujian.kelasMataPelajaran')->findOrFail($id_pengumpulan);
+
+        if ($guruId && $pengumpulan->ujian?->kelasMataPelajaran && $pengumpulan->ujian->kelasMataPelajaran->guru_id !== $guruId) {
+            abort(403, 'Anda tidak memiliki izin memperbarui nilai ujian ini.');
+        }
+
+        $pengumpulan->update([
+            'nilai' => $request->nilai,
+        ]);
+
+        return redirect()->back()->with('success', 'Nilai ujian siswa berhasil diperbarui.');
     }
 
     public function createSoal(string $ujian_id): View

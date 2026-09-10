@@ -69,25 +69,12 @@
                     </li>
 
                     {{-- Ujian / CBT --}}
-                    @php $isUjianActive = request()->is('guru/dashboard/ujian*') || request()->routeIs('ujian.*', 'guru.dashboard.ujian.*'); @endphp
+                    @php $isUjianActive = request()->is('guru/dashboard/ujian*') || request()->routeIs('ujian.*', 'guru.dashboard.ujian.*', 'guru.ujian.*'); @endphp
                     <li>
-                        <x-sidebar-dropdown label="Ujian / CBT" id="ujian" :active="$isUjianActive">
+                        <x-sidebar-link href="{{ route('ujian.show') }}" :active="$isUjianActive">
                             <i class="w-5 text-center shrink-0 text-base transition-colors {{ $isUjianActive ? 'text-brand-800' : 'text-slate-400 group-hover:text-slate-600' }} fa-solid fa-file-signature"></i>
-                        </x-sidebar-dropdown>
-                        <x-sidebar-dropdown-list id="ujian" :active="$isUjianActive">
-                            <li>
-                                <x-sidebar-dropdown-list-link href="{{ route('ujian.show') }}" :active="request()->is('guru/dashboard/ujian/view_ujian*') || request()->routeIs('ujian.show')">Beranda Ujian</x-sidebar-dropdown-list-link>
-                            </li>
-                            <li>
-                                <x-sidebar-dropdown-list-link href="{{ route('guru.dashboard.ujian.create_ujian') }}" :active="request()->is('guru/dashboard/ujian/create_ujian*')">Buat Ujian</x-sidebar-dropdown-list-link>
-                            </li>
-                            <li>
-                                <x-sidebar-dropdown-list-link href="{{ route('guru.dashboard.ujian.jawaban_ujian') }}" :active="request()->is('guru/dashboard/ujian/jawaban_ujian*')">Koreksi Jawaban</x-sidebar-dropdown-list-link>
-                            </li>
-                            <li>
-                                <x-sidebar-dropdown-list-link href="{{ route('guru.dashboard.ujian.pengumpulan') }}" :active="request()->is('guru/dashboard/ujian/pengumpulan_ujian*')">Pengumpulan Siswa</x-sidebar-dropdown-list-link>
-                            </li>
-                        </x-sidebar-dropdown-list>
+                            <span class="ml-3" sidebar-toggle-item>Ujian / CBT</span>
+                        </x-sidebar-link>
                     </li>
 
                     {{-- Perpustakaan --}}

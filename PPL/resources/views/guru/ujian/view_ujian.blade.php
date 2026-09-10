@@ -15,11 +15,6 @@
                     <i class="fa-solid fa-plus text-[11px]"></i>
                     <span>Buat Ujian Baru</span>
                 </a>
-                <a href="{{ route('guru.dashboard.ujian.pengumpulan') }}"
-                    class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors shadow-sm">
-                    <i class="fa-solid fa-square-poll-vertical text-slate-500 text-[11px]"></i>
-                    <span>Hasil Siswa</span>
-                </a>
             </div>
         </div>
 
@@ -161,12 +156,13 @@
                             <thead>
                                 <tr class="bg-slate-50/50 border-b border-slate-100 text-slate-500 uppercase tracking-wider text-[11px] font-semibold">
                                     <th class="py-3 px-4 w-12 text-center">No</th>
-                                    <th class="py-3 px-4 min-w-[220px]">Judul & Detail Ujian</th>
-                                    <th class="py-3 px-4 min-w-[160px]">Mata Pelajaran</th>
-                                    <th class="py-3 px-4 min-w-[170px]">Jadwal & Durasi</th>
-                                    <th class="py-3 px-4 text-center min-w-[100px]">Soal</th>
-                                    <th class="py-3 px-4 text-center min-w-[110px]">Token</th>
-                                    <th class="py-3 px-4 text-center min-w-[140px]">Aksi</th>
+                                    <th class="py-3 px-4 min-w-[200px]">Judul & Detail Ujian</th>
+                                    <th class="py-3 px-4 min-w-[140px]">Mata Pelajaran</th>
+                                    <th class="py-3 px-4 min-w-[160px]">Jadwal & Durasi</th>
+                                    <th class="py-3 px-4 text-center min-w-[110px]">Pengumpulan</th>
+                                    <th class="py-3 px-4 text-center min-w-[90px]">Soal</th>
+                                    <th class="py-3 px-4 text-center min-w-[100px]">Token</th>
+                                    <th class="py-3 px-4 text-center min-w-[180px]">Aksi & Koreksi</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-100">
@@ -197,9 +193,9 @@
                                                     </span>
                                                 @endif
                                             </div>
-                                            <div class="font-bold text-slate-900 text-sm hover:text-brand-800 transition-colors">
+                                            <a href="{{ route('guru.ujian.detail', $item->id_ujian) }}" class="font-bold text-slate-900 text-sm hover:text-brand-800 transition-colors">
                                                 {{ $item->judul }}
-                                            </div>
+                                            </a>
                                             @if ($item->deskripsi)
                                                 <p class="text-[11px] text-slate-400 line-clamp-1 mt-0.5">
                                                     {{ $item->deskripsi }}
@@ -231,12 +227,24 @@
                                             </p>
                                         </td>
 
+                                        {{-- Pengumpulan Siswa --}}
+                                        <td class="py-3 px-4 text-center">
+                                            <a href="{{ route('guru.ujian.detail', $item->id_ujian) }}"
+                                                class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg font-semibold text-xs transition-colors {{ ($item->pengumpulan_ujian_count ?? 0) > 0 ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200' : 'bg-slate-100 text-slate-500 hover:bg-slate-200' }}"
+                                                title="Lihat Daftar Siswa Mengumpulkan">
+                                                <i class="fa-solid fa-users text-[10px]"></i>
+                                                <span>{{ $item->pengumpulan_ujian_count ?? 0 }} Siswa</span>
+                                            </a>
+                                        </td>
+
                                         {{-- Butir Soal --}}
                                         <td class="py-3 px-4 text-center">
-                                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-semibold text-xs">
+                                            <a href="{{ route('guru.ujian.soal_ujian', $item->id_ujian) }}"
+                                                class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold text-xs transition-colors"
+                                                title="Buka Bank Soal">
                                                 <i class="fa-solid fa-list-check text-slate-400 text-[10px]"></i>
                                                 <span>{{ $item->soal_ujian_count ?? 0 }} Soal</span>
-                                            </span>
+                                            </a>
                                         </td>
 
                                         {{-- Token Ujian --}}
@@ -253,17 +261,16 @@
                                         {{-- Aksi --}}
                                         <td class="py-3 px-4 text-center">
                                             <div class="flex items-center justify-center gap-1.5">
-                                                <a href="{{ route('guru.ujian.soal_ujian', $item->id_ujian) }}"
-                                                    class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold transition-colors text-[11px]"
-                                                    title="Buka Bank Soal">
-                                                    <i class="fa-solid fa-list-ol text-[10px]"></i>
-                                                    <span>Soal</span>
+                                                <a href="{{ route('guru.ujian.detail', $item->id_ujian) }}"
+                                                    class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-brand-800 text-white hover:bg-brand-900 font-semibold transition-colors text-xs shadow-sm"
+                                                    title="Buka Hasil & Koreksi Jawaban">
+                                                    <i class="fa-solid fa-chart-simple text-[10px]"></i>
+                                                    <span>Hasil & Koreksi</span>
                                                 </a>
                                                 <a href="{{ route('guru.ujian.add.soal', $item->id_ujian) }}"
-                                                    class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-brand-50 text-brand-700 hover:bg-brand-100 font-semibold transition-colors text-[11px]"
+                                                    class="inline-flex items-center gap-1 px-2 py-1.5 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 font-semibold transition-colors text-xs"
                                                     title="Tambah Butir Soal">
                                                     <i class="fa-solid fa-plus text-[10px]"></i>
-                                                    <span>Tambah</span>
                                                 </a>
                                             </div>
                                         </td>
