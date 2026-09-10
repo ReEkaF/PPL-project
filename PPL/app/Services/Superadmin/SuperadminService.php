@@ -292,8 +292,6 @@ class SuperadminService
         return $this->userRepo->removePengurusRoleBySiswaId($siswaId);
     }
 
-    // ================= SUPERADMIN =================
-
     public function updateSuperadminProfile(string $adminId, array $data): bool
     {
         $payload = [
@@ -308,5 +306,10 @@ class SuperadminService
         }
 
         return $this->userRepo->updateSuperadminProfile($adminId, $payload);
+    }
+
+    public function getDashboardStats(): array
+    {
+        return $this->userRepo->getDashboardStats();
     }
 }

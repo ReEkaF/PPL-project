@@ -20,7 +20,9 @@ class SuperadminController extends Controller
     // Method for the dashboard
     public function index()
     {
-        return view('superadmin.dashboard');
+        $stats = $this->superadminService->getDashboardStats();
+
+        return view('superadmin.dashboard', compact('stats'));
     }
 
     public function showDataGuru()

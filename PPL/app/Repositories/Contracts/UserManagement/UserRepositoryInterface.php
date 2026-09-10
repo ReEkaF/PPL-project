@@ -85,4 +85,6 @@ interface UserRepositoryInterface extends BaseRepositoryInterface
     public function findSuperadminOrFail(string $id): Model;
 
     public function updateSuperadminProfile(string $adminId, array $data): bool;
+
+    public function getDashboardStats(): array;
 }

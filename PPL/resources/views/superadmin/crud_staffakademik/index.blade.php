@@ -1,218 +1,111 @@
 <x-admin-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
-    <div class="py-12">
-        @if(session('success'))
-        <div id="success-message" class="bg-green-500 text-white text-center py-2 px-4 rounded-md shadow-md mb-6">
-            {{ session('success') }}
+    <div class="space-y-6">
+        <!-- Breadcrumb & Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+                <nav class="flex items-center gap-2 text-xs text-slate-500 mb-1">
+                    <a href="{{ route('superadmin.dashboard') }}" class="hover:text-slate-900 transition-colors">Dashboard</a>
+                    <span>/</span>
+                    <span class="text-slate-700 font-medium">Staff Akademik</span>
+                </nav>
+                <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Kelola Akun Staff Akademik</h1>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="{{ route('superadmin.kelola_staff_akademik.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-indigo-700 hover:bg-indigo-800 text-white text-sm font-medium shadow-sm transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    <span>Tambah Staff Baru</span>
+                </a>
+            </div>
         </div>
+
+        @if(session('success'))
+            <div id="success-alert" class="flex items-center justify-between p-4 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm">
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-emerald-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span>{{ session('success') }}</span>
+                </div>
+                <button type="button" onclick="document.getElementById('success-alert').remove()" class="text-emerald-700 hover:text-emerald-900 text-lg leading-none">&times;</button>
+            </div>
         @endif
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                <nav class="text-sm text-gray-500 mb-4">
-                    <a href="{{ route('superadmin.dashboard') }}" class="text-black-500 hover:underline">Dashboard </a> >
-                    <a href="{{ route('superadmin.kelola_staff_akademik') }}" class="text-black-500 hover:underline"><b>Kelola Akun Staff Akademik</b></a>
-                </nav>
-                <h3 class="text-lg font-semibold mb-4">Kelola Akun Staff Akademik</h3>
-                <div class="mb-4 flex justify-between items-center">
-                    <div>
-                        <a href="{{ route('superadmin.kelola_staff_akademik.create') }}" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Tambah Data</a>
-                    </div>
+        <!-- Card Container -->
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between">
+                <div class="text-sm text-slate-500">
+                    Total terdaftar: <span class="font-semibold text-slate-800">{{ $staffakademik->count() }} Petugas</span>
                 </div>
+            </div>
 
-                <div class="overflow-hidden">
-                    <table class="min-w-full " id="selection-table">
-                        <thead class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                            <tr>
-                                <th>
-                                    <span class="flex items-center">
-                                        Username
-                                        <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4" />
-                                        </svg>
-                                    </span>
-                                </th>
-                                <th>
-                                    <span class="flex items-center">
-                                        Email
-                                        <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4" />
-                                        </svg>
-                                    </span>
-                                </th>
-                                <th>
-                                    <span class="flex items-center">
-                                        Nama
-                                        <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4" />
-                                        </svg>
-                                    </span>
-                                </th>
-                                <th>
-                                    <span class="flex items-center">
-                                        kontak
-                                        <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4" />
-                                        </svg>
-                                    </span>
-                                </th>
-                                <th>
-                                    <span class="flex items-center">
-                                        Alamat
-                                        <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4" />
-                                        </svg>
-                                    </span>
-                                </th>
-                                <th>
-                                    <span class="flex items-center">
-                                        Actions
-                                        <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4" />
-                                        </svg>
-                                    </span>
-                                </th>
-                                <th>
-                                    <span class="flex items-center">
-                                        Reset Password
-                                        <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4" />
-                                        </svg>
-                                    </span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-gray-600 text-sm font-light">
-                            @foreach ($staffakademik as $staff)
-                            <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                <td class="py-3 px-6 text-left whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <span class="font-medium">{{ $staff->username }}</span>
+            <!-- Table Responsive Wrapper -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm text-slate-600">
+                    <thead class="bg-slate-50/80 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-200/80">
+                        <tr>
+                            <th class="py-3.5 px-4 sm:px-6">Nama & Username</th>
+                            <th class="py-3.5 px-4">Email</th>
+                            <th class="py-3.5 px-4">Kontak WA</th>
+                            <th class="py-3.5 px-4 hidden md:table-cell">Alamat</th>
+                            <th class="py-3.5 px-4 sm:px-6 text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        @forelse ($staffakademik as $staff)
+                            <tr class="hover:bg-slate-50/60 transition-colors">
+                                <td class="py-3.5 px-4 sm:px-6">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-full bg-indigo-100 text-indigo-800 font-bold flex items-center justify-center text-xs flex-shrink-0">
+                                            {{ strtoupper(substr($staff->nama_staff_akademik ?? $staff->username, 0, 2)) }}
+                                        </div>
+                                        <div>
+                                            <div class="font-semibold text-slate-900">{{ $staff->nama_staff_akademik }}</div>
+                                            <div class="text-xs text-slate-400 font-mono">@<span>{{ $staff->username }}</span></div>
+                                        </div>
                                     </div>
                                 </td>
-                                <td class="py-3 px-6 text-left whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <span class="font-medium">{{ $staff->email }}</span>
-                                    </div>
+                                <td class="py-3.5 px-4 text-xs text-slate-700">
+                                    {{ $staff->email }}
                                 </td>
-                                <td class="py-3 px-6 text-left">
-                                    <div class="flex items-center">
-                                        <span>{{ $staff->nama_staff_akademik }}</span>
-                                    </div>
+                                <td class="py-3.5 px-4 text-xs text-slate-600">
+                                    {{ $staff->wa_staff_akademik ?: '-' }}
                                 </td>
-                                <td class="py-3 px-6 text-left">
-                                    <div class="flex items-center">
-                                        <span>{{ $staff->wa_staff_akademik }}</span>
-                                    </div>
+                                <td class="py-3.5 px-4 hidden md:table-cell text-xs text-slate-500 max-w-xs truncate">
+                                    {{ $staff->alamat_staff_akademik ?: '-' }}
                                 </td>
-                                <td class="py-3 px-6 text-left">
-                                    <div class="flex items-center">
-                                        <span>{{ $staff->nama_staff_akademik }}</span>
-                                    </div>
-                                </td>
-                                <td class="py-3 px-6 text-center">
-                                    <div class="flex items-center justify-center">
-                                        <!-- Edit Button -->
-                                        <a href="{{ route('superadmin.kelola_staff_akademik.edit', $staff->id_staff_akademik) }}" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 mr-2">
+                                <td class="py-3.5 px-4 sm:px-6 text-right">
+                                    <div class="inline-flex items-center gap-1.5 justify-end">
+                                        <a href="{{ route('superadmin.kelola_staff_akademik.edit', $staff->id_staff_akademik) }}" class="px-2.5 py-1 text-xs font-medium rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">
                                             Edit
                                         </a>
-
-                                        <!-- Delete Button -->
-                                        <form action="{{ route('superadmin.kelola_staff_akademik.destroy', $staff->id_staff_akademik) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                        <form action="{{ route('superadmin.kelola_staff_akademik.reset', $staff->id_staff_akademik) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin mereset password staf ini ke username-nya?')" class="inline">
+                                            @csrf
+                                            <button type="submit" class="px-2.5 py-1 text-xs font-medium rounded-md bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200/60 transition-colors">
+                                                Reset Sandi
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('superadmin.kelola_staff_akademik.destroy', $staff->id_staff_akademik) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data staf akademik ini?')" class="inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
-                                                Delete
+                                            <button type="submit" class="px-2.5 py-1 text-xs font-medium rounded-md bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200/60 transition-colors">
+                                                Hapus
                                             </button>
                                         </form>
                                     </div>
                                 </td>
-                                <td class="py-3 px-6 text-center">
-                                    <!-- Delete Button -->
-                                    <form action="{{ route('superadmin.kelola_staff_akademik.reset', $staff->id_staff_akademik) }}" method="POST" onsubmit="return confirm('Are you sure you want to reset password this user?');">
-                                        @csrf
-                                        <button type="submit" class="bg-pink-500 text-white px-3 py-1 rounded hover:bg-red-600">
-                                            Reset
-                                        </button>
-                                    </form>
-                                </td>
-
                             </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="py-8 text-center text-sm text-slate-400">
+                                    Tidak ada data staff akademik.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    <script>
-        if (document.getElementById("selection-table") && typeof simpleDatatables.DataTable !== 'undefined') {
-
-            let multiSelect = true;
-            let rowNavigation = false;
-            let table = null;
-
-            const resetTable = function() {
-                if (table) {
-                    table.destroy();
-                }
-
-                const options = {
-                    rowRender: (row, tr, _index) => {
-                        if (!tr.attributes) {
-                            tr.attributes = {};
-                        }
-                        if (!tr.attributes.class) {
-                            tr.attributes.class = "";
-                        }
-                        if (row.selected) {
-                            tr.attributes.class += " selected";
-                        } else {
-                            tr.attributes.class = tr.attributes.class.replace(" selected", "");
-                        }
-                        return tr;
-                    }
-                };
-                if (rowNavigation) {
-                    options.rowNavigation = true;
-                    options.tabIndex = 1;
-                }
-
-                table = new simpleDatatables.DataTable("#selection-table", options);
-
-                // Mark all rows as unselected
-                table.data.data.forEach(data => {
-                    data.selected = false;
-                });
-
-                table.on("datatable.selectrow", (rowIndex, event) => {
-                    event.preventDefault();
-                    const row = table.data.data[rowIndex];
-                    if (row.selected) {
-                        row.selected = false;
-                    } else {
-                        if (!multiSelect) {
-                            table.data.data.forEach(data => {
-                                data.selected = false;
-                            });
-                        }
-                        row.selected = true;
-                    }
-                    table.update();
-                });
-            };
-
-            // Row navigation makes no sense on mobile, so we deactivate it and hide the checkbox.
-            const isMobile = window.matchMedia("(any-pointer:coarse)").matches;
-            if (isMobile) {
-                rowNavigation = false;
-            }
-
-            resetTable();
-        }
-    </script>
 </x-admin-layout>

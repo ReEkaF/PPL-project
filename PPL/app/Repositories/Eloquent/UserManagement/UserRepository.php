@@ -303,4 +303,16 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
         return $admin->update($data);
     }
+
+    public function getDashboardStats(): array
+    {
+        return [
+            'totalGuru' => $this->guruModel->count(),
+            'totalSiswa' => $this->siswaModel->count(),
+            'totalStaffAkademik' => $this->staffAkademikModel->count(),
+            'totalStaffPerpus' => $this->staffPerpusModel->count(),
+            'totalPembina' => $this->guruModel->where('role_guru', 'pembina')->count(),
+            'totalPengurus' => $this->siswaModel->where('role_siswa', 'pengurus')->count(),
+        ];
+    }
 }
