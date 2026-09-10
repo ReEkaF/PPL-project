@@ -21,12 +21,12 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-gray-50 dark:bg-gray-800 text-slate-800">
+<body class="bg-slate-50 text-slate-800">
     @include('layouts.staff_akademik.navigation')
-    <div class="flex pt-16 overflow-hidden bg-gray-50 dark:bg-gray-900">
+    <div class="flex pt-16 overflow-hidden bg-slate-50">
         @include('layouts.staff_akademik.sidebar')
-        <div class="fixed inset-0 z-10 hidden bg-gray-900/50 dark:bg-gray-900/90" id="sidebarBackdrop"></div>
-        <div id="main-content" class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900 min-h-screen flex flex-col justify-between">
+        <div class="fixed inset-0 z-10 hidden bg-slate-900/50" id="sidebarBackdrop"></div>
+        <div id="main-content" class="relative w-full h-full overflow-y-auto bg-slate-50 lg:ml-64 min-h-screen flex flex-col justify-between">
             <!-- Page Content -->
             <main class="p-4 md:p-6 flex-1">
                 {{ $slot }}
