@@ -91,15 +91,11 @@ class CbtService
     {
         return $this->ujianRepo->create([
             'judul' => $data['judul'],
-            'deskripsi' => $data['deskripsi'] ?? null,
+            'deskripsi' => $data['deskripsi'],
             'jenis_ujian' => $data['jenis_ujian'],
             'topik_id' => $data['topik_id'],
             'kelas_mata_pelajaran_id' => $data['kelas_mata_pelajaran_id'],
             'tanggal_dibuat' => $data['tanggal_dibuat'],
-            'waktu_mulai' => !empty($data['waktu_mulai']) ? $data['waktu_mulai'] : null,
-            'waktu_selesai' => !empty($data['waktu_selesai']) ? $data['waktu_selesai'] : null,
-            'durasi_menit' => !empty($data['durasi_menit']) ? (int) $data['durasi_menit'] : 60,
-            'token' => !empty($data['token']) ? strtoupper(trim($data['token'])) : null,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
