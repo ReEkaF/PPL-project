@@ -1,94 +1,55 @@
 <?php
 
-namespace App\Http\Controllers\Ekstrakurikuler;
+namespace App\Http\Controllers\ekstrakurikuler;
 
 use App\Http\Controllers\Controller;
-use App\Models\Berkas;
-use App\Models\ekstrakurikuler;
-use App\Models\PostingEkstrakurikuler;
-use App\Models\RegistrasiEkstrakurikuler;
-use App\Models\Siswa; // Model untuk tabel berkas
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // Model untuk tabel RegistrasiEkstrakurikuler
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\Ekstrakurikuler\RegisterEkstraRequest;
+use App\Services\Ekstrakurikuler\EkstrakurikulerService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class EkstrakurikulerController extends Controller
 {
-    // Fungsi untuk menampilkan form registrasi
-    public function showForm()
+    public function __construct(
+        protected EkstrakurikulerService $ekstraService
+    ) {}
+
+    public function showForm(): View
     {
-        // Ambil data siswa yang sedang login
-        $siswa = Auth::guard('web-siswa')->user();
+        $siswaId = Auth::guard('web-siswa')->user()->id_siswa;
+        $data = $this->ekstraService->getRegistrationFormData($siswaId);
 
-        // Ambil semua data ekstrakurikuler
-        $ekstrakurikulerList = Ekstrakurikuler::where('status', 'buka')->get();
-
-        // Kirim data siswa dan ekstrakurikuler ke view
-        return view('ekstrakurikuler.registrasi', compact('siswa', 'ekstrakurikulerList'));
+        return view('ekstrakurikuler.registrasi', $data);
     }
 
-    // Fungsi untuk mengolah data yang dikirim dari form regis
-    public function submitForm(Request $request)
+    public function submitForm(RegisterEkstraRequest $request): RedirectResponse
     {
-        // Validasi data
-        $request->validate([
-            'no_hp' => 'nullable|string|max:15',
-            'alamat' => 'nullable|string',
-            'riwayat_penyakit' => 'nullable|string',
-            'no_hp_orangtua' => 'nullable|string|max:15',
-            'alasan_ekskul' => 'nullable|string',
-            'pilih_ekskul' => 'nullable|array|max:3', // Maksimal 3 pilihan
-            'surat_izin_orang_tua' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:25000',
-            'surat_keterangan_dokter' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:25000',
-        ]);
+        $siswaId = Auth::guard('web-siswa')->user()->id_siswa;
+        $fileIzin = $request->file('surat_izin_orang_tua');
+        $fileDokter = $request->file('surat_keterangan_dokter');
 
-        // Simpan berkas ke folder
-        $fileSuratIzin = $request->file('surat_izin_orang_tua')->store('berkas/public');
-        $fileSuratKeterangan = $request->file('surat_keterangan_dokter')->store('berkas/public');
-
-        // Simpan data ke tabel RegistrasiEkstrakurikuler untuk setiap ekstrakurikuler yang dipilih
-        foreach ($request->input('pilih_ekskul') as $idEkstrakurikuler) {
-            echo $idEkstrakurikuler;
-            RegistrasiEkstrakurikuler::create([
-                'id_siswa' => Auth::guard('web-siswa')->user()->id_siswa,
-                'id_ekstrakurikuler' => $idEkstrakurikuler,
-                'riwayat_penyakit' => $request->input('riwayat_penyakit'),
-                'alasan' => $request->input('alasan_ekskul'),
-                'no_ortu' => $request->input('no_hp_orangtua'),
-                'status' => 'menunggu', // Misalnya status awal adalah pending
-                'tgl_registrasi' => now(),
-            ]);
-        }
-
-        $id_regis = RegistrasiEkstrakurikuler::first()->id_registrasi;
-        // Simpan data ke tabel berkas
-        Berkas::create([
-            'id_registrasi' => $id_regis,
-            'surat_izin_ortu' => $fileSuratIzin,
-            'surat_riwayat_penyakit' => $fileSuratKeterangan,
-        ]);
+        $this->ekstraService->submitRegistration(
+            $siswaId,
+            $request->validated(),
+            $fileIzin,
+            $fileDokter
+        );
 
         return redirect()->route('ekstrakurikuler.registrasi')->with('success', 'Pendaftaran berhasil!');
     }
 
-    public function dashboardEkstra()
+    public function dashboardEkstra(): View
     {
-        $ekstrakurikulerList = Ekstrakurikuler::all();
-        $postingan = PostingEkstrakurikuler::all();
+        $data = $this->ekstraService->getPublicDashboardData();
 
-        return view('ekstrakurikuler.dashboardEkstra', compact('ekstrakurikulerList', 'postingan'));
+        return view('ekstrakurikuler.dashboardEkstra', $data);
     }
 
-    public function show($id)
+    public function show(string $id): View
     {
-        // Ambil data ekstrakurikuler berdasarkan ID
-        $ekstrakurikuler = Ekstrakurikuler::findOrFail($id);
+        $data = $this->ekstraService->getPublicDetail($id);
 
-        $prestasiList = DB::table('prestasi_ektrakurikuler')
-            ->where('id_ekstrakurikuler', $id)
-            ->get();
-
-        // Kirim data ke view
-        return view('ekstrakurikuler.detail', compact('ekstrakurikuler', 'prestasiList'));
+        return view('ekstrakurikuler.detail', $data);
     }
 }

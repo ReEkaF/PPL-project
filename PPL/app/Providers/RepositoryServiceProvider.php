@@ -22,6 +22,8 @@ class RepositoryServiceProvider extends ServiceProvider
         \App\Repositories\Contracts\Akademik\MataPelajaranRepositoryInterface::class => \App\Repositories\Eloquent\Akademik\MataPelajaranRepository::class,
         \App\Repositories\Contracts\Akademik\JadwalRepositoryInterface::class => \App\Repositories\Eloquent\Akademik\JadwalRepository::class,
         \App\Repositories\Contracts\Akademik\RaporRepositoryInterface::class => \App\Repositories\Eloquent\Akademik\RaporRepository::class,
+        \App\Repositories\Contracts\Ekstrakurikuler\EkstrakurikulerRepositoryInterface::class => \App\Repositories\Eloquent\Ekstrakurikuler\EkstrakurikulerRepository::class,
+        \App\Repositories\Contracts\Ekstrakurikuler\InventarisEkstraRepositoryInterface::class => \App\Repositories\Eloquent\Ekstrakurikuler\InventarisEkstraRepository::class,
     ];
 
     /**
