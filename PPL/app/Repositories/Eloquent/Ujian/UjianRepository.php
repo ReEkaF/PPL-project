@@ -25,7 +25,7 @@ class UjianRepository extends BaseRepository implements UjianRepositoryInterface
         return $this->model->latest()->paginate($perPage);
     }
 
-    public function getAllWithRelations(?string $kelas = null): Collection
+    public function getAllWithRelations(?string $kelas = null, ?string $guruId = null): Collection
     {
         $query = $this->model->with([
             'kelasMataPelajaran.kelas',
@@ -34,6 +34,12 @@ class UjianRepository extends BaseRepository implements UjianRepositoryInterface
         ])
         ->withCount(['soalUjian', 'pengumpulanUjian'])
         ->orderBy('tanggal_dibuat', 'desc');
+
+        if ($guruId) {
+            $query->whereHas('kelasMataPelajaran', function ($q) use ($guruId) {
+                $q->where('guru_id', $guruId);
+            });
+        }
 
         if ($kelas && $kelas !== 'all') {
             $query->whereHas('kelasMataPelajaran.kelas', function ($q) use ($kelas) {
@@ -79,9 +85,17 @@ class UjianRepository extends BaseRepository implements UjianRepositoryInterface
         return false;
     }
 
-    public function getSubmissions(): Collection
+    public function getSubmissions(?string $guruId = null): Collection
     {
-        return pengumpulan_ujian::with(['siswa', 'ujian'])->latest()->get();
+        $query = pengumpulan_ujian::with(['siswa', 'ujian.kelasMataPelajaran.mataPelajaran', 'ujian.kelasMataPelajaran.kelas'])->latest();
+
+        if ($guruId) {
+            $query->whereHas('ujian.kelasMataPelajaran', function ($q) use ($guruId) {
+                $q->where('guru_id', $guruId);
+            });
+        }
+
+        return $query->get();
     }
 
     public function deleteSubmission(string $id): bool

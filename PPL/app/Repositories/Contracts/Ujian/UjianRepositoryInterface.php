@@ -15,9 +15,9 @@ interface UjianRepositoryInterface extends BaseRepositoryInterface
     public function getPaginatedUjian(int $perPage = 10): LengthAwarePaginator;
 
     /**
-     * Get all exams with eager loaded relations, optionally filtered by class.
+     * Get all exams with eager loaded relations, optionally filtered by class and teacher.
      */
-    public function getAllWithRelations(?string $kelas = null): Collection;
+    public function getAllWithRelations(?string $kelas = null, ?string $guruId = null): Collection;
 
     /**
      * Find exam with attached questions.
@@ -50,9 +50,9 @@ interface UjianRepositoryInterface extends BaseRepositoryInterface
     public function getExamsByKmpIds(array|\Illuminate\Support\Collection $kmpIds): Collection;
 
     /**
-     * Get exam submissions with student and exam info.
+     * Get exam submissions with student and exam info, optionally filtered by teacher.
      */
-    public function getSubmissions(): Collection;
+    public function getSubmissions(?string $guruId = null): Collection;
 
     /**
      * Delete an exam submission along with student answers.

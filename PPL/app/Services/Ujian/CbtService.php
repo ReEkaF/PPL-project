@@ -28,14 +28,31 @@ class CbtService
         return $this->ujianRepo->getPaginatedUjian($perPage);
     }
 
-    public function getGroupedUjianByKelas(?string $kelasFilter = null): array
+    public function getGroupedUjianByKelas(?string $kelasFilter = null, ?string $guruId = null): array
     {
-        $allUjian = $this->ujianRepo->getAllWithRelations(null);
+        $guruId = $guruId ?? auth()->guard('web-guru')->user()?->id_guru;
+        $allUjian = $this->ujianRepo->getAllWithRelations(null, $guruId);
 
-        // Daftar semua nama kelas yang ada (terurut)
-        $kelasList = $allUjian->map(function ($item) {
-            return $item->kelasMataPelajaran?->kelas?->nama_kelas;
-        })->filter()->unique()->sort()->values();
+        // Ambil daftar kelas yang diajar oleh guru ini (jika login sebagai guru)
+        if ($guruId) {
+            $teacherClasses = kelas_mata_pelajaran::where('guru_id', $guruId)
+                ->with('kelas')
+                ->get()
+                ->map(fn ($kmp) => $kmp->kelas?->nama_kelas)
+                ->filter()
+                ->unique()
+                ->sort()
+                ->values();
+        } else {
+            $teacherClasses = collect();
+        }
+
+        // Daftar nama kelas untuk navigasi tab (prioritaskan kelas pengampu)
+        $kelasList = $teacherClasses->isNotEmpty()
+            ? $teacherClasses
+            : $allUjian->map(function ($item) {
+                return $item->kelasMataPelajaran?->kelas?->nama_kelas;
+            })->filter()->unique()->sort()->values();
 
         // Filter data jika parameter kelas diberikan
         $filteredUjian = ($kelasFilter && $kelasFilter !== 'all')
@@ -126,9 +143,11 @@ class CbtService
         return $this->ujianRepo->deleteQuestion($id);
     }
 
-    public function getSubmissions(): Collection
+    public function getSubmissions(?string $guruId = null): Collection
     {
-        return $this->ujianRepo->getSubmissions();
+        $guruId = $guruId ?? auth()->guard('web-guru')->user()?->id_guru;
+
+        return $this->ujianRepo->getSubmissions($guruId);
     }
 
     public function deleteSubmission(string $id): bool
