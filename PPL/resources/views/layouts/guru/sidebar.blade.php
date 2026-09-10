@@ -87,20 +87,10 @@
                         $isEkstraActive = request()->is('guru/pembina*') || request()->is('*pembina*') || request()->routeIs('pembina.*', 'pembina-ekstra.*');
                     @endphp
                     <li>
-                        <x-sidebar-dropdown label="Ekstrakurikuler" id="ekstrakurikuler" :active="$isEkstraActive">
-                            <i class="w-5 text-center shrink-0 text-base transition-colors {{ $isEkstraActive ? 'text-brand-800' : 'text-slate-400 group-hover:text-slate-600' }} fa-solid fa-users"></i>
-                        </x-sidebar-dropdown>
-                        <x-sidebar-dropdown-list id="ekstrakurikuler" :active="$isEkstraActive">
-                            <li>
-                                <x-sidebar-dropdown-list-link href="{{ route('pembina.penilaian') }}" :active="request()->is('guru/pembina/penilaian*') || request()->routeIs('pembina.penilaian*', 'pembina-ekstra.penilaian.*')">Penilaian Nilai</x-sidebar-dropdown-list-link>
-                            </li>
-                            <li>
-                                <x-sidebar-dropdown-list-link href="{{ route('pembina.anggota') }}" :active="request()->is('guru/pembina/anggota*') || request()->routeIs('pembina.anggota*', 'pembina-ekstra.anggota.*')">Data Anggota</x-sidebar-dropdown-list-link>
-                            </li>
-                            <li>
-                                <x-sidebar-dropdown-list-link href="{{ route('pembina.perlengkapan') }}" :active="request()->is('guru/pembina/perlengkapan*') || request()->routeIs('pembina.perlengkapan*', 'pembina-ekstra.perlengkapan.*', 'pembina.histori*')">Perlengkapan</x-sidebar-dropdown-list-link>
-                            </li>
-                        </x-sidebar-dropdown-list>
+                        <x-sidebar-link href="{{ route('pembina.index') }}" :active="$isEkstraActive">
+                            <i class="w-5 text-center shrink-0 text-base transition-colors {{ $isEkstraActive ? 'text-brand-800' : 'text-slate-400 group-hover:text-slate-600' }} fa-solid fa-people-group"></i>
+                            <span class="ml-3" sidebar-toggle-item>Ekstrakurikuler</span>
+                        </x-sidebar-link>
                     </li>
                     @endif
 

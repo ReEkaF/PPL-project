@@ -5,20 +5,30 @@
                 <div class="p-6 text-gray-900 space-y-2">
                         {{-- Breadcrumb --}}
                     <nav class="flex" aria-label="Breadcrumb">
-                        <ol class="flex space-x-2">
+                        <ol class="flex items-center space-x-2 text-xs">
                             <li class="flex">
                                 <a href="{{ route('guru.dashboard') }}" class="text-gray-400 hover:text-gray-700">
                                     <span>Dashboard</span>
                                 </a>
                             </li>
                             <div class="flex justify-center py-1">
-                                <svg class="flex w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <svg class="flex w-3.5 h-3.5 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
                                 </svg>
                             </div>
                             <li class="flex">
-                                <p class="font-semibold text-gray-700">
-                                    <span>Penilaian</span>
+                                <a href="{{ route('pembina.index') }}" class="text-gray-400 hover:text-gray-700">
+                                    <span>Ekstrakurikuler</span>
+                                </a>
+                            </li>
+                            <div class="flex justify-center py-1">
+                                <svg class="flex w-3.5 h-3.5 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
+                                </svg>
+                            </div>
+                            <li class="flex">
+                                <p class="font-semibold text-gray-800">
+                                    <span>Penilaian Nilai</span>
                                 </p>
                             </li>
                         </ol>

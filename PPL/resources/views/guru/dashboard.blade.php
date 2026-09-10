@@ -349,7 +349,7 @@
                 @endif
 
                 {{-- Pembina Ekstrakurikuler Box (If applicable) --}}
-                @if ($guru->role_guru === 'pembina' && $ekskulBinaan->isNotEmpty())
+                @if (($guru->role_guru === 'pembina' || $guru->ekstrakurikuler()->exists()) && $ekskulBinaan->isNotEmpty())
                     <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl border border-amber-200/80 p-5 shadow-sm space-y-3">
                         <div class="flex items-center justify-between">
                             <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-600 text-white">
@@ -362,12 +362,12 @@
                                 {{ $ekskulBinaan->pluck('nama_ekstrakurikuler')->implode(', ') }}
                             </h3>
                             <p class="text-xs text-slate-600 mt-0.5">
-                                Akses penilaian ekstrakurikuler, evaluasi anggota, dan pengelolaan perlengkapan.
+                                Akses penilaian nilai rapor siswa, evaluasi data anggota, dan pengelolaan perlengkapan.
                             </p>
                         </div>
-                        <a href="{{ route('pembina.penilaian') }}" class="inline-flex items-center justify-center gap-2 w-full px-4 py-2 rounded-xl text-xs font-semibold bg-amber-700 text-white hover:bg-amber-800 transition-colors shadow-sm">
-                            <i class="fa-solid fa-star"></i>
-                            Kelola Nilai Ekskul
+                        <a href="{{ route('pembina.index') }}" class="inline-flex items-center justify-center gap-2 w-full px-4 py-2 rounded-xl text-xs font-semibold bg-amber-700 text-white hover:bg-amber-800 transition-colors shadow-sm">
+                            <i class="fa-solid fa-people-group"></i>
+                            Buka Portal Ekstrakurikuler
                         </a>
                     </div>
                 @endif

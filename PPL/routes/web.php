@@ -627,6 +627,7 @@ Route::group(['prefix' => 'guru', 'middleware' => ['guru']], function () {
 
     // Pembina Ekstrakurikuler Sub-group
     Route::group(['middleware' => 'pembina_ekstra'], function () {
+        Route::get('/pembina', [PembinaekstraController::class, 'index'])->name('pembina.index');
         Route::get('/pembina-dashboard', [PembinaekstraController::class, 'index'])->name('pembina-ekstra.dashboard');
         Route::get('/pembina/dashboard', [PembinaekstraController::class, 'index'])->name('pembina.dashboard');
         Route::get('/pembina/ekstrakurikuler/anggota', [PembinaAnggotaController::class, 'index'])->name('pembina-ekstra.anggota.index');
