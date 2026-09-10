@@ -51,14 +51,18 @@ class kategori_buku extends Model
      * @var array
      */
     protected $table = 'kategori_buku';
+
     protected $fillable = [
         'id_kategori_buku',
-        'nama_kategori'
+        'nama_kategori',
     ];
+
     public $timestamps = false;
+
     protected $primaryKey = 'id_kategori_buku';
+
     public function buku()
     {
-        return $this->hasMany(Buku::class,  'id_kategori_buku', 'id_kategori_buku');
+        return $this->hasMany(Buku::class, 'id_kategori_buku', 'id_kategori_buku');
     }
 }

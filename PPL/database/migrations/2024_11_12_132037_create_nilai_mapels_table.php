@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('nilai_matpel', function (Blueprint $table) {
-            $table->uuid("id_nilai_matpel")->primary();
-            $table->uuid("matpel_id");
-            $table->uuid("rapor_id");
+            $table->uuid('id_nilai_matpel')->primary();
+            $table->uuid('matpel_id');
+            $table->uuid('rapor_id');
             $table->float('nilai_rata_rata_matpel');
             $table->string('pesan')->nullable();
             $table->timestamps();

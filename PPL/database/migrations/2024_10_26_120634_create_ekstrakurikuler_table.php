@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('nama_ekstrakurikuler');
             $table->text('deskripsi')->nullable();
             $table->string('gambar')->nullable();
-            $table->enum('status', ["buka", "tidak buka"]);
+            $table->enum('status', ['buka', 'tidak buka']);
         });
         Schema::enableForeignKeyConstraints();
     }

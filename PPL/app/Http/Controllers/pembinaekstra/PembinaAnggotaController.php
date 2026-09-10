@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\pembinaekstra;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Ekstrakurikuler;
 use App\Models\RegistrasiEkstrakurikuler;
+use Illuminate\Http\Request;
 
 class PembinaAnggotaController extends Controller
 {
@@ -16,7 +16,7 @@ class PembinaAnggotaController extends Controller
             ->where('guru_id', auth()->guard('web-guru')->user()->id_guru)
             ->first();
 
-        if (!$pembinaEkstra) {
+        if (! $pembinaEkstra) {
             return view('pembina_ekstra.anggota.index', ['totalItems' => 0, 'members' => []]);
         }
 

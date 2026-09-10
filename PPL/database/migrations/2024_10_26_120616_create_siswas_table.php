@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('alamat_siswa')->nullable();
             $table->string('foto_siswa')->nullable();
             $table->string('nomor_wa_siswa')->nullable();
-            $table->enum('role_siswa',['siswa','pengurus'])->nullable();
+            $table->enum('role_siswa', ['siswa', 'pengurus'])->nullable();
             $table->string('username');
             $table->string('password');
             $table->string('email')->nullable();

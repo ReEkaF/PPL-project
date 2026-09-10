@@ -1,24 +1,22 @@
 <?php
+
 // app/Http/Controllers/staffakademik/AbsensiController.php
 
 namespace App\Http\Controllers\staffakademik;
 
-use App\Models\hari;
-use App\Models\kelas;
-use App\Models\Siswa;
-use App\Models\pertemuan;
-use App\Models\kelas_mata_pelajaran;
-use App\Models\absensi_siswa;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Models\absensi_siswa;
+use App\Models\kelas;
+use App\Models\kelas_mata_pelajaran;
+use App\Models\pertemuan;
+use App\Models\Siswa;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class AbsensiController extends Controller
 {
@@ -41,7 +39,7 @@ class AbsensiController extends Controller
 
         $data = $query->get();
 
-        return view("staff_akademik.absensi.index", compact('data', 'allKelas'));
+        return view('staff_akademik.absensi.index', compact('data', 'allKelas'));
     }
 
     public function details($id)
@@ -80,7 +78,7 @@ class AbsensiController extends Controller
     public function generatePresenceData(Request $request, $id)
     {
         $request->validate([
-            'first_week_date' => 'required|date|after_or_equal:' . date('Y-01-01') . '|before_or_equal:' . date('Y-12-31'),
+            'first_week_date' => 'required|date|after_or_equal:'.date('Y-01-01').'|before_or_equal:'.date('Y-12-31'),
             'total_meetings' => 'required|integer|min:1|max:20',
         ], [
             'first_week_date.required' => 'Tanggal pertemuan harus diisi.',
@@ -102,7 +100,7 @@ class AbsensiController extends Controller
         })->get();
 
         for ($i = 0; $i < $totalMeetings; $i++) {
-            $meetingDate = date('Y-m-d', strtotime($firstWeekDate . " + $i week"));
+            $meetingDate = date('Y-m-d', strtotime($firstWeekDate." + $i week"));
 
             $pertemuan = pertemuan::create([
                 'kelas_mata_pelajaran_id' => $id,
@@ -114,16 +112,16 @@ class AbsensiController extends Controller
 
             $renderer = new ImageRenderer(
                 new RendererStyle(200),
-                new SvgImageBackEnd()
+                new SvgImageBackEnd
             );
             $writer = new Writer($renderer);
             $qrCodeSvg = $writer->writeString($qrCodeUrl);
 
-            if (!Storage::disk('public')->exists('qr_codes')) {
+            if (! Storage::disk('public')->exists('qr_codes')) {
                 Storage::disk('public')->makeDirectory('qr_codes');
             }
 
-            $filePath = 'qr_codes/' . $pertemuan->id_pertemuan . '.svg';
+            $filePath = 'qr_codes/'.$pertemuan->id_pertemuan.'.svg';
             Storage::disk('public')->put($filePath, $qrCodeSvg);
 
             $pertemuan->qr_code = $filePath;

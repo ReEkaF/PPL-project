@@ -3,9 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\kelas;
-use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Str;
 
 class KelasSeeder extends Seeder
 {
@@ -20,10 +19,9 @@ class KelasSeeder extends Seeder
                 $idKelas = Str::uuid();
                 kelas::create([
                     'id_kelas' => $idKelas,
-                    'nama_kelas' => $i . $kelasItem,
+                    'nama_kelas' => $i.$kelasItem,
                 ]);
             }
         }
     }
-    
 }

@@ -2,19 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class tugas extends Model
 {
-    use Notifiable, HasUuids;
-
+    use HasUuids, Notifiable;
 
     protected $table = 'tugas';
+
     protected $primaryKey = 'id_tugas';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     protected $fillable = [
@@ -40,14 +41,17 @@ class tugas extends Model
     {
         return $this->belongsTo(kelas_mata_pelajaran::class, 'kelas_mata_pelajaran_id', 'id_kelas_mata_pelajaran');
     }
+
     public function pengumpulantugas()
     {
         return $this->hasMany(pengumpulan_tugas::class, 'tugas_id', 'id_tugas');
     }
+
     public function filetugas()
     {
         return $this->hasMany(file_tugas::class, 'tugas_id', 'id_tugas');
     }
+
     protected $casts = [
         'deadline' => 'datetime',
     ];

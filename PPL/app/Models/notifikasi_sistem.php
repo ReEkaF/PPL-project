@@ -51,9 +51,13 @@ class notifikasi_sistem extends Model
      * @var array
      */
     protected $table = 'notifikasi_sistem';
+
     protected $primaryKey = 'id_notifikasi_sistem';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
+
     protected $fillable = [
         'materi_id',
         'siswa_id',

@@ -2,19 +2,14 @@
 
 namespace Database\Seeders;
 
-use DateTime;
-use Carbon\Carbon;
 use App\Models\buku;
 use App\Models\Guru;
 use App\Models\Siswa;
-use App\Models\jenis_buku;
-use Illuminate\Support\Str;
-
-use App\Models\kategori_buku;
-use Illuminate\Database\Seeder;
-
 use App\Models\transaksi_peminjaman;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Carbon\Carbon;
+use DateTime;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class TransaksiPeminjamanBukuSeeder extends Seeder
 {
@@ -37,10 +32,14 @@ class TransaksiPeminjamanBukuSeeder extends Seeder
 
             // Tentukan kode peminjam
             if ($jenisPeminjam === 0) {
-                if (empty($guruNIP)) continue; // Jika tidak ada guru, lanjutkan ke iterasi berikutnya
+                if (empty($guruNIP)) {
+                    continue;
+                } // Jika tidak ada guru, lanjutkan ke iterasi berikutnya
                 $kodePeminjam = $guruNIP[array_rand($guruNIP)];
             } else {
-                if (empty($siswaNISN)) continue; // Jika tidak ada siswa, lanjutkan ke iterasi berikutnya
+                if (empty($siswaNISN)) {
+                    continue;
+                } // Jika tidak ada siswa, lanjutkan ke iterasi berikutnya
                 $kodePeminjam = $siswaNISN[array_rand($siswaNISN)];
             }
 

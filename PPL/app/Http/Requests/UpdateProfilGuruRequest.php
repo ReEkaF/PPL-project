@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -20,15 +21,15 @@ class UpdateProfilGuruRequest extends FormRequest
     public function rules()
     {
         $idGuru = Auth::guard('web-guru')->user()->id_guru;
-    
+
         return [
-            'username' => 'required|string|min:8|max:255|unique:guru,username,' . $idGuru . ',id_guru',
-            'email' => 'required|email:rfc,dns|max:255|unique:guru,email,' . $idGuru . ',id_guru',
+            'username' => 'required|string|min:8|max:255|unique:guru,username,'.$idGuru.',id_guru',
+            'email' => 'required|email:rfc,dns|max:255|unique:guru,email,'.$idGuru.',id_guru',
             'nomor_wa_guru' => 'required|digits_between:12,13|string|max:15',
             'current_password' => 'nullable|string',
             'new_password' => 'nullable|string|min:8|confirmed',
         ];
-    }    
+    }
 
     /**
      * Pesan error kustom untuk validasi.
@@ -50,4 +51,3 @@ class UpdateProfilGuruRequest extends FormRequest
         ];
     }
 }
-

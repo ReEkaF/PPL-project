@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\staffakademik;
 
+use App\Exports\JadwalExport;
 use App\Http\Controllers\Controller;
-use App\Imports\JadwalImport; 
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\JadwalExport;   
+use App\Imports\JadwalImport;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class JadwalController extends Controller
 {
@@ -88,6 +88,7 @@ class JadwalController extends Controller
             ->join('mata_pelajaran', 'guru_mata_pelajaran.matpel_id', '=', 'mata_pelajaran.id_matpel')
             ->select('guru.id_guru', 'guru.nama_guru', 'mata_pelajaran.id_matpel', 'mata_pelajaran.nama_matpel')
             ->get();
+
         // dd($guruMataPelajaran);
         return view('staff_akademik.jadwalManagemen.create', compact('kelas', 'hari', 'guruMataPelajaran', 'tahunAjaran'));
     }
@@ -145,14 +146,14 @@ class JadwalController extends Controller
                     'nama_guru' => DB::table('guru')->where('id_guru', $guruId)->value('nama_guru'),
                     'nama_kelas' => DB::table('kelas')->where('id_kelas', $kelasId)->value('nama_kelas'),
                     'nama_hari' => DB::table('hari')->where('id_hari', $hariId)->value('nama_hari'),
-                    'jam_pelajaran' => "{$waktuMulai}-{$waktuSelesai}"
+                    'jam_pelajaran' => "{$waktuMulai}-{$waktuSelesai}",
                 ];
             } elseif ($bentrokKelas) {
                 $bentrok[] = [
                     'tipe' => 'kelas',
                     'nama_kelas' => DB::table('kelas')->where('id_kelas', $kelasId)->value('nama_kelas'),
                     'nama_hari' => DB::table('hari')->where('id_hari', $hariId)->value('nama_hari'),
-                    'jam_pelajaran' => "{$waktuMulai}-{$waktuSelesai}"
+                    'jam_pelajaran' => "{$waktuMulai}-{$waktuSelesai}",
                 ];
             } else {
                 // Jika tidak bentrok, lakukan insert
@@ -172,7 +173,7 @@ class JadwalController extends Controller
         }
 
         // Jika ada bentrok, kembalikan ke halaman index dengan pesan error
-        if (!empty($bentrok)) {
+        if (! empty($bentrok)) {
             return redirect()->route('staff_akademik.jadwal')->with('error', 'List jadwal bentrok')->with('bentrok', $bentrok);
         }
 
@@ -214,7 +215,7 @@ class JadwalController extends Controller
             ->value('id_tahun_ajaran');
 
         // Pastikan tahun ajaran aktif ditemukan
-        if (!$tahunAjaranId) {
+        if (! $tahunAjaranId) {
             return redirect()->route('staff_akademik.jadwal')
                 ->with('error-update', 'Tahun ajaran aktif tidak ditemukan. Periksa kembali pengaturan tahun ajaran.');
         }
@@ -291,40 +292,45 @@ class JadwalController extends Controller
     {
         try {
             DB::table('kelas_mata_pelajaran')->where('id_kelas_mata_pelajaran', $id)->delete();
+
             return redirect()->route('staff_akademik.jadwal')->with('success', 'Jadwal berhasil dihapus.');
         } catch (\Exception $e) {
             return redirect()->route('staff_akademik.jadwal')->with('error-delete', 'Jadwal tersebut sedang berlangsung.');
-            
+
         }
     }
 
-    public function importPage(){
-        return  view('staff_akademik.jadwalManagemen.importExcel');
+    public function importPage()
+    {
+        return view('staff_akademik.jadwalManagemen.importExcel');
     }
 
     public function importExcel(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:xlsx,csv,xls'
+            'file' => 'required|mimes:xlsx,csv,xls',
         ]);
 
         try {
             Excel::import(new JadwalImport, $request->file('file'));
+
             return redirect()->route('staff_akademik.jadwal')->with('success', 'Jadwal berhasil diimport.');
         } catch (\Exception $e) {
             return redirect()->route('staff_akademik.jadwal')->with('error-excel', $e->getMessage());
         }
     }
+
     public function exportExcel(Request $request)
     {
         $kelas_id = $request->query('kelas_id');
+
         return Excel::download(new JadwalExport($kelas_id), 'jadwal.xlsx');
     }
-    
+
     public function exportPdf(Request $request)
     {
         $kelas_id = $request->query('kelas_id');
-    
+
         $query = DB::table('kelas_mata_pelajaran')
             ->join('kelas', 'kelas_mata_pelajaran.kelas_id', '=', 'kelas.id_kelas')
             ->join('mata_pelajaran', 'kelas_mata_pelajaran.mata_pelajaran_id', '=', 'mata_pelajaran.id_matpel')
@@ -344,15 +350,15 @@ class JadwalController extends Controller
             ->orderBy('kelas.nama_kelas')
             ->orderByRaw("FIELD(hari.nama_hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu')")
             ->orderBy('kelas_mata_pelajaran.waktu_mulai');
-    
+
         if ($kelas_id) {
             $query->where('kelas_mata_pelajaran.kelas_id', $kelas_id);
         }
-    
+
         $data = $query->get();
-    
+
         $pdf = Pdf::loadView('staff_akademik.jadwalManagemen.pdf', compact('data'));
-    
+
         return $pdf->download('jadwal.pdf');
     }
 

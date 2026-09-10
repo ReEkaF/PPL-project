@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class Nilai_mapel extends Model
 {
@@ -15,16 +15,17 @@ class Nilai_mapel extends Model
      *
      * @return void
      */
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
         static::creating(function ($model) {
-            if ( ! $model->getKey()) {
+            if (! $model->getKey()) {
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
     }
 
-     /**
+    /**
      * Get the value indicating whether the IDs are incrementing.
      *
      * @return bool
@@ -50,6 +51,7 @@ class Nilai_mapel extends Model
      * @var array
      */
     protected $table = 'nilai_matpel';
+
     protected $fillable = [
         'id_nilai_matpel',
         'matpel_id',
@@ -61,9 +63,9 @@ class Nilai_mapel extends Model
     {
         return $this->belongsTo(mata_pelajaran::class, 'matpel_id', 'id_matpel');
     }
+
     public function rapor()
     {
         return $this->belongsTo(rapor::class, 'rapor_id', 'id_rapor');
     }
 }
-

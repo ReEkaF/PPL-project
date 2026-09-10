@@ -5,11 +5,8 @@ namespace Database\Seeders;
 use App\Models\buku;
 use App\Models\jenis_buku;
 use App\Models\kategori_buku;
-use App\Models\transaksi_peminjaman;
-use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class PerpustakaanSeeder extends Seeder
 {
@@ -28,18 +25,18 @@ class PerpustakaanSeeder extends Seeder
             $randomTimestamp = rand($startTimestamp, $endTimestamp);
 
             // Mengonversi timestamp acak ke format tanggal
-            return date("Y-m-d H:i:s", $randomTimestamp);
+            return date('Y-m-d H:i:s', $randomTimestamp);
         }
 
         // Generate unique IDs for each jenis_buku
         jenis_buku::firstOrCreate([
             'id_jenis_buku' => 1,
-            'nama_jenis_buku' => 'Non-Paket'
+            'nama_jenis_buku' => 'Non-Paket',
         ]);
 
         jenis_buku::firstOrCreate([
             'id_jenis_buku' => 2,
-            'nama_jenis_buku' => 'Paket'
+            'nama_jenis_buku' => 'Paket',
         ]);
         // Pastikan kategori buku dimasukkan terlebih dahulu
         $kategori = ['Paket', 'Komik', 'Novel', 'Ensiklopedia', 'Kamus', 'Artikel', 'Jurnal', 'Biografi'];
@@ -47,20 +44,14 @@ class PerpustakaanSeeder extends Seeder
 
         // Masukkan kategori buku dan simpan UUID-nya
         foreach ($kategori as $kategoriName) {
-            // Periksa apakah kategori dengan nama yang sama sudah ada
-            $existingCategory = kategori_buku::where('nama_kategori', $kategoriName)->first();
-
-            if (!$existingCategory) {
-                // Jika belum ada, maka buat kategori baru
-                $kategoriRecord = kategori_buku::create([
-                    'id_kategori_buku' => Str::uuid(), // Menggunakan UUID untuk id_kategori_buku
-                    'nama_kategori' => $kategoriName
-                ]);
-                $ArrayCategory[] = $kategoriRecord->id_kategori_buku; // Simpan UUID kategori yang baru
-            }
+            $kategoriRecord = kategori_buku::firstOrCreate(
+                ['nama_kategori' => $kategoriName],
+                ['id_kategori_buku' => (string) Str::uuid()]
+            );
+            $ArrayCategory[] = $kategoriRecord->id_kategori_buku;
         }
 
-        // Buku manual 
+        // Buku manual
         $bukuData = [
             // novel
             [
@@ -74,7 +65,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Indonesia',
                 'stok_buku' => 15,
                 'rak_buku' => 1,
-                'harga_buku' => 95000
+                'harga_buku' => 95000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[2],
@@ -87,7 +78,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Indonesia',
                 'stok_buku' => 20,
                 'rak_buku' => 2,
-                'harga_buku' => 120000
+                'harga_buku' => 120000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[2],
@@ -100,7 +91,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Indonesia',
                 'stok_buku' => 10,
                 'rak_buku' => 3,
-                'harga_buku' => 150000
+                'harga_buku' => 150000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[2],
@@ -113,7 +104,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Indonesia',
                 'stok_buku' => 18,
                 'rak_buku' => 4,
-                'harga_buku' => 105000
+                'harga_buku' => 105000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[2],
@@ -126,7 +117,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Indonesia',
                 'stok_buku' => 12,
                 'rak_buku' => 5,
-                'harga_buku' => 110000
+                'harga_buku' => 110000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[2],
@@ -139,7 +130,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Indonesia',
                 'stok_buku' => 8,
                 'rak_buku' => 6,
-                'harga_buku' => 130000
+                'harga_buku' => 130000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[2],
@@ -152,7 +143,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Indonesia',
                 'stok_buku' => 14,
                 'rak_buku' => 7,
-                'harga_buku' => 115000
+                'harga_buku' => 115000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[2],
@@ -165,7 +156,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Indonesia',
                 'stok_buku' => 9,
                 'rak_buku' => 8,
-                'harga_buku' => 140000
+                'harga_buku' => 140000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[2],
@@ -178,7 +169,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Indonesia',
                 'stok_buku' => 20,
                 'rak_buku' => 9,
-                'harga_buku' => 170000
+                'harga_buku' => 170000,
             ],
             // buku komik
             [
@@ -192,7 +183,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Jepang',
                 'stok_buku' => 15,
                 'rak_buku' => 3,
-                'harga_buku' => 50000
+                'harga_buku' => 50000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[1],
@@ -205,7 +196,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Jepang',
                 'stok_buku' => 20,
                 'rak_buku' => 4,
-                'harga_buku' => 100000
+                'harga_buku' => 100000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[1],
@@ -218,7 +209,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Jepang',
                 'stok_buku' => 10,
                 'rak_buku' => 5,
-                'harga_buku' => 120000
+                'harga_buku' => 120000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[1],
@@ -231,7 +222,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Jepang',
                 'stok_buku' => 18,
                 'rak_buku' => 6,
-                'harga_buku' => 95000
+                'harga_buku' => 95000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[1],
@@ -244,7 +235,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Jepang',
                 'stok_buku' => 25,
                 'rak_buku' => 7,
-                'harga_buku' => 85000
+                'harga_buku' => 85000,
             ],
             // buku kamus
             [
@@ -258,7 +249,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Inggris',
                 'stok_buku' => 10,
                 'rak_buku' => 1,
-                'harga_buku' => 500000
+                'harga_buku' => 500000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[4],
@@ -271,7 +262,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Yunani-Inggris',
                 'stok_buku' => 8,
                 'rak_buku' => 2,
-                'harga_buku' => 700000
+                'harga_buku' => 700000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[4],
@@ -284,7 +275,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Inggris',
                 'stok_buku' => 15,
                 'rak_buku' => 3,
-                'harga_buku' => 350000
+                'harga_buku' => 350000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[4],
@@ -297,7 +288,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Inggris',
                 'stok_buku' => 12,
                 'rak_buku' => 4,
-                'harga_buku' => 450000
+                'harga_buku' => 450000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[4],
@@ -310,7 +301,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Inggris',
                 'stok_buku' => 18,
                 'rak_buku' => 5,
-                'harga_buku' => 400000
+                'harga_buku' => 400000,
             ],
             // buku Ensiklopedia
             [
@@ -324,7 +315,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Inggris',
                 'stok_buku' => 5,
                 'rak_buku' => 1,
-                'harga_buku' => 1200000
+                'harga_buku' => 1200000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[3],
@@ -337,7 +328,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Inggris',
                 'stok_buku' => 8,
                 'rak_buku' => 2,
-                'harga_buku' => 1500000
+                'harga_buku' => 1500000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[3],
@@ -350,7 +341,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Inggris',
                 'stok_buku' => 10,
                 'rak_buku' => 3,
-                'harga_buku' => 850000
+                'harga_buku' => 850000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[3],
@@ -363,7 +354,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Inggris',
                 'stok_buku' => 12,
                 'rak_buku' => 4,
-                'harga_buku' => 950000
+                'harga_buku' => 950000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[3],
@@ -376,7 +367,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Inggris',
                 'stok_buku' => 7,
                 'rak_buku' => 5,
-                'harga_buku' => 250000
+                'harga_buku' => 250000,
             ],
             // buku paket
             [
@@ -390,7 +381,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Indonesia',
                 'stok_buku' => 20,
                 'rak_buku' => 9,
-                'harga_buku' => 20000
+                'harga_buku' => 20000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[0],
@@ -403,7 +394,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Indonesia',
                 'stok_buku' => 15,
                 'rak_buku' => 10,
-                'harga_buku' => 25000
+                'harga_buku' => 25000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[0],
@@ -416,7 +407,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Indonesia',
                 'stok_buku' => 10,
                 'rak_buku' => 11,
-                'harga_buku' => 30000
+                'harga_buku' => 30000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[0],
@@ -429,7 +420,7 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Indonesia',
                 'stok_buku' => 18,
                 'rak_buku' => 12,
-                'harga_buku' => 22000
+                'harga_buku' => 22000,
             ],
             [
                 'id_kategori_buku' => $ArrayCategory[0],
@@ -442,8 +433,8 @@ class PerpustakaanSeeder extends Seeder
                 'bahasa_buku' => 'Indonesia',
                 'stok_buku' => 12,
                 'rak_buku' => 13,
-                'harga_buku' => 24000
-            ]
+                'harga_buku' => 24000,
+            ],
         ];
 
         // Menyimpan data buku

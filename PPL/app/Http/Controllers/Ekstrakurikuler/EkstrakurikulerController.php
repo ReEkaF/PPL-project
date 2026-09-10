@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Ekstrakurikuler;
 
-use App\Models\Siswa;
-use Illuminate\Http\Request;
-use App\Models\ekstrakurikuler;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Berkas; // Model untuk tabel berkas
+use App\Models\Berkas;
+use App\Models\ekstrakurikuler;
 use App\Models\PostingEkstrakurikuler;
-use App\Models\RegistrasiEkstrakurikuler; // Model untuk tabel RegistrasiEkstrakurikuler
+use App\Models\RegistrasiEkstrakurikuler;
+use App\Models\Siswa; // Model untuk tabel berkas
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; // Model untuk tabel RegistrasiEkstrakurikuler
 use Illuminate\Support\Facades\DB;
+
 class EkstrakurikulerController extends Controller
 {
     // Fungsi untuk menampilkan form registrasi
@@ -41,15 +42,13 @@ class EkstrakurikulerController extends Controller
             'surat_keterangan_dokter' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:25000',
         ]);
 
-
-
         // Simpan berkas ke folder
         $fileSuratIzin = $request->file('surat_izin_orang_tua')->store('berkas/public');
         $fileSuratKeterangan = $request->file('surat_keterangan_dokter')->store('berkas/public');
 
         // Simpan data ke tabel RegistrasiEkstrakurikuler untuk setiap ekstrakurikuler yang dipilih
         foreach ($request->input('pilih_ekskul') as $idEkstrakurikuler) {
-            echo($idEkstrakurikuler);
+            echo $idEkstrakurikuler;
             RegistrasiEkstrakurikuler::create([
                 'id_siswa' => Auth::guard('web-siswa')->user()->id_siswa,
                 'id_ekstrakurikuler' => $idEkstrakurikuler,
@@ -61,7 +60,7 @@ class EkstrakurikulerController extends Controller
             ]);
         }
 
-        $id_regis =  RegistrasiEkstrakurikuler::first()->id_registrasi;
+        $id_regis = RegistrasiEkstrakurikuler::first()->id_registrasi;
         // Simpan data ke tabel berkas
         Berkas::create([
             'id_registrasi' => $id_regis,
@@ -76,6 +75,7 @@ class EkstrakurikulerController extends Controller
     {
         $ekstrakurikulerList = Ekstrakurikuler::all();
         $postingan = PostingEkstrakurikuler::all();
+
         return view('ekstrakurikuler.dashboardEkstra', compact('ekstrakurikulerList', 'postingan'));
     }
 
@@ -87,10 +87,8 @@ class EkstrakurikulerController extends Controller
         $prestasiList = DB::table('prestasi_ektrakurikuler')
             ->where('id_ekstrakurikuler', $id)
             ->get();
+
         // Kirim data ke view
         return view('ekstrakurikuler.detail', compact('ekstrakurikuler', 'prestasiList'));
     }
-
-
 }
-?>

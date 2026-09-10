@@ -16,20 +16,19 @@ class KelolaStaffAkademikRequest extends FormRequest
         if (request('id_staff_akademik')) {
             return [
                 'username' => 'required|string|max:255',
-                'nama_staff_akademik'=> 'required|string|max:255',
-                'alamat_staff_akademik'=> 'required|string|max:255',
-                'wa_staff_akademik'=> 'required|regex:/^\+62\d{8,15}$/', // regex untuk nomor WhatsApp dengan kode negara +62
-                'email' => 'required|email|max:255|unique:guru,email|unique:siswa,email|unique:staffakademik,email|unique:staffperpus,email' 
+                'nama_staff_akademik' => 'required|string|max:255',
+                'alamat_staff_akademik' => 'required|string|max:255',
+                'wa_staff_akademik' => 'required|regex:/^\+62\d{8,15}$/', // regex untuk nomor WhatsApp dengan kode negara +62
+                'email' => 'required|email|max:255|unique:guru,email|unique:siswa,email|unique:staffakademik,email|unique:staffperpus,email',
             ];
-        }
-        else {
+        } else {
             return [
                 'username' => 'required|string|max:255',
                 'password' => 'required|string|min:8',
-                'nama_staff_akademik'=> 'required|string|max:255',
-                'alamat_staff_akademik'=> 'required|string|max:255',
-                'wa_staff_akademik'=> 'required|regex:/^\+62\d{8,15}$/', // regex untuk nomor WhatsApp dengan kode negara +62
-                'email' => 'required|email|max:255|unique:guru,email|unique:siswa,email|unique:staffakademik,email|unique:staffperpus,email' 
+                'nama_staff_akademik' => 'required|string|max:255',
+                'alamat_staff_akademik' => 'required|string|max:255',
+                'wa_staff_akademik' => 'required|regex:/^\+62\d{8,15}$/', // regex untuk nomor WhatsApp dengan kode negara +62
+                'email' => 'required|email|max:255|unique:guru,email|unique:siswa,email|unique:staffakademik,email|unique:staffperpus,email',
             ];
         }
     }

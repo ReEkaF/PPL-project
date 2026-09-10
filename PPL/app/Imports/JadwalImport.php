@@ -2,16 +2,16 @@
 
 namespace App\Imports;
 
-use App\Models\Kelas;
-use App\Models\Hari;
 use App\Models\Guru;
+use App\Models\Hari;
+use App\Models\Kelas;
 use App\Models\kelas_mata_pelajaran;
 use App\Models\mata_pelajaran;
 use App\Models\tahun_ajaran;
 use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\ToCollection;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Maatwebsite\Excel\Concerns\ToCollection;
 
 class JadwalImport implements ToCollection
 {
@@ -22,7 +22,7 @@ class JadwalImport implements ToCollection
 
         // Dapatkan ID tahun ajaran yang aktif
         $tahunAjaran = tahun_ajaran::where('aktif', 1)->first();
-        if (!$tahunAjaran) {
+        if (! $tahunAjaran) {
             throw new \Exception('Tidak ada tahun ajaran yang aktif ditemukan.');
         }
 
@@ -30,8 +30,9 @@ class JadwalImport implements ToCollection
         $existingSchedules = []; // Array untuk menyimpan jadwal yang diimpor dari file Excel
 
         foreach ($rows as $row) {
-            if (!$headerSkipped) {
+            if (! $headerSkipped) {
                 $headerSkipped = true;
+
                 continue;
             }
 
@@ -46,13 +47,13 @@ class JadwalImport implements ToCollection
 
             // Validasi: Cari ID kelas berdasarkan nama
             $kelas = Kelas::where('nama_kelas', $namaKelas)->first();
-            if (!$kelas) {
+            if (! $kelas) {
                 $rowErrors[] = "Kelas dengan nama '{$namaKelas}' tidak ditemukan;";
             }
 
             // Validasi: Cari ID hari berdasarkan nama
             $hari = Hari::where('nama_hari', $namaHari)->first();
-            if (!$hari) {
+            if (! $hari) {
                 $rowErrors[] = "Hari dengan nama '{$namaHari}' tidak ditemukan;";
             }
 
@@ -67,13 +68,13 @@ class JadwalImport implements ToCollection
 
             // Validasi: Cari ID mata pelajaran berdasarkan nama
             $mataPelajaran = mata_pelajaran::where('nama_matpel', $mataPelajaranNama)->first();
-            if (!$mataPelajaran) {
+            if (! $mataPelajaran) {
                 $rowErrors[] = "Mata pelajaran dengan nama '{$mataPelajaranNama}' tidak ditemukan;";
             }
 
             // Validasi: Cari ID guru berdasarkan nama
             $guru = Guru::where('nama_guru', $namaGuru)->first();
-            if (!$guru) {
+            if (! $guru) {
                 $rowErrors[] = "Guru dengan nama '{$namaGuru}' tidak ditemukan;";
             }
 
@@ -84,7 +85,7 @@ class JadwalImport implements ToCollection
                     ->where('matpel_id', $mataPelajaran->id_matpel)
                     ->exists();
 
-                if (!$validGuruMataPelajaran) {
+                if (! $validGuruMataPelajaran) {
                     $rowErrors[] = "Guru '{$namaGuru}' tidak mengajar mata pelajaran '{$mataPelajaranNama}';";
                 }
             }
@@ -166,8 +167,9 @@ class JadwalImport implements ToCollection
             }
 
             // Jika ada error di baris ini, tambahkan ke array $errors
-            if (!empty($rowErrors)) {
+            if (! empty($rowErrors)) {
                 $errors[] = implode(' ', $rowErrors);
+
                 continue;
             }
 
@@ -196,7 +198,7 @@ class JadwalImport implements ToCollection
         }
 
         // Jika ada error validasi, lemparkan exception dengan pesan error
-        if (!empty($errors)) {
+        if (! empty($errors)) {
             throw new \Exception(implode("\n", $errors));
         }
     }
@@ -206,6 +208,7 @@ class JadwalImport implements ToCollection
     {
         $hours = floor($excelTime * 24); // Ambil jam
         $minutes = round(($excelTime * 24 - $hours) * 60); // Ambil menit
+
         return sprintf('%02d:%02d', $hours, $minutes); // Format jam:menit
     }
 }

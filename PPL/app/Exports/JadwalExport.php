@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Exports;
 
 use Illuminate\Support\Facades\DB;
@@ -51,7 +52,7 @@ class JadwalExport implements FromCollection, WithHeadings
             'Waktu Mulai',
             'Waktu Selesai',
             'Mata Pelajaran',
-            'Guru'
+            'Guru',
         ];
     }
 }

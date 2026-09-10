@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\notifikasi_sistem;
-use App\Models\NotifikasiTugas;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,10 +19,12 @@ class AuthenticatedSessionController extends Controller
     {
         return redirect()->route('home');
     }
+
     public function create(): View
     {
         return view('auth.login');
     }
+
     /**
      * Handle an incoming authentication request.
      */
@@ -48,10 +49,12 @@ class AuthenticatedSessionController extends Controller
         } elseif ($this->attemptLogin('web-staffperpus', $credentials)) {
             return $this->handleStaffperpusLogin($request);
         }
+
         return back()->withErrors([
             'password' => 'Password tidak cocok.',
         ])->withInput($request->only('username'));
     }
+
     private function attemptLogin($guard, $credentials): bool
     {
         // Debug guard dan kredensial untuk memastikan validasi
@@ -75,13 +78,15 @@ class AuthenticatedSessionController extends Controller
             $notifikasi_materi = notifikasi_sistem::where('siswa_id', $user->id_siswa)->where('status', 0)->count();
 
             $request->session()->put('notifikasi_count', $notifikasi_materi);
+
             return redirect()->intended($intendedUrl);
         }
 
         return back()->withErrors([
-            'username' => 'Role tidak dikenali.'
+            'username' => 'Role tidak dikenali.',
         ])->onlyInput('username');
     }
+
     private function handleAdminLogin($request): RedirectResponse
     {
         $user = auth()->guard('web-superadmin')->user();
@@ -91,6 +96,7 @@ class AuthenticatedSessionController extends Controller
 
         return redirect()->route('superadmin.dashboard');
     }
+
     private function handleGuruLogin($request): RedirectResponse
     {
         $request->session()->regenerate();
@@ -98,16 +104,17 @@ class AuthenticatedSessionController extends Controller
         $request->session()->put('username', $user->username);
         $request->session()->put('role_guru', $user->role_guru);
 
-
         if ($user->role_guru === 'guru') {
             return redirect()->route('lihat-jadwal-guru');
         } elseif ($user->role_guru === 'pembina') {
             return redirect()->route('lihat-jadwal-guru');
         }
+
         return back()->withErrors([
-            'username' => 'Role tidak dikenali.'
+            'username' => 'Role tidak dikenali.',
         ])->onlyInput('username');
     }
+
     private function handleStaffakademikLogin($request): RedirectResponse
     {
 
@@ -117,14 +124,17 @@ class AuthenticatedSessionController extends Controller
 
         return redirect()->route('staff_akademik.dashboard');
     }
+
     private function handleStaffperpusLogin($request): RedirectResponse
     {
         $user = auth()->guard('web-staffperpus')->user();
 
         $request->session()->regenerate();
         $request->session()->put('username', $user->username);
+
         return redirect()->route('staff_perpus.dashboard');
     }
+
     /**
      * Destroy an authenticated session.
      */

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Siswa;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateProfilSiswaRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class SiswaProfilController extends Controller
 {
@@ -19,7 +18,7 @@ class SiswaProfilController extends Controller
         $siswa = Auth::guard('web-siswa')->user();
 
         // Pastikan pengguna login
-        if (!$siswa) {
+        if (! $siswa) {
             return redirect()->route('login')->withErrors(['username' => 'Sesi Anda telah berakhir. Silakan login kembali.']);
         }
 
@@ -36,13 +35,13 @@ class SiswaProfilController extends Controller
         $siswa = Auth::guard('web-siswa')->user();
 
         // Pastikan pengguna login
-        if (!$siswa) {
+        if (! $siswa) {
             return redirect()->route('login')->withErrors(['username' => 'Sesi Anda telah berakhir. Silakan login kembali.']);
         }
 
         // Periksa password lama jika diisi
         if ($request->filled('current_password')) {
-            if (!Hash::check($request->current_password, $siswa->password)) {
+            if (! Hash::check($request->current_password, $siswa->password)) {
                 return back()->withErrors(['current_password' => 'Password lama tidak sesuai.']);
             }
         }

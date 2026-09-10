@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Superadmin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Siswa;
-use App\Models\PengurusEkstra;
 use App\Models\Ekstrakurikuler;
+use App\Models\PengurusEkstra;
+use App\Models\Siswa;
+use Illuminate\Http\Request;
 
 class KelolaPengurusEkstraController extends Controller
 {
@@ -15,15 +15,14 @@ class KelolaPengurusEkstraController extends Controller
     {
         // Mengambil data pengurus yang memiliki role sebagai pengurus
         $pengurusData = Siswa::where('role_siswa', 'pengurus')
-                            ->with('pengurusEkstra') // Mengambil relasi pengurus ekstra
-                            ->paginate(5);
-                            
+            ->with('pengurusEkstra') // Mengambil relasi pengurus ekstra
+            ->paginate(5);
+
         // Debugging untuk melihat hasil query
         // dd($pengurusData); // Menampilkan isi variabel dan menghentikan eksekusi
 
         return view('superadmin.crud_pengurusEkstra.data_pengurus', compact('pengurusData')); // Ini tidak akan dieksekusi saat debugging
     }
-
 
     // Menambahkan data pengurus
     // Menampilkan halaman tambah pengurus
@@ -65,16 +64,16 @@ class KelolaPengurusEkstraController extends Controller
         $siswa = Siswa::findOrFail($id_siswa);
         $siswa->role_siswa = $request->role_siswa;
         $siswa->save();
+
         return redirect()->route('superadmin.keloladatapengurus')->with('success', 'Pengurus berhasil ditambahkan!');
     }
-
-
 
     // Menghapus data pengurus
     public function pengurusDestroy($id_pengurus)
     {
         $pengurus = PengurusEkstra::findOrFail($id_pengurus);
         $pengurus->delete();
+
         return redirect()->route('superadmin.keloladatapengurus')->with('success', 'Data pengurus berhasil dihapus.');
     }
 
@@ -84,7 +83,7 @@ class KelolaPengurusEkstraController extends Controller
         $request->validate([
             'ekstrakurikuler' => 'required|exists:ekstrakurikuler,id_ekstrakurikuler', // Memastikan ekstrakurikuler ada
             'role_siswa' => 'required|string',
-            'foto_siswa' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' // Max size 2MB
+            'foto_siswa' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Max size 2MB
         ]);
 
         // Update data pengurus
@@ -100,17 +99,17 @@ class KelolaPengurusEkstraController extends Controller
         return redirect()->route('superadmin.keloladatapengurus')->with('success', 'Data pengurus berhasil diperbarui.');
     }
 
-
     // Mencari pengurus
     public function searchPengurus(Request $request)
     {
         $query = $request->input('search');
         $pengurusData = Siswa::where('role_siswa', 'pengurus')
-                             ->where('nama_siswa', 'LIKE', '%' . $query . '%')
-                             ->paginate(5);
+            ->where('nama_siswa', 'LIKE', '%'.$query.'%')
+            ->paginate(5);
 
         return view('superadmin.crud_pengurusEkstra.data_pengurus', compact('pengurusData'));
     }
+
     public function editPengurus($id)
     {
         $pengurus = Siswa::where('id_siswa', $id)->firstOrFail();
@@ -162,7 +161,4 @@ class KelolaPengurusEkstraController extends Controller
 
         return redirect()->route('superadmin.keloladatapengurus')->with('success', 'Role pengurus berhasil dihapus.');
     }
-
-        
-
 }

@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\siswa;
-use App\Models\Ujian;
-use App\Models\soal_ujian;
-use App\Models\pengumpulan_ujian;
-use App\Models\jawaban_ujian;
+
 use App\Http\Controllers\Controller;
+use App\Models\jawaban_ujian;
+use App\Models\pengumpulan_ujian;
+use App\Models\soal_ujian;
+use App\Models\Ujian;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class UjianSiswaController extends Controller
 {
@@ -18,6 +19,7 @@ class UjianSiswaController extends Controller
     public function index()
     {
         $ujians = Ujian::all();
+
         return view('siswa.ujian.index', compact('ujians'));
     }
 
@@ -26,7 +28,7 @@ class UjianSiswaController extends Controller
      */
     public function start($id)
     {
-        $ujian = Ujian::with(['soalUjian' => function($query) use ($id) {
+        $ujian = Ujian::with(['soalUjian' => function ($query) use ($id) {
             $query->where('ujian_id', $id);
         }])->findOrFail($id);
 
@@ -98,6 +100,4 @@ class UjianSiswaController extends Controller
         // Redirect dengan pesan sukses
         // return redirect()->route('siswa.dashboard')->with('success', 'Ujian berhasil dikumpulkan!');
     }
-
-
 }

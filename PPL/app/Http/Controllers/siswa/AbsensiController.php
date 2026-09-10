@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\siswa;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-
-use App\Models\kelas_mata_pelajaran;
 use App\Models\absensi_siswa;
+use App\Models\kelas_mata_pelajaran;
 use App\Models\pertemuan;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AbsensiController extends Controller
 {
@@ -24,7 +23,7 @@ class AbsensiController extends Controller
             ->orderBy('waktu_mulai')
             ->get();
 
-        return view("siswa.absensi.index", compact('data'));
+        return view('siswa.absensi.index', compact('data'));
     }
 
     public function details($id)
@@ -55,7 +54,7 @@ class AbsensiController extends Controller
             })
             ->exists();
 
-        if (!$isEnrolled) {
+        if (! $isEnrolled) {
             return redirect()->route('siswa.absensi.index')
                 ->with('error', 'Anda tidak terdaftar pada kelas mata pelajaran ini.');
         }
@@ -63,13 +62,13 @@ class AbsensiController extends Controller
         if ($absensi) {
             if ($pertemuan->status != 'Aktif') {
                 return redirect()->route('siswa.absensi.details', [
-                    'id' => $kelas_mata_pelajaran_id
+                    'id' => $kelas_mata_pelajaran_id,
                 ])->with('error', 'Status pertemuan sedang tidak aktif');
             }
 
             if ($absensi->status_absensi == 'Hadir') {
                 return redirect()->route('siswa.absensi.details', [
-                    'id' => $kelas_mata_pelajaran_id
+                    'id' => $kelas_mata_pelajaran_id,
                 ])->with('info', 'Anda sudah melakukan absensi kehadiran');
             }
 
@@ -77,7 +76,7 @@ class AbsensiController extends Controller
             $absensi->save();
 
             return redirect()->route('siswa.absensi.details', [
-                'id' => $kelas_mata_pelajaran_id
+                'id' => $kelas_mata_pelajaran_id,
             ])->with('success', 'Status kehadiran berhasil diupdate');
         }
 

@@ -14,6 +14,10 @@ class RepositoryServiceProvider extends ServiceProvider
         \App\Repositories\Contracts\Perpustakaan\BukuRepositoryInterface::class => \App\Repositories\Eloquent\Perpustakaan\BukuRepository::class,
         \App\Repositories\Contracts\Perpustakaan\KategoriBukuRepositoryInterface::class => \App\Repositories\Eloquent\Perpustakaan\KategoriBukuRepository::class,
         \App\Repositories\Contracts\Perpustakaan\TransaksiPeminjamanRepositoryInterface::class => \App\Repositories\Eloquent\Perpustakaan\TransaksiPeminjamanRepository::class,
+        \App\Repositories\Contracts\Lms\MateriRepositoryInterface::class => \App\Repositories\Eloquent\Lms\MateriRepository::class,
+        \App\Repositories\Contracts\Lms\TugasRepositoryInterface::class => \App\Repositories\Eloquent\Lms\TugasRepository::class,
+        \App\Repositories\Contracts\Lms\PengumpulanTugasRepositoryInterface::class => \App\Repositories\Eloquent\Lms\PengumpulanTugasRepository::class,
+        \App\Repositories\Contracts\Lms\TopikRepositoryInterface::class => \App\Repositories\Eloquent\Lms\TopikRepository::class,
     ];
 
     /**

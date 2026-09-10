@@ -8,7 +8,6 @@ use App\Models\Staffakademik;
 use App\Models\Staffperpus;
 use App\Models\Superadmin;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class AkunSeeder extends Seeder
 {
@@ -24,16 +23,16 @@ class AkunSeeder extends Seeder
                     'username' => 'admin',
                     'password' => 'admin123',
                     'email' => 'andreeka852@gmail.com',
-                    "nama_superadmin" => "Andre"
-                ]
+                    'nama_superadmin' => 'Andre',
+                ],
             ],
             'staff_akademik' => [
                 [
                     'nama_staff_akademik' => 'Bagus Satria Putra Anugrah',
                     'email' => 'bagusanugrah777@gmail.com',
                     'username' => 'bagussatria69',
-                    'password' => 'bagussatria'
-                ]
+                    'password' => 'bagussatria',
+                ],
             ],
 
             'staff_perpus' => [
@@ -42,7 +41,7 @@ class AkunSeeder extends Seeder
                     'username' => 'amir',
                     'password' => 'amir',
                     'email' => 'ychronos13@gmail.com',
-                ]
+                ],
             ],
 
             'guru' => [
@@ -55,7 +54,7 @@ class AkunSeeder extends Seeder
                     'jenis_kelamin' => 'Laki-laki',
                     'alamat' => 'Bangkalan',
                     'nomor_wa_guru' => '+6289531419612',
-                    'role_guru' => 'guru'
+                    'role_guru' => 'guru',
                 ],
                 [
                     'nama_guru' => 'Sabil Ahmad Hidayat',
@@ -66,7 +65,7 @@ class AkunSeeder extends Seeder
                     'jenis_kelamin' => 'Laki-laki',
                     'alamat' => 'Nganjuk',
                     'nomor_wa_guru' => null,
-                    'role_guru' => 'guru'
+                    'role_guru' => 'guru',
                 ],
                 [
                     'nama_guru' => 'Adi Prawono',
@@ -77,7 +76,7 @@ class AkunSeeder extends Seeder
                     'jenis_kelamin' => 'Laki-laki',
                     'alamat' => 'Bangkalan',
                     'nomor_wa_guru' => null,
-                    'role_guru' => 'guru'
+                    'role_guru' => 'guru',
                 ],
                 [
                     'nama_guru' => 'Abdul Hijjah Akbarul Hidayatulloh',
@@ -88,7 +87,7 @@ class AkunSeeder extends Seeder
                     'jenis_kelamin' => 'Laki-laki',
                     'alamat' => 'Bangkalan',
                     'nomor_wa_guru' => '+6285607147641',
-                    'role_guru' => 'guru'
+                    'role_guru' => 'guru',
                 ],
                 [
                     'nama_guru' => 'Rizkyan Dwi Prasetiawan',
@@ -99,7 +98,7 @@ class AkunSeeder extends Seeder
                     'jenis_kelamin' => 'Laki-laki',
                     'alamat' => null,
                     'nomor_wa_guru' => '+62859106520760',
-                    'role_guru' => 'guru'
+                    'role_guru' => 'guru',
                 ],
                 [
                     'nama_guru' => 'Niken Ning Pambudi',
@@ -110,7 +109,7 @@ class AkunSeeder extends Seeder
                     'jenis_kelamin' => 'Perempuan',
                     'alamat' => 'Trenggalek',
                     'nomor_wa_guru' => '+6282234777979',
-                    'role_guru' => 'guru'
+                    'role_guru' => 'guru',
                 ],
                 [
                     'nama_guru' => 'Nurul Maulydia IImami',
@@ -121,7 +120,7 @@ class AkunSeeder extends Seeder
                     'jenis_kelamin' => 'Perempuan',
                     'alamat' => 'Bangkalan',
                     'nomor_wa_guru' => '+682338924959',
-                    'role_guru' => 'guru'
+                    'role_guru' => 'guru',
                 ],
                 [
                     'nama_guru' => 'Muhammad Ilham Zakaria',
@@ -132,7 +131,7 @@ class AkunSeeder extends Seeder
                     'jenis_kelamin' => 'Laki-laki',
                     'alamat' => 'Bangkalan',
                     'nomor_wa_guru' => null,
-                    'role_guru' => 'guru'
+                    'role_guru' => 'guru',
                 ],
                 [
                     'nama_guru' => 'Noval',
@@ -143,7 +142,7 @@ class AkunSeeder extends Seeder
                     'jenis_kelamin' => 'Laki-laki',
                     'alamat' => 'Bangkalan',
                     'nomor_wa_guru' => '+6287853053661',
-                    'role_guru' => 'guru'
+                    'role_guru' => 'guru',
                 ],
                 [
                     'nama_guru' => 'Ronggo',
@@ -154,8 +153,8 @@ class AkunSeeder extends Seeder
                     'nomor_wa_guru' => '+6285172427944',
                     'jenis_kelamin' => 'Laki-laki',
                     'alamat' => 'Lamongan',
-                    'role_guru' => 'pembina'
-                ]
+                    'role_guru' => 'pembina',
+                ],
             ],
 
             'siswa' => [
@@ -168,7 +167,7 @@ class AkunSeeder extends Seeder
                     'nomor_wa_siswa' => '+6281215784584',
                     'jenis_kelamin' => 'Laki-laki',
                     'alamat' => 'Mojokerto',
-                    'role_siswa' => 'siswa'
+                    'role_siswa' => 'siswa',
                 ],
                 [
                     'nisn' => '220411100076',
@@ -179,7 +178,7 @@ class AkunSeeder extends Seeder
                     'nomor_wa_siswa' => '+62895377360736',
                     'jenis_kelamin' => 'Laki-laki',
                     'alamat' => 'Ngawi',
-                    'role_siswa' => 'siswa'
+                    'role_siswa' => 'siswa',
                 ],
                 [
                     'nisn' => '220411100072',
@@ -190,7 +189,7 @@ class AkunSeeder extends Seeder
                     'nomor_wa_siswa' => '+6281233658802',
                     'jenis_kelamin' => 'Laki-laki',
                     'alamat' => 'Surabaya',
-                    'role_siswa' => 'siswa'
+                    'role_siswa' => 'siswa',
                 ],
                 [
                     'nisn' => '220411100086',
@@ -201,7 +200,7 @@ class AkunSeeder extends Seeder
                     'nomor_wa_siswa' => '+6281235232515',
                     'jenis_kelamin' => 'Laki-laki',
                     'alamat' => 'Sampang',
-                    'role_siswa' => 'siswa'
+                    'role_siswa' => 'siswa',
                 ],
                 [
                     'nisn' => '220411100059',
@@ -212,7 +211,7 @@ class AkunSeeder extends Seeder
                     'nomor_wa_siswa' => '+6285745612946',
                     'jenis_kelamin' => 'Perempuan',
                     'alamat' => 'Gresik',
-                    'role_siswa' => 'siswa'
+                    'role_siswa' => 'siswa',
                 ],
                 [
                     'nisn' => '220411100041',
@@ -223,8 +222,8 @@ class AkunSeeder extends Seeder
                     'nomor_wa_siswa' => '+6282146153816',
                     'jenis_kelamin' => 'Laki-laki',
                     'alamat' => 'Bojonegoro',
-                    'role_siswa' => 'pengurus'
-                ]
+                    'role_siswa' => 'pengurus',
+                ],
             ],
         ];
 
@@ -233,7 +232,7 @@ class AkunSeeder extends Seeder
                 'nama_superadmin' => $superadmin['nama_superadmin'],
                 'username' => $superadmin['username'],
                 'password' => bcrypt($superadmin['password']),
-                'email' => $superadmin['email']
+                'email' => $superadmin['email'],
             ]);
         }
 
@@ -242,7 +241,7 @@ class AkunSeeder extends Seeder
                 'nama_staff_akademik' => $staff['nama_staff_akademik'],
                 'email' => $staff['email'],
                 'username' => $staff['username'],
-                'password' => bcrypt($staff['password'])
+                'password' => bcrypt($staff['password']),
             ]);
         }
 
@@ -251,7 +250,7 @@ class AkunSeeder extends Seeder
                 'nama_staff_perpustakaan' => $staff['nama_staff_perpustakaan'],
                 'username' => $staff['username'],
                 'password' => bcrypt($staff['password']),
-                'email' => $staff['email']
+                'email' => $staff['email'],
             ]);
         }
 
@@ -265,7 +264,7 @@ class AkunSeeder extends Seeder
                 'jenis_kelamin' => $guru['jenis_kelamin'],
                 'alamat_guru' => $guru['alamat'] ?? null,
                 'nomor_wa_guru' => $guru['nomor_wa_guru'] ?? null,
-                'role_guru' => $guru['role_guru']
+                'role_guru' => $guru['role_guru'],
             ]);
         }
 
@@ -279,7 +278,7 @@ class AkunSeeder extends Seeder
                 'nomor_wa_siswa' => $siswa['nomor_wa_siswa'],
                 'jenis_kelamin_siswa' => $siswa['jenis_kelamin'],
                 'alamat_siswa' => $siswa['alamat'] ?? null,
-                'role_siswa' => $siswa['role_siswa']
+                'role_siswa' => $siswa['role_siswa'],
             ]);
         }
     }

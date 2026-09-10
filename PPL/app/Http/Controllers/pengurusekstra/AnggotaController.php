@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\pengurusekstra;
 
+use App\Http\Controllers\Controller;
+use App\Models\PengurusEkstra;
+use App\Models\RegistrasiEkstrakurikuler;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
-use App\Models\PengurusEkstra;
-use App\Http\Controllers\Controller;
-use App\Models\RegistrasiEkstrakurikuler;
 
 class AnggotaController extends Controller
 {
@@ -16,7 +16,7 @@ class AnggotaController extends Controller
             ->where('id_siswa', auth()->guard('web-siswa')->user()->id_siswa)
             ->first();
 
-        if (!$pengurusEkstra) {
+        if (! $pengurusEkstra) {
             return view('pengurus_ekstra.anggota.index', ['ekstrakurikuler' => 'Tidak Ada', 'loggedInUsername' => auth()->guard('web-siswa')->user()->nama_siswa, 'totalItems' => 0, 'members' => []]);
         }
 
@@ -27,15 +27,15 @@ class AnggotaController extends Controller
         $members = $siswa->map(function ($registrasi) {
             // Mengatur status dari registrasi pada objek siswa
             $registrasi->siswa->status = $registrasi->status;
+
             return $registrasi->siswa;
         });
-
 
         return view('pengurus_ekstra.anggota.index', [
             'ekstrakurikuler' => $pengurusEkstra->ekstrakurikuler->nama_ekstrakurikuler,
             'members' => $members,
             'loggedInUsername' => $pengurusEkstra->siswa->nama_siswa,
-            'totalItems' => $members->count()
+            'totalItems' => $members->count(),
         ]);
     }
 
@@ -44,7 +44,7 @@ class AnggotaController extends Controller
         // Mendapatkan informasi ekstra untuk siswa saat ini
         $pengurusEkstra = PengurusEkstra::where('id_siswa', auth()->guard('web-siswa')->user()->id_siswa)->first();
 
-        if (!$pengurusEkstra) {
+        if (! $pengurusEkstra) {
             return redirect()->route('pengurus_ekstra.anggota')->withErrors('Ekstrakurikuler tidak ditemukan untuk siswa ini.');
         }
 

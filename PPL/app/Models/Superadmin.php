@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Auth\Middleware\Authenticate;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Str;
 
 class Superadmin extends Authenticatable
 {
     use HasFactory;
+
     /**
      * The "booting" function of model
      *
@@ -53,7 +52,10 @@ class Superadmin extends Authenticatable
      * @var array
      */
     public $timestamps = false;
+
     protected $primaryKey = 'id_admin';
+
     protected $table = 'superadmin';
-    protected $fillable = ['id_admin', 'username', 'password','nama_superadmin','no_hp', 'email', 'google_id', 'google_token'];
+
+    protected $fillable = ['id_admin', 'username', 'password', 'nama_superadmin', 'no_hp', 'email', 'google_id', 'google_token'];
 }

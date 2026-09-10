@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class HistoriInventaris extends Model
 {
     use HasUuids, Notifiable;
 
     protected $table = 'histori_inventaris';
-    
+
     protected $primaryKey = 'id_histori';
 
     public $incrementing = false;

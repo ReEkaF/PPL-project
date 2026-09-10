@@ -5,26 +5,31 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+
 class ujian extends Model
 {
     use Notifiable;
+
     public $timestamps = false;
+
     protected $primaryKey = 'id_ujian';
+
     /**
      * The "booting" function of model
      *
      * @return void
      */
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
         static::creating(function ($model) {
-            if ( ! $model->getKey()) {
+            if (! $model->getKey()) {
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
     }
 
-     /**
+    /**
      * Get the value indicating whether the IDs are incrementing.
      *
      * @return bool
@@ -83,6 +88,7 @@ class ujian extends Model
     {
         return $this->hasMany(soal_ujian::class, 'ujian_id', 'id_ujian');
     }
+
     public function pengumpulanUjian()
     {
         return $this->hasMany(pengumpulan_ujian::class, 'ujian_id', 'id_ujian');

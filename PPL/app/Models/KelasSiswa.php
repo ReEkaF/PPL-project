@@ -10,11 +10,14 @@ class KelasSiswa extends Model
     use HasUuids;
 
     protected $table = 'kelas_siswas';
-    protected $primaryKey = 'id_kelas_siswa';
-    public $incrementing = false;
-    public $timestamps = true;
-    protected $keyType = 'string';
 
+    protected $primaryKey = 'id_kelas_siswa';
+
+    public $incrementing = false;
+
+    public $timestamps = true;
+
+    protected $keyType = 'string';
 
     protected $fillable = [
         'id_kelas_siswa',
@@ -38,10 +41,12 @@ class KelasSiswa extends Model
     {
         return $this->belongsTo(tahun_ajaran::class, 'tahun_ajaran', 'id_tahun_ajaran');
     }
+
     public function waliKelas()
     {
         return $this->belongsTo(Guru::class, 'wali_kelas', 'id_guru');
     }
+
     public function guru()
     {
         return $this->belongsTo(Guru::class, 'wali_kelas');

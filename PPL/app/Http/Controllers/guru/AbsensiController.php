@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\guru;
 
-use App\Models\hari;
+use App\Http\Controllers\Controller;
+use App\Models\absensi_siswa;
 use App\Models\kelas;
 use App\Models\kelas_mata_pelajaran;
 use App\Models\pertemuan;
-use App\Models\absensi_siswa;
-
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AbsensiController extends Controller
 {
@@ -22,8 +20,8 @@ class AbsensiController extends Controller
         $allKelas = Kelas::whereHas('kelasmatapelajaran', function ($query) use ($guruId) {
             $query->where('guru_id', $guruId);
         })->orderByRaw('LENGTH(nama_kelas)')
-        ->orderBy('nama_kelas')
-        ->get();
+            ->orderBy('nama_kelas')
+            ->get();
 
         $query = kelas_mata_pelajaran::with('kelas', 'mataPelajaran', 'guru', 'hari')
             ->where('guru_id', $guruId)
@@ -39,7 +37,7 @@ class AbsensiController extends Controller
 
         $data = $query->get();
 
-        return view("guru.absensi.index", compact('data', 'allKelas'));
+        return view('guru.absensi.index', compact('data', 'allKelas'));
     }
 
     public function details($id)

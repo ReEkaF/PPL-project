@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id_tahun_ajaran')->primary();
             $table->year('tahun_mulai');
             $table->year('tahun_selesai');
-            $table->enum('semester',[1,2]);
+            $table->enum('semester', [1, 2]);
             $table->boolean('aktif');
 
             $table->timestamps();

@@ -2,29 +2,25 @@
 
 namespace Database\Seeders;
 
+use App\Models\Ekstrakurikuler;
 use App\Models\Guru;
+use App\Models\guru_mata_pelajaran;
 use App\Models\hari;
 use App\Models\kelas;
-use App\Models\Ekstrakurikuler;
-use App\Models\Siswa;
-use App\Models\KelasSiswa;
-use App\Models\Superadmin;
-use App\Models\Staffperpus;
-use Illuminate\Support\Str;
-use App\Models\tahun_ajaran;
-use App\Models\Staffakademik;
-use App\Models\mata_pelajaran;
-use Illuminate\Database\Seeder;
-use App\Models\guru_mata_pelajaran;
 use App\Models\kelas_mata_pelajaran;
+use App\Models\KelasSiswa;
+use App\Models\mata_pelajaran;
 use App\Models\materi;
 use App\Models\pengumpulan_tugas;
-use Database\Seeders\PerpustakaanSeeder;
+use App\Models\Siswa;
+use App\Models\Staffakademik;
+use App\Models\Staffperpus;
+use App\Models\Superadmin;
+use App\Models\tahun_ajaran;
 use App\Models\topik;
 use App\Models\tugas;
-use Database\Seeders\KelasMataPelajaranSeeder;
-
-
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {

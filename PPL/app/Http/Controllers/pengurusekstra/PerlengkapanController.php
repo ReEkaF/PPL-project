@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\pengurusekstra;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\InventarisEkstrakurikuler as Perlengkapan;
 use App\Models\PengurusEkstra;
+use Illuminate\Http\Request;
 
 class PerlengkapanController extends Controller
 {
@@ -18,17 +18,18 @@ class PerlengkapanController extends Controller
             $nama_ekstrakurikuler = $pengurusEkstra->ekstrakurikuler->nama_ekstrakurikuler;
             $id_ekstra = $pengurusEkstra->ekstrakurikuler->id_ekstrakurikuler;
             $perlengkapan_ekstras = Perlengkapan::where('id_ekstrakurikuler', $id_ekstra)->latest()->paginate(10);
+
             return view('pengurus_ekstra.perlengkapan.index', compact([
                 'perlengkapan_ekstras',
                 'nama_ekstrakurikuler',
-                'id_ekstra'
+                'id_ekstra',
             ]));
 
         } else {
             return view('pengurus_ekstra.perlengkapan.index', [
                 'perlengkapan_ekstras' => [],
                 'nama_ekstrakurikuler' => '',
-                'id_ekstra' => ''
+                'id_ekstra' => '',
             ]);
         }
     }
@@ -46,7 +47,6 @@ class PerlengkapanController extends Controller
         return redirect()->route('pengurus_ekstra.perlengkapan')->with('success', 'Item created successfully.');
     }
 
-
     public function update(Request $request, Perlengkapan $id)
     {
         $request->validate([
@@ -61,13 +61,13 @@ class PerlengkapanController extends Controller
 
     public function destroy($id)
     {
-        try{
+        try {
             $perlengkapan = Perlengkapan::findOrFail($id);
             $perlengkapan->delete();
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->route('pengurus_ekstra.perlengkapan')->with('success', 'Item cannot be deleted.');
         }
+
         return redirect()->route('pengurus_ekstra.perlengkapan')->with('success', 'Item deleted successfully.');
     }
 }

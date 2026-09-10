@@ -48,13 +48,17 @@ class guru_mata_pelajaran extends Model
      * @var array
      */
     protected $table = 'guru_mata_pelajaran';
+
     public $timestamps = false;
+
     protected $primaryKey = 'id_guru_mata_pelajaran';
+
     protected $fillable = [
         'id_guru_mata_pelajaran',
         'guru_id',
         'matpel_id',
     ];
+
     public function guru()
     {
         return $this->belongsTo(Guru::class, 'guru_id', 'id_guru');

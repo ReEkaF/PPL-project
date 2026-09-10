@@ -10,9 +10,13 @@ class LaporanPenilaianEkstrakurikuler extends Model
     use HasUuids;
 
     protected $table = 'laporan_penilaian_ekstrakurikuler';
+
     protected $primaryKey = 'id_laporan';
+
     public $incrementing = false;
+
     public $timestamps = false;
+
     protected $keyType = 'string';
 
     protected $fillable = [
@@ -37,8 +41,9 @@ class LaporanPenilaianEkstrakurikuler extends Model
     {
         return $this->belongsTo(Ekstrakurikuler::class, 'id_ekstrakurikuler', 'id_ekstrakurikuler');
     }
+
     public function penilaianekstra()
     {
-        return $this->hasMany(PenilaianEkstrakurikuler::class,'id_laporan', 'id_laporan' );
+        return $this->hasMany(PenilaianEkstrakurikuler::class, 'id_laporan', 'id_laporan');
     }
 }

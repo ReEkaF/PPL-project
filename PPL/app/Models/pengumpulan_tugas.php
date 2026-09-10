@@ -2,22 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
-use App\Models\PengumpulanTugasFile;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
 class pengumpulan_tugas extends Model
 {
-    use Notifiable, HasUuids;
+    use HasUuids, Notifiable;
 
     protected $table = 'pengumpulan_tugas';
+
     protected $primaryKey = 'id_pengumpulan_tugas';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
-
-
 
     protected $fillable = [
         'tugas_id',

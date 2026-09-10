@@ -23,9 +23,9 @@ class ProfileStaffAkademikRequest extends FormRequest
         $idStaffAkademik = Auth::guard('web-staffakademik')->user()->id_staff_akademik;
 
         return [
-            'username' => 'required|string|min:8|max:255|unique:staffakademik,username,' . $idStaffAkademik . ',id_staff_akademik',
-            'email' => 'required|email:rfc,dns|max:255|unique:staffakademik,email,' . $idStaffAkademik . ',id_staff_akademik',
-            'wa_staff_akademik'=> 'required|regex:/^\+62\d{8,15}$/',
+            'username' => 'required|string|min:8|max:255|unique:staffakademik,username,'.$idStaffAkademik.',id_staff_akademik',
+            'email' => 'required|email:rfc,dns|max:255|unique:staffakademik,email,'.$idStaffAkademik.',id_staff_akademik',
+            'wa_staff_akademik' => 'required|regex:/^\+62\d{8,15}$/',
             'current_password' => 'nullable|string',
             'new_password' => 'nullable|string|min:8|confirmed',
         ];

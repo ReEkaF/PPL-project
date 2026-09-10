@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\guru;
 
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class LihatJadwalGuruController extends Controller
 {
@@ -69,6 +69,7 @@ class LihatJadwalGuruController extends Controller
             ->get();
 
         $pdf = Pdf::loadView('guru.jadwal.cetak-jadwal-guru', compact('guru', 'jadwal'));
+
         return $pdf->stream('jadwal-guru.pdf');
     }
 }

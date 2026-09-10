@@ -9,14 +9,17 @@ use Illuminate\Http\Request;
 
 class HistoriPeminjamanController extends Controller
 {
-    public function index($id){
+    public function index($id)
+    {
         $id_inventaris = $id;
         $items = HistoriInventaris::where('id_inventaris', $id)->latest()->paginate(10);
         $barang = InventarisEkstrakurikuler::where('id_inventaris', $id)->value('nama_barang');
+
         return view('pengurus_ekstra.perlengkapan.histori', compact(['items', 'id_inventaris', 'barang']));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         $request->validate([
             'id_inventaris' => 'required',
@@ -30,7 +33,8 @@ class HistoriPeminjamanController extends Controller
         return redirect()->route('pengurus_ekstra.histori', $request->id_inventaris)->with('success', 'Item created successfully.');
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $request->validate([
             'id_inventaris' => 'required',
             'keterangan' => 'required|string|max:255',
@@ -45,7 +49,8 @@ class HistoriPeminjamanController extends Controller
         return redirect()->route('pengurus_ekstra.histori', $request->id_inventaris)->with('success', 'Item updated successfully.');
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $item = HistoriInventaris::findOrFail($id);
         $id_inventaris = $item->id_inventaris;
         $item->delete();

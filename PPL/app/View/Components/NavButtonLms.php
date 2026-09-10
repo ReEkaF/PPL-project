@@ -9,7 +9,9 @@ use Illuminate\View\Component;
 class NavButtonLms extends Component
 {
     public $route;
+
     public $id;
+
     public $label;
 
     /**

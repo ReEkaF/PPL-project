@@ -14,7 +14,6 @@ class UpdateProfilSiswaRequest extends FormRequest
     {
         return true;
     }
-    
 
     /**
      * Aturan validasi untuk permintaan ini.
@@ -22,15 +21,15 @@ class UpdateProfilSiswaRequest extends FormRequest
     public function rules()
     {
         $idSiswa = Auth::guard('web-siswa')->user()->id_siswa;
-    
+
         return [
-            'username' => 'required|string|min:8|max:255|unique:siswa,username,' . $idSiswa . ',id_siswa', 
-            'email' => 'required|email:rfc,dns|max:255|unique:siswa,email,' . $idSiswa . ',id_siswa', 
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', 
+            'username' => 'required|string|min:8|max:255|unique:siswa,username,'.$idSiswa.',id_siswa',
+            'email' => 'required|email:rfc,dns|max:255|unique:siswa,email,'.$idSiswa.',id_siswa',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'current_password' => 'nullable|string',
-            'new_password' => 'nullable|string|min:8|confirmed', 
+            'new_password' => 'nullable|string|min:8|confirmed',
         ];
-    }    
+    }
 
     /**
      * Pesan error kustom untuk validasi.

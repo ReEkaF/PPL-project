@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers\staffakademik;
 
-use ZipArchive;
-use App\Models\kelas;
-use App\Models\Siswa;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
-use App\Models\pengumpulan_tugas;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\kelas;
+use App\Models\pengumpulan_tugas;
 use App\Models\PenilaianEkstrakurikuler;
-use App\Models\tahun_ajaran;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Siswa;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class RaporController extends Controller
 {
@@ -66,7 +63,7 @@ class RaporController extends Controller
             'nilai_matpel' => $nilaiMatpel,
             'nilai_ekstra' => $nilaiEkstra,
             'tahun_ajaran' => $tahunAjaran,
-            'bobot_grades' => $bobotGrades
+            'bobot_grades' => $bobotGrades,
         ];
     }
 
@@ -94,7 +91,7 @@ class RaporController extends Controller
 
         // Filter pencarian nama siswa
         if ($search) {
-            $siswaList->where('siswa.nama_siswa', 'like', '%' . $search . '%');
+            $siswaList->where('siswa.nama_siswa', 'like', '%'.$search.'%');
         }
 
         // Filter berdasarkan kelas
@@ -120,11 +117,10 @@ class RaporController extends Controller
         return view('staff_akademik.rapor.index', compact('siswaList', 'kelasList', 'detailSiswa'));
     }
 
-
-
     public function showDetail($id)
     {
         $data = $this->getSiswaData($id);
+
         return response()->json([
             'id_siswa' => $data['siswa']->id_siswa,
             'nama_siswa' => $data['siswa']->nama_siswa,
@@ -132,28 +128,27 @@ class RaporController extends Controller
             'nisn' => $data['siswa']->nisn,
             'nilai_matpel' => $data['nilai_matpel'],
             'nilai_ekstra' => $data['nilai_ekstra'],
-            'tahun_ajaran' => $data['tahun_ajaran']->tahun_mulai . ' - ' . $data['tahun_ajaran']->tahun_selesai,
-            'semester' => $data['tahun_ajaran']->semester
+            'tahun_ajaran' => $data['tahun_ajaran']->tahun_mulai.' - '.$data['tahun_ajaran']->tahun_selesai,
+            'semester' => $data['tahun_ajaran']->semester,
         ]);
     }
-
 
     public function insertNilaiSiswa($id_siswa)
     {
         $raporId = DB::table('rapor')
-        ->where('siswa_id', $id_siswa)
-        ->value('id_rapor');
+            ->where('siswa_id', $id_siswa)
+            ->value('id_rapor');
 
         $nilaiMatpel = pengumpulan_tugas::with(['siswa.tugas.kelasMataPelajaran.mataPelajaran'])
-        ->where('pengumpulan_tugas.siswa_id', $id_siswa)
-        ->select('tugas_id', 'nilai')
-        ->get()
-        ->groupBy('tugas.kelasMataPelajaran.mataPelajaran.id_matpel');
+            ->where('pengumpulan_tugas.siswa_id', $id_siswa)
+            ->select('tugas_id', 'nilai')
+            ->get()
+            ->groupBy('tugas.kelasMataPelajaran.mataPelajaran.id_matpel');
 
         $nilaiEkstra = PenilaianEkstrakurikuler::with(['siswa'])
-        ->where('penilaian_ekstrakurikuler.id_siswa', $id_siswa)
-        ->select('id_ekstrakurikuler', 'penilaian')
-        ->get();
+            ->where('penilaian_ekstrakurikuler.id_siswa', $id_siswa)
+            ->select('id_ekstrakurikuler', 'penilaian')
+            ->get();
         // ->groupBy('laporan.ekstrakurikuler_id');
 
         foreach ($nilaiMatpel as $matpelId => $tugasItems) {
@@ -163,7 +158,7 @@ class RaporController extends Controller
                 'rapor_id' => $raporId,
                 'matpel_id' => $matpelId,
                 'nilai_rata_rata_matpel' => $rataNilai,
-                'pesan' => 'bagus'
+                'pesan' => 'bagus',
             ]);
         }
 
@@ -178,7 +173,7 @@ class RaporController extends Controller
                 'rapor_id' => $raporId,
                 'ekstrakurikuler_id' => $nilai->id_ekstrakurikuler,
                 'nilai_rata_rata_ekstra' => $nilai->penilaian,
-                'pesan' => $pesan
+                'pesan' => $pesan,
             ]);
         }
     }
@@ -212,12 +207,13 @@ class RaporController extends Controller
             'nisn' => $data['siswa']->nisn,
             'nilai_matpel' => $data['nilai_matpel'],
             'nilai_ekstra' => $data['nilai_ekstra'],
-            'tahun_ajaran' => $data['tahun_ajaran']->tahun_mulai . ' - ' . $data['tahun_ajaran']->tahun_selesai,
-            'semester' => $data['tahun_ajaran']->semester
+            'tahun_ajaran' => $data['tahun_ajaran']->tahun_mulai.' - '.$data['tahun_ajaran']->tahun_selesai,
+            'semester' => $data['tahun_ajaran']->semester,
         ];
 
         $pdf = Pdf::loadView('staff_akademik.rapor.rapor-pdf', $pdfData);
-        return $pdf->download('rapor_' . $data['siswa']->nama_siswa . '.pdf');
+
+        return $pdf->download('rapor_'.$data['siswa']->nama_siswa.'.pdf');
     }
 
     private function getPredikat($nilai, $bobotGrades)
@@ -227,6 +223,7 @@ class RaporController extends Controller
                 return $grade->grade;
             }
         }
+
         return 'E';
     }
 }

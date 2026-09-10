@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Guru;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class GuruSeeder extends Seeder
@@ -26,7 +25,7 @@ class GuruSeeder extends Seeder
             ['nip' => '1985123464', 'nama_guru' => 'Yoga Aditya', 'email' => 'yoga.aditya@example.com', 'foto_guru' => 'foto9.jpg', 'nomor_wa_guru' => '081234567898', 'username' => 'yoga_aditya', 'password' => bcrypt('password123'), 'alamat_guru' => 'Alamat 9', 'role_guru' => 'guru'],
             ['nip' => '1985123465', 'nama_guru' => 'Rahmawati Anisa', 'email' => 'rahmawati.anisa@example.com', 'foto_guru' => 'foto10.jpg', 'nomor_wa_guru' => '081234567899', 'username' => 'rahmawati_anisa', 'password' => bcrypt('password123'), 'alamat_guru' => 'Alamat 10', 'role_guru' => 'guru'],
             ['nip' => '1985123466', 'nama_guru' => 'Andi Prakoso', 'email' => 'andi.prakoso@example.com', 'foto_guru' => 'foto11.jpg', 'nomor_wa_guru' => '081234567900', 'username' => 'andi_prakoso', 'password' => bcrypt('password123'), 'alamat_guru' => 'Alamat 11', 'role_guru' => 'guru'],
-            ['nip' => '1985123467', 'nama_guru' => 'Lina Kusuma', 'email' => 'lina.kusuma@example.com', 'foto_guru' => 'foto12.jpg', 'nomor_wa_guru' => '081234567901', 'username' => 'lina_kusuma', 'password' => bcrypt('password123'), 'alamat_guru' => 'Alamat 12', 'role_guru' => 'guru']
+            ['nip' => '1985123467', 'nama_guru' => 'Lina Kusuma', 'email' => 'lina.kusuma@example.com', 'foto_guru' => 'foto12.jpg', 'nomor_wa_guru' => '081234567901', 'username' => 'lina_kusuma', 'password' => bcrypt('password123'), 'alamat_guru' => 'Alamat 12', 'role_guru' => 'guru'],
         ];
 
         foreach ($gurus as $guru) {

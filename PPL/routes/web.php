@@ -1,79 +1,69 @@
 <?php
 
-use Carbon\Carbon;
-use App\Http\Controllers\guru;
-use App\Http\Controllers\siswa;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\staffakademik;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\guru\GuruController;
-use App\Http\Controllers\GoogleLoginController;
-use App\Http\Controllers\guru\ProfilController;
-use App\Http\Controllers\Siswa\SiswaController;
-use App\Http\Controllers\guru\GuruLmsController;
-use App\Http\Controllers\siswa\SiswaLmsController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\beranda\BerandaController;
-use App\Http\Controllers\guru\lms\TopikLmsController;
-use App\Http\Controllers\Siswa\SiswaProfilController;
-use App\Http\Controllers\guru\lms\ForumGuruController;
-use App\Http\Controllers\guru\lms\TugasGuruController;
-use App\Http\Controllers\guru\lms\MateriGuruController;
-use App\Http\Controllers\Siswa\PrestasiSiswaController;
-use App\Http\Controllers\StaffAkademik\KelasController;
-use App\Http\Controllers\staffakademik\RaporController;
-use App\Http\Controllers\staffperpus\LaporanController;
+use App\Http\Controllers\CeKController;
+use App\Http\Controllers\Ekstrakurikuler\EkstrakurikulerController;
+use App\Http\Controllers\GoogleLoginController;
+use App\Http\Controllers\guru;
+use App\Http\Controllers\guru\GuruController;
+use App\Http\Controllers\guru\GuruUjianController;
 use App\Http\Controllers\guru\LihatJadwalGuruController;
 use App\Http\Controllers\guru\lms\AnggotaGuruController;
-use App\Http\Controllers\guru\lms\AnggotaSiswaContoller;
-use App\Http\Controllers\guru\GuruUjianController;
-use App\Http\Controllers\siswa\lms\ForumSiswaController;
-use App\Http\Controllers\siswa\lms\TugasSiswaController;
-use App\Http\Controllers\staffakademik\JadwalController;
-use App\Http\Controllers\staffperpus\CategoryController;
-use App\Http\Controllers\siswa\lms\MateriSiswaController;
-use App\Http\Controllers\superadmin\SuperadminController;
 use App\Http\Controllers\guru\lms\DashboardGuruController;
+use App\Http\Controllers\guru\lms\ForumGuruController;
+use App\Http\Controllers\guru\lms\MateriGuruController;
+use App\Http\Controllers\guru\lms\TopikLmsController;
+use App\Http\Controllers\guru\lms\TugasGuruController;
+use App\Http\Controllers\guru\ProfilController;
+use App\Http\Controllers\pembinaekstra\HistoriPeminjamanController as PembinaekstraHistoriPeminjamanController;
+use App\Http\Controllers\pembinaekstra\PembinaAnggotaController;
+use App\Http\Controllers\pembinaekstra\PembinaekstraController;
+use App\Http\Controllers\pembinaekstra\PenilaianEkstraController;
+use App\Http\Controllers\pembinaekstra\PerlengkapanController as PembinaekstraPerlengkapanController;
+use App\Http\Controllers\pengurusekstra\AnggotaController;
+use App\Http\Controllers\pengurusekstra\HistoriPeminjamanController;
+use App\Http\Controllers\pengurusekstra\PengurusekstraController;
+use App\Http\Controllers\pengurusekstra\PenilaianEkstraPengurusController;
+use App\Http\Controllers\pengurusekstra\PerlengkapanController;
+use App\Http\Controllers\perpustakaan\PerpustakaanController;
+use App\Http\Controllers\perpustakaan\RiwayatPengunjungController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\siswa;
 use App\Http\Controllers\siswa\LihatJadwalSiswaController;
 use App\Http\Controllers\siswa\lms\AnggotaSiswaController;
-use App\Http\Controllers\staffakademik\PrestasiController;
-use App\Http\Controllers\staffperpus\StaffperpusController;
-use App\Http\Controllers\siswa\lms\DashboardSiswaController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\CeKController;
-use App\Http\Controllers\siswa\UjianSiswaController;
-use App\Http\Controllers\perpustakaan\PerpustakaanController;
-use App\Http\Controllers\staffakademik\LihatJadwalController;
-use App\Http\Controllers\guru\lms\TrackingTugasGuruController;
 use App\Http\Controllers\siswa\lms\DaftarTugasSiswaController;
-use App\Http\Controllers\pembinaekstra\AnggotaEkstraController;
-use App\Http\Controllers\staffakademik\StaffakademikController;
-use App\Http\Controllers\staffperpus\RiwayatTransaksiController;
-
-
-use App\Http\Controllers\superadmin\KelolaPengurusEkstraController;
-use App\Http\Controllers\superadmin\KelolaStaffPerpusController;
-use App\Http\Controllers\pengurusekstra\AnggotaController;
-use App\Http\Controllers\pembinaekstra\PembinaekstraController;
-use App\Http\Controllers\pengurusekstra\PerlengkapanController;
-use App\Http\Controllers\pembinaekstra\PembinaAnggotaController;
-use App\Http\Controllers\pembinaekstra\PenilaianEkstraController;
-use App\Http\Controllers\pengurusekstra\PengurusekstraController;
-use App\Http\Controllers\perpustakaan\RiwayatPengunjungController;
-use App\Http\Controllers\superadmin\KelolaPembinaEkstraController;
-use App\Http\Controllers\superadmin\KelolaStaffAkademikController;
-use App\Http\Controllers\Ekstrakurikuler\EkstrakurikulerController;
-use App\Http\Controllers\staffperpus\TransaksiPeminjamanController;
-use App\Http\Controllers\pengurusekstra\HistoriPeminjamanController;
+use App\Http\Controllers\siswa\lms\DashboardSiswaController;
+use App\Http\Controllers\siswa\lms\ForumSiswaController;
+use App\Http\Controllers\siswa\lms\MateriSiswaController;
+use App\Http\Controllers\siswa\lms\TugasSiswaController;
+use App\Http\Controllers\Siswa\PrestasiSiswaController;
+use App\Http\Controllers\Siswa\SiswaController;
+use App\Http\Controllers\Siswa\SiswaProfilController;
+use App\Http\Controllers\siswa\UjianSiswaController;
+use App\Http\Controllers\staffakademik;
 use App\Http\Controllers\staffakademik\DashboardStaffAkdemikController;
-use App\Http\Controllers\pengurusekstra\PenilaianEkstraPengurusController;
-use App\Http\Controllers\pembinaekstra\PerlengkapanController as PembinaekstraPerlengkapanController;
-use App\Http\Controllers\pembinaekstra\HistoriPeminjamanController as PembinaekstraHistoriPeminjamanController;
+use App\Http\Controllers\staffakademik\JadwalController;
+use App\Http\Controllers\StaffAkademik\KelasController;
+use App\Http\Controllers\staffakademik\LihatJadwalController;
+use App\Http\Controllers\staffakademik\PrestasiController;
+use App\Http\Controllers\staffakademik\RaporController;
+use App\Http\Controllers\staffakademik\StaffakademikController;
+use App\Http\Controllers\staffperpus\CategoryController;
+use App\Http\Controllers\staffperpus\LaporanController;
+use App\Http\Controllers\staffperpus\RiwayatTransaksiController;
+use App\Http\Controllers\staffperpus\StaffperpusController;
+use App\Http\Controllers\staffperpus\TransaksiPeminjamanController;
+use App\Http\Controllers\superadmin\KelolaPembinaEkstraController;
+use App\Http\Controllers\superadmin\KelolaPengurusEkstraController;
+use App\Http\Controllers\superadmin\KelolaStaffAkademikController;
+use App\Http\Controllers\superadmin\KelolaStaffPerpusController;
+use App\Http\Controllers\superadmin\SuperadminController;
+use Illuminate\Support\Facades\Route;
 
 /**
  * End Ekstrakurikuler Controllers
  */
-
-
 Route::prefix('/')->group(function () {
     Route::get('/', [BerandaController::class, 'home'])->name('beranda.home');
     Route::get('/perpustakaanPublik', [BerandaController::class, 'perpustakaanPublik'])->name('beranda.perpustakaanPublik');
@@ -82,7 +72,6 @@ Route::prefix('/')->group(function () {
 });
 Route::get('/auth/redirect', [GoogleLoginController::class, 'redirect'])->name('auth.redirect');
 Route::get('/auth/google/call-back', [GoogleLoginController::class, 'callback']);
-
 
 Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
@@ -98,7 +87,6 @@ Route::get('/dashboard', function () {
 // Super Admin
 Route::group(['prefix' => 'superadmin', 'middleware' => ['admin']], function () {
     Route::get('/dashboard', [SuperadminController::class, 'index'])->name('superadmin.dashboard');
-
 
     //PROFILE//
     Route::get('/setting', [SuperadminController::class, 'setting'])->name('superadmin.profile');
@@ -188,7 +176,6 @@ Route::group(['prefix' => 'staff_akademik', 'middleware' => ['staff_akademik']],
     /**
      * END JADWAL MANAGEMENT
      */
-
     Route::get('/kelas', [StaffakademikController::class, 'index'])->name('staffakademik.kelas.index');
     Route::post('/kelas/store', [StaffakademikController::class, 'store'])->name('staffakademik.kelas.store');
     Route::post('/kelas/update/{id}', [StaffakademikController::class, 'update'])->name('staffakademik.kelas.update');
@@ -199,17 +186,17 @@ Route::group(['prefix' => 'staff_akademik', 'middleware' => ['staff_akademik']],
      * START PRESTASI
      */
     Route::get('/prestasi', [PrestasiController::class, 'index'])->name('prestasi.index');
-    Route::get("/prestasi/create", [PrestasiController::class, "create"])->name("prestasi.create");
-    Route::post("/prestasi/store", [PrestasiController::class, "store"])->name("prestasi.store");
-    Route::get("/prestasi/pengajuan", [PrestasiController::class, "pengajuan"])->name("prestasi.pengajuan");
-    Route::get("/prestasi/show/{id}", [PrestasiController::class, "show"])->name("prestasi.show");
+    Route::get('/prestasi/create', [PrestasiController::class, 'create'])->name('prestasi.create');
+    Route::post('/prestasi/store', [PrestasiController::class, 'store'])->name('prestasi.store');
+    Route::get('/prestasi/pengajuan', [PrestasiController::class, 'pengajuan'])->name('prestasi.pengajuan');
+    Route::get('/prestasi/show/{id}', [PrestasiController::class, 'show'])->name('prestasi.show');
     Route::delete('/prestasi/{id}', [PrestasiController::class, 'destroy'])->name('prestasi.destroy');
     Route::put('/prestasi/{id}', [PrestasiController::class, 'update'])->name('prestasi.update');
     Route::put('/prestasi/setujui/{id}', [PrestasiController::class, 'setujui'])->name('prestasi.setujui');
     Route::post('/prestasi/tolak/{id}', [PrestasiController::class, 'tolak'])->name('prestasi.tolak');
     /**
      * END PRESTASI
-     */
+     */
 
     // START MANAGEMENT KELAS (NAUFAL | PROSES)
     Route::get('/daftarkelas', [KelasController::class, 'daftarkelas'])->name('daftarkelas');
@@ -240,7 +227,6 @@ Route::group(['prefix' => 'staff_akademik', 'middleware' => ['staff_akademik']],
     Route::put('/mata-pelajaran/{id}', [KelasController::class, 'update'])->name('staff_akademik.mata-pelajaran.update');
     // Menghapus mata pelajaran berdasarkan ID
     Route::delete('/mata-pelajaran/{id}', [KelasController::class, 'destroy'])->name('staff_akademik.mata-pelajaran.destroy');
-
 
     //crud kelas
     Route::get('/kelas', [KelasController::class, 'indexKelas'])->name('staff_akademik.kelas.index');
@@ -285,9 +271,6 @@ Route::group(['prefix' => 'staff_akademik', 'middleware' => ['staff_akademik']],
 
 // Route::get("/prestasi/pengajuan", [PrestasiController::class, "pengajuan"])->name("prestasi.pengajuan");
 
-
-
-
 // P E R P U S T A K A A N
 
 Route::group(['prefix' => 'staff_perpus', 'middleware' => ['staff_perpus']], function () {
@@ -314,7 +297,6 @@ Route::group(['prefix' => 'staff_perpus', 'middleware' => ['staff_perpus']], fun
     Route::delete('/buku/{id}', [StaffperpusController::class, 'destroybuku'])->name('staff_perpus.buku.destroy');
     Route::get('/buku/{id}', [StaffperpusController::class, 'show'])->name('staff_perpus.buku.detail');
 
-
     // TRANSAKSI
     Route::get('/transaksi', [TransaksiPeminjamanController::class, 'index'])->name('staff_perpus.transaksi.daftartransaksi');
     Route::get('/transaksi/create', [TransaksiPeminjamanController::class, 'create'])->name('staff_perpus.transaksi.create');
@@ -335,8 +317,6 @@ Route::group(['prefix' => 'staff_perpus', 'middleware' => ['staff_perpus']], fun
     Route::get('/laporan/transaksi-buku', [LaporanController::class, 'transaksibuku'])->name('staff_perpus.laporan.laporantransaksi');
 });
 
-
-
 // Route Siswa
 Route::group(['prefix' => 'siswa', 'middleware' => ['siswa']], function () {
     Route::get('/dashboard', [SiswaController::class, 'index'])->name('siswa.dashboard');
@@ -346,7 +326,6 @@ Route::group(['prefix' => 'siswa', 'middleware' => ['siswa']], function () {
     /**
      * Start Pengurus Ekstrakurikuler
      */
-
     Route::group(['middleware' => 'pengurus'], function () {
         // Dashboard Ekstrakurikuler
         Route::get('/ekstrakurikuler/dashboard', [PengurusEkstraController::class, 'dashboard'])->name('pengurus_ekstra.dashboard');
@@ -359,7 +338,7 @@ Route::group(['prefix' => 'siswa', 'middleware' => ['siswa']], function () {
         Route::get('/ekstrakurikuler/anggota', [AnggotaController::class, 'index'])->name('pengurus_ekstra.anggota');
         Route::put('/ekstrakurikuler/anggota/update-status/{id}', [AnggotaController::class, 'updateStatus'])->name('pengurus_ekstra.anggota.updateStatus');
 
-        // Penilaian Ekstrakurikuler 
+        // Penilaian Ekstrakurikuler
         Route::get('/ekstrakurikuler/penilaian', [PenilaianEkstraPengurusController::class, 'index'])->name('pengurus_ekstra.penilaian');
         Route::post('/ekstrakurikuler/penilaian/storeOrUpdate/{id}', [PenilaianEkstraPengurusController::class, 'storeOrUpdate'])->name('pengurus_ekstra.penilaian.storeOrUpdate');
 
@@ -379,13 +358,11 @@ Route::group(['prefix' => 'siswa', 'middleware' => ['siswa']], function () {
      * End Pengurus Ekstrakurikuler
      */
 
-
     // ========================================================== START ROUTE LMS =================================================================================
 
     // MATERI
     Route::get('/dashboard/lms', [DashboardSiswaController::class, 'index'])->name('siswa.dashboard.lms');
     Route::get('/dashboard/lms/materi', [MateriSiswaController::class, 'index'])->name('siswa.dashboard.lms.materi');
-
 
     // TUGAS
     // Route::get('/dashboard/lms/tugas', [TugasSiswaController::class, 'index'])->name('siswa.dashboard.lms.tugas');
@@ -395,11 +372,8 @@ Route::group(['prefix' => 'siswa', 'middleware' => ['siswa']], function () {
     Route::post('/dashboard/lms/tugas/{id}', [TugasSiswaController::class, 'submit'])->name('siswa.dashboard.lms.submit.tugas');
     Route::delete('/dashboard/lms/tugas/batal/{id}', [TugasSiswaController::class, 'batalPengumpulan'])->name('siswa.dashboard.lms.tugas.batal');
 
-
     // FILE PENGUMPULAN TUGAS SISWA
     Route::get('/dashboard/lms/tugas/file/{id}', [TugasSiswaController::class, 'deleteFile'])->name('siswa.dashboard.lms.tugas.file.delete');
-
-
 
     // FORUM
     Route::get('/dashboard/lms/forum/{id}', [ForumSiswaController::class, 'index'])->name('siswa.dashboard.lms.forum');
@@ -407,14 +381,11 @@ Route::group(['prefix' => 'siswa', 'middleware' => ['siswa']], function () {
     Route::get('/dashboard/lms/forum/anggota/{id}', [AnggotaSiswaController::class, 'index'])->name('siswa.dashboard.lms.forum.anggota');
     Route::get('/dashboard/lms/materi/{id}', [MateriSiswaController::class, 'detail'])->name('siswa.dashboard.lms.detail.materi');
 
-
-
     // TRACKING TUGAS
     Route::get('/dashboard/lms/tugas/tracking/ditugaskan', [DaftarTugasSiswaController::class, 'ditugaskan'])->name('siswa.dashboard.lms.tracking.tugas.ditugaskan');
     Route::get('/dashboard/lms/tugas/tracking/belum_diserahkan', [DaftarTugasSiswaController::class, 'belumDiserahkan'])->name('siswa.dashboard.lms.tracking.tugas.belum_diserahkan');
     Route::get('/dashboard/lms/tugas/tracking/diserahkan', [DaftarTugasSiswaController::class, 'diserahkan'])->name('siswa.dashboard.lms.tracking.tugas.diserahkan');
     // ========================================================== END ROUTE LMS =================================================================================
-
 
     /**
      * START UJIAN
@@ -426,7 +397,6 @@ Route::group(['prefix' => 'siswa', 'middleware' => ['siswa']], function () {
     /**
      * END UJIAN
      */
-
 
     // START PRESTASI
     Route::get('/dashboard/prestasi', [PrestasiSiswaController::class, 'index'])->name('siswa.prestasi');
@@ -442,7 +412,6 @@ Route::group(['prefix' => 'siswa', 'middleware' => ['siswa']], function () {
     Route::get('/dashboard/perpustakaan/riwayat', [RiwayatPengunjungController::class, 'transSiswa'])->name('siswa.perpustakaan.riwayat');
     Route::get('/dashboard/perpustakaan/rules', [PerpustakaanController::class, 'showRulesSiswa'])->name('siswa.perpustakaan.rules');
 
-
     //END PERPUS
 
     // Absensi
@@ -456,9 +425,6 @@ Route::group(['prefix' => 'siswa', 'middleware' => ['siswa']], function () {
     Route::get('/jadwal-siswa/print', [LihatJadwalSiswaController::class, 'print'])->name('siswa.jadwal.print');
 });
 
-
-
-
 // GURU ROLE
 Route::group(['prefix' => 'guru', 'middleware' => ['guru']], function () {
     Route::get('/dashboard', [GuruController::class, 'index'])->name('guru.dashboard');
@@ -467,7 +433,6 @@ Route::group(['prefix' => 'guru', 'middleware' => ['guru']], function () {
 
     // Mengupdate profil pengguna
     Route::put('/profil', [ProfilController::class, 'update'])->name('profil.update');
-
 
     /**
      * Start Pembina Ekstrakurikuler
@@ -490,7 +455,6 @@ Route::group(['prefix' => 'guru', 'middleware' => ['guru']], function () {
     /**
      * End Pembina Ekstrakurikuler
      */
-
 
     // ========================================================== START ROUTE LMS =================================================================================
     // MATERI
@@ -526,9 +490,9 @@ Route::group(['prefix' => 'guru', 'middleware' => ['guru']], function () {
     Route::put('/dashboard/lms/pengumpulan_tugas_siswa/{id}', [TugasGuruController::class, 'nilaiTugas'])->name('guru.dashboard.lms.tugas.siswa.update');
 
     // TOPIK
-    Route::post('/dashboard/lms/topik/store/{id}', [TopikLmsController::class, "store"])->name('guru.dashboard.lms.topik.store');
-    Route::put('/dashboard/lms/topik/update/{id}', [TopikLmsController::class, "update"])->name('guru.dashboard.lms.topik.update');
-    Route::delete('/dashboard/lms/topik/delete/{id}', [TopikLmsController::class, "destroy"])->name('guru.dashboard.lms.topik.destroy');
+    Route::post('/dashboard/lms/topik/store/{id}', [TopikLmsController::class, 'store'])->name('guru.dashboard.lms.topik.store');
+    Route::put('/dashboard/lms/topik/update/{id}', [TopikLmsController::class, 'update'])->name('guru.dashboard.lms.topik.update');
+    Route::delete('/dashboard/lms/topik/delete/{id}', [TopikLmsController::class, 'destroy'])->name('guru.dashboard.lms.topik.destroy');
     // ========================================================== END ROUTE LMS =================================================================================
 
     // START WALI KELAS (NAUFAL | PROSES)
@@ -539,14 +503,12 @@ Route::group(['prefix' => 'guru', 'middleware' => ['guru']], function () {
 
     // START PERPUS
 
-
     Route::get('/dashboard/perpustakaan', [PerpustakaanController::class, 'indexGuru'])->name('perpustakaan');
     Route::get('/dashboard/perpustakaan/detail/{id}', [PerpustakaanController::class, 'showGuru'])->name('dashboard.perpustakaan.detail');
     Route::get('/dashboard/perpustakaan/riwayat', [RiwayatPengunjungController::class, 'transGuru'])->name('guru.perpustakaan.riwayat');
     Route::get('/dashboard/perpustakaan/rules', [PerpustakaanController::class, 'showRulesGuru'])->name('guru.perpustakaan.rules');
 
     //END PERPUS
-
 
     /**
      * START UJIAN
@@ -596,18 +558,11 @@ Route::group(['prefix' => 'guru', 'middleware' => ['guru']], function () {
     Route::get('/guru/jadwal/print', [LihatJadwalGuruController::class, 'print'])->name('guru.jadwal.print');
 });
 
-
 Route::group(['prefix' => 'pembina_ekstra', 'middleware' => ['pembina_ekstra']], function () {
     Route::get('/pembina', [PembinaekstraController::class, 'index'])->name('pembina_ekstra.dashboard');
 });
 
-
-
-
-
 //route crud kelas
-
-
 
 Route::group(['prefix' => 'ekstrakrikuler'], function () {
 
@@ -638,7 +593,6 @@ Route::get('/ekstrakurikuler/{id}', [EkstrakurikulerController::class, 'show'])-
 
 // Rute untuk menyimpan informasi
 // Route::post('/kelola-informasi', [KelolaInformasiController::class, 'store'])->name('kelolaInformasi.store');
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 
-
-Route::get("/cek", CeKController::class);
+Route::get('/cek', CeKController::class);

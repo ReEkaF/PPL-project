@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\pengurusekstra;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Ekstrakurikuler;
 use App\Models\PengurusEkstra;
 use App\Models\PostingEkstrakurikuler;
+use Illuminate\Http\Request;
 
 class PengurusekstraController extends Controller
 {
@@ -14,14 +14,14 @@ class PengurusekstraController extends Controller
     {
         // Ambil data pengurus yang login
         $pengurusEkstra = auth()->guard('web-siswa')->user()->id_siswa;
-    
+
         try {
             // Pastikan pengurus memiliki id_ekstrakurikuler
-            $ekstra = PengurusEkstra::with('ekstrakurikuler')->where('id_siswa',$pengurusEkstra)->first();
+            $ekstra = PengurusEkstra::with('ekstrakurikuler')->where('id_siswa', $pengurusEkstra)->first();
             $id_ekstra = $ekstra->id_ekstrakurikuler;
             // Ambil semua postingan terkait ekstrakurikuler
             $postings = PostingEkstrakurikuler::with(['pengurus.siswa'])
-            ->where('id_ekstrakurikuler', $ekstra->id_ekstrakurikuler)
+                ->where('id_ekstrakurikuler', $ekstra->id_ekstrakurikuler)
                 ->orderBy('tgl_uploud', 'desc')
                 ->get();
 
@@ -48,11 +48,10 @@ class PengurusekstraController extends Controller
             'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'deskripsi' => 'required|string',
         ]);
-        
+
         // Ambil data pengurus yang login
         $pengurus = auth()->guard('web-siswa')->user()->id_siswa;
-        $id_ekstra = PengurusEkstra::where('id_siswa',$pengurus)->first();
-        
+        $id_ekstra = PengurusEkstra::where('id_siswa', $pengurus)->first();
 
         // Validasi id_ekstrakurikuler
         // if (!$id_ekstra) {
@@ -73,6 +72,7 @@ class PengurusekstraController extends Controller
 
         return redirect()->back()->with('success', 'Postingan berhasil ditambahkan.');
     }
+
     public function destroy($id)
     {
         $posting = PostingEkstrakurikuler::findOrFail($id);
@@ -80,11 +80,14 @@ class PengurusekstraController extends Controller
 
         return redirect()->back()->with('success', 'Postingan berhasil dihapus.');
     }
+
     public function edit($id)
     {
         $posting = PostingEkstrakurikuler::findOrFail($id);
+
         return view('pengurus_ekstra.edit', compact('posting'));
     }
+
     public function show($id)
     {
         $posting = PostingEkstrakurikuler::findOrFail($id);
@@ -97,6 +100,7 @@ class PengurusekstraController extends Controller
             'tgl_uploud' => $posting->tgl_uploud,
         ]);
     }
+
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
@@ -118,23 +122,23 @@ class PengurusekstraController extends Controller
         $posting->save();
 
         return redirect()->route('pengurus_ekstra.dashboard')->with('success', 'Postingan berhasil diperbarui.');
-        }
+    }
 
-    public function updateStatus(Request $request){
+    public function updateStatus(Request $request)
+    {
         $pengurusEkstra = auth()->guard('web-siswa')->user()->id_siswa;
         $status = $request->input('status');
-    
+
         // Pastikan pengurus memiliki id_ekstrakurikuler
-        $ekstra = PengurusEkstra::with('ekstrakurikuler')->where('id_siswa',$pengurusEkstra)->first();
+        $ekstra = PengurusEkstra::with('ekstrakurikuler')->where('id_siswa', $pengurusEkstra)->first();
         $id_ekstra = $ekstra->id_ekstrakurikuler;
 
         // Pastikan pengurus memiliki id_ekstrakurikuler
-        $ekstra = Ekstrakurikuler::where('id_ekstrakurikuler',$id_ekstra)->first();
+        $ekstra = Ekstrakurikuler::where('id_ekstrakurikuler', $id_ekstra)->first();
 
         $ekstra->status = $status;
         $ekstra->save();
 
         return $this->dashboard();
     }
-    
 }
