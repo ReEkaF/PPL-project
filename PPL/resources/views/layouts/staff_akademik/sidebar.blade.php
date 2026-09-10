@@ -39,20 +39,20 @@
 
                     {{-- Data Master --}}
                     <li>
-                        <x-sidebar-dropdown label="Master Data" id="master" :active="request()->is('staff_akademik/kelas') || request()->is('staff_akademik/guru-mata-pelajaran') || request()->is('staff_akademik/mata-pelajaran') || request()->is('staff_akademik/jadwal')">
+                        <x-sidebar-dropdown label="Master Data" id="master" :active="request()->is('staff_akademik/kelas*') || request()->is('staff_akademik/daftar-kelas*') || request()->is('staff_akademik/daftarkelas*') || request()->is('staff_akademik/guru-mata-pelajaran*') || request()->is('staff_akademik/mata-pelajaran*') || request()->is('staff_akademik/jadwal*')">
                             <x-sidebar-icon>
                                 <path fill-rule="evenodd" d="M4 4a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2v14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2V5a1 1 0 0 1-1-1Zm5 2a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-1Zm-5 4a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1h-1Zm-3 4a2 2 0 0 0-2 2v3h2v-3h2v3h2v-3a2 2 0 0 0-2-2h-2Z" clip-rule="evenodd" />
                             </x-sidebar-icon>
                         </x-sidebar-dropdown>
-                        <x-sidebar-dropdown-list id="master" :active="request()->is('staff_akademik/kelas') || request()->is('staff_akademik/guru-mata-pelajaran') || request()->is('staff_akademik/mata-pelajaran') || request()->is('staff_akademik/jadwal')">
+                        <x-sidebar-dropdown-list id="master" :active="request()->is('staff_akademik/kelas*') || request()->is('staff_akademik/daftar-kelas*') || request()->is('staff_akademik/daftarkelas*') || request()->is('staff_akademik/guru-mata-pelajaran*') || request()->is('staff_akademik/mata-pelajaran*') || request()->is('staff_akademik/jadwal*')">
                     <li>
                         <x-sidebar-dropdown-list-link href="{{route('staff_akademik.kelas.index')}}" :active="request()->is('staff_akademik/kelas')">Data Kelas</x-sidebar-dropdown-list-link>
                     </li>
                     <li>
-                        <x-sidebar-dropdown-list-link href="{{route('daftarkelas')}}" :active="request()->is('staff-akademik/master/kelas')">Atur Siswa & Wali Kelas</x-sidebar-dropdown-list-link>
+                        <x-sidebar-dropdown-list-link href="{{route('daftarkelas')}}" :active="request()->is('staff_akademik/daftar-kelas*') || request()->is('staff_akademik/daftarkelas*') || request()->is('staff_akademik/kelas/*/siswa*') || request()->is('staff-akademik/master/kelas*')">Atur Siswa & Wali Kelas</x-sidebar-dropdown-list-link>
                     </li>
                     <li>
-                        <x-sidebar-dropdown-list-link href="{{route('staff_akademik.guru_mata_pelajaran.index')}}" :active="request()->is('staff_akademik/guru-mata-pelajaran')">Data Guru</x-sidebar-dropdown-list-link>
+                        <x-sidebar-dropdown-list-link href="{{route('staff_akademik.guru_mata_pelajaran.index')}}" :active="request()->is('staff_akademik/guru-mata-pelajaran*') || request()->is('staff_akademik/daftar-guru-mata-pelajaran*')">Data Guru</x-sidebar-dropdown-list-link>
                     </li>
                     <li>
                         <x-sidebar-dropdown-list-link href="{{route('staff_akademik.mata-pelajaran.index')}}" :active="request()->is('staff_akademik/mata-pelajaran')">Data Mata Pelajaran</x-sidebar-dropdown-list-link>

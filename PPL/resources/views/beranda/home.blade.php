@@ -19,13 +19,13 @@
                     </p>
 
                     <div class="flex flex-wrap items-center gap-3 pt-2">
-                        <x-ui.button href="{{ route('beranda.perpustakaanPublik') }}" variant="accent" size="lg">
+                        <x-ui.button href="{{ route('beranda.perpustakaan') }}" variant="accent" size="lg">
                             <span>Jelajahi Perpustakaan</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
                             </svg>
                         </x-ui.button>
-                        <x-ui.button href="{{ route('ekstrakurikuler.dashboardEkstra') }}" variant="secondary" size="lg">
+                        <x-ui.button href="{{ route('ekstrakurikuler.index') }}" variant="secondary" size="lg">
                             <span>Daftar Ekstrakurikuler</span>
                         </x-ui.button>
                         <x-ui.button href="{{ route('login') }}" variant="ghost" size="lg" class="text-slate-300 hover:text-white hover:bg-slate-800">
@@ -99,7 +99,7 @@
                                 Koleksi buku pelajaran, ensiklopedia, referensi ilmiah, serta sistem peminjaman terintegrasi barcode.
                             </p>
                         </div>
-                        <x-ui.button href="{{ route('beranda.perpustakaanPublik') }}" variant="outline" size="sm" class="w-full justify-between">
+                        <x-ui.button href="{{ route('beranda.perpustakaan') }}" variant="outline" size="sm" class="w-full justify-between">
                             <span>Katalog Buku</span>
                             <span>→</span>
                         </x-ui.button>
@@ -121,7 +121,7 @@
                                 Dewan guru berkualifikasi, berkompeten di bidang masing-masing, serta membimbing siswa dengan pendekatan humanis.
                             </p>
                         </div>
-                        <x-ui.button href="{{ route('beranda.tenagaPengajarPublik') }}" variant="outline" size="sm" class="w-full justify-between">
+                        <x-ui.button href="{{ route('beranda.guru') }}" variant="outline" size="sm" class="w-full justify-between">
                             <span>Direktori Guru</span>
                             <span>→</span>
                         </x-ui.button>
@@ -146,7 +146,7 @@
                                 Pengembangan bakat melalui Pramuka, Paskibra, PMR, Seni Budaya, Olahraga, dan Tahfidz Quran.
                             </p>
                         </div>
-                        <x-ui.button href="{{ route('ekstrakurikuler.dashboardEkstra') }}" variant="outline" size="sm" class="w-full justify-between">
+                        <x-ui.button href="{{ route('ekstrakurikuler.index') }}" variant="outline" size="sm" class="w-full justify-between">
                             <span>Info & Daftar</span>
                             <span>→</span>
                         </x-ui.button>
@@ -168,7 +168,7 @@
                                 Jejak torehan medali dan penghargaan para siswa di tingkat kabupaten, provinsi, hingga nasional.
                             </p>
                         </div>
-                        <x-ui.button href="{{ route('beranda.prestasiPublik') }}" variant="outline" size="sm" class="w-full justify-between">
+                        <x-ui.button href="{{ route('beranda.prestasi') }}" variant="outline" size="sm" class="w-full justify-between">
                             <span>Lihat Prestasi</span>
                             <span>→</span>
                         </x-ui.button>
@@ -187,7 +187,7 @@
                     <span class="text-xs font-bold uppercase tracking-wider text-brand-700">Katalog Terkini</span>
                     <h2 class="text-2xl font-bold text-slate-900 mt-1">Buku Terbaru di Perpustakaan</h2>
                 </div>
-                <x-ui.button href="{{ route('beranda.perpustakaanPublik') }}" variant="secondary" size="sm">
+                <x-ui.button href="{{ route('beranda.perpustakaan') }}" variant="secondary" size="sm">
                     <span>Lihat Seluruh Koleksi →</span>
                 </x-ui.button>
             </div>

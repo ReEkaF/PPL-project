@@ -27,10 +27,10 @@
                 <h5 class="text-sm font-semibold text-white tracking-wider uppercase">Layanan Publik</h5>
                 <ul class="space-y-2 text-sm text-slate-400">
                     <li><a href="{{ route('beranda.home') }}" class="hover:text-white transition">Beranda Utama</a></li>
-                    <li><a href="{{ route('beranda.perpustakaanPublik') }}" class="hover:text-white transition">Katalog Perpustakaan</a></li>
-                    <li><a href="{{ route('beranda.tenagaPengajarPublik') }}" class="hover:text-white transition">Direktori Guru</a></li>
-                    <li><a href="{{ route('ekstrakurikuler.dashboardEkstra') }}" class="hover:text-white transition">Kegiatan Ekstrakurikuler</a></li>
-                    <li><a href="{{ route('beranda.prestasiPublik') }}" class="hover:text-white transition">Galeri Prestasi</a></li>
+                    <li><a href="{{ route('beranda.perpustakaan') }}" class="hover:text-white transition">Katalog Perpustakaan</a></li>
+                    <li><a href="{{ route('beranda.guru') }}" class="hover:text-white transition">Direktori Guru</a></li>
+                    <li><a href="{{ route('ekstrakurikuler.index') }}" class="hover:text-white transition">Kegiatan Ekstrakurikuler</a></li>
+                    <li><a href="{{ route('beranda.prestasi') }}" class="hover:text-white transition">Galeri Prestasi</a></li>
                 </ul>
             </div>
 

@@ -16,20 +16,20 @@
                    class="px-3.5 py-2 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('beranda.home') ? 'text-brand-800 bg-brand-50' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80' }}">
                     Beranda
                 </a>
-                <a href="{{ route('beranda.perpustakaanPublik') }}"
-                   class="px-3.5 py-2 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('beranda.perpustakaanPublik*') ? 'text-brand-800 bg-brand-50' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80' }}">
+                <a href="{{ route('beranda.perpustakaan') }}"
+                   class="px-3.5 py-2 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('beranda.perpustakaan*') ? 'text-brand-800 bg-brand-50' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80' }}">
                     Perpustakaan
                 </a>
-                <a href="{{ route('beranda.tenagaPengajarPublik') }}"
-                   class="px-3.5 py-2 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('beranda.tenagaPengajarPublik*') ? 'text-brand-800 bg-brand-50' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80' }}">
+                <a href="{{ route('beranda.guru') }}"
+                   class="px-3.5 py-2 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('beranda.guru*') || request()->routeIs('beranda.tenagaPengajarPublik*') ? 'text-brand-800 bg-brand-50' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80' }}">
                     Tenaga Pengajar
                 </a>
-                <a href="{{ route('ekstrakurikuler.dashboardEkstra') }}"
+                <a href="{{ route('ekstrakurikuler.index') }}"
                    class="px-3.5 py-2 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('ekstrakurikuler.*') ? 'text-brand-800 bg-brand-50' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80' }}">
                     Ekstrakurikuler
                 </a>
-                <a href="{{ route('beranda.prestasiPublik') }}"
-                   class="px-3.5 py-2 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('beranda.prestasiPublik*') ? 'text-brand-800 bg-brand-50' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80' }}">
+                <a href="{{ route('beranda.prestasi') }}"
+                   class="px-3.5 py-2 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('beranda.prestasi*') ? 'text-brand-800 bg-brand-50' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80' }}">
                     Prestasi
                 </a>
             </nav>
@@ -122,20 +122,20 @@
                class="block px-3 py-2 rounded-lg text-base font-medium {{ request()->routeIs('beranda.home') ? 'bg-brand-50 text-brand-800' : 'text-slate-700 hover:bg-slate-100' }}">
                 Beranda
             </a>
-            <a href="{{ route('beranda.perpustakaanPublik') }}"
-               class="block px-3 py-2 rounded-lg text-base font-medium {{ request()->routeIs('beranda.perpustakaanPublik*') ? 'bg-brand-50 text-brand-800' : 'text-slate-700 hover:bg-slate-100' }}">
+            <a href="{{ route('beranda.perpustakaan') }}"
+               class="block px-3 py-2 rounded-lg text-base font-medium {{ request()->routeIs('beranda.perpustakaan*') ? 'bg-brand-50 text-brand-800' : 'text-slate-700 hover:bg-slate-100' }}">
                 Perpustakaan
             </a>
-            <a href="{{ route('beranda.tenagaPengajarPublik') }}"
-               class="block px-3 py-2 rounded-lg text-base font-medium {{ request()->routeIs('beranda.tenagaPengajarPublik*') ? 'bg-brand-50 text-brand-800' : 'text-slate-700 hover:bg-slate-100' }}">
+            <a href="{{ route('beranda.guru') }}"
+               class="block px-3 py-2 rounded-lg text-base font-medium {{ request()->routeIs('beranda.guru*') || request()->routeIs('beranda.tenagaPengajarPublik*') ? 'bg-brand-50 text-brand-800' : 'text-slate-700 hover:bg-slate-100' }}">
                 Tenaga Pengajar
             </a>
-            <a href="{{ route('ekstrakurikuler.dashboardEkstra') }}"
+            <a href="{{ route('ekstrakurikuler.index') }}"
                class="block px-3 py-2 rounded-lg text-base font-medium {{ request()->routeIs('ekstrakurikuler.*') ? 'bg-brand-50 text-brand-800' : 'text-slate-700 hover:bg-slate-100' }}">
                 Ekstrakurikuler
             </a>
-            <a href="{{ route('beranda.prestasiPublik') }}"
-               class="block px-3 py-2 rounded-lg text-base font-medium {{ request()->routeIs('beranda.prestasiPublik*') ? 'bg-brand-50 text-brand-800' : 'text-slate-700 hover:bg-slate-100' }}">
+            <a href="{{ route('beranda.prestasi') }}"
+               class="block px-3 py-2 rounded-lg text-base font-medium {{ request()->routeIs('beranda.prestasi*') ? 'bg-brand-50 text-brand-800' : 'text-slate-700 hover:bg-slate-100' }}">
                 Prestasi
             </a>
 

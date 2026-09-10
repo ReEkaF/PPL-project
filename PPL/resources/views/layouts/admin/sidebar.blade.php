@@ -46,32 +46,32 @@ aria-label="Sidebar">
                     </x-sidebar-dropdown>
                     <x-sidebar-dropdown-list id="keloladata" :active="request()->is('superadmin*')">
                         <li>
-                            <x-sidebar-dropdown-list-link href="{{ route('superadmin.keloladataguru') }}" :active="request()->is('superadmin/keloladataguru')">
+                            <x-sidebar-dropdown-list-link href="{{ route('superadmin.keloladataguru') }}" :active="request()->is('superadmin/kelola-data-guru*') || request()->is('superadmin/guru*') || request()->is('superadmin/keloladataguru*')">
                                 Data Guru
                             </x-sidebar-dropdown-list-link>
                         </li>
                         <li>
-                            <x-sidebar-dropdown-list-link href="{{ route('superadmin.keloladatasiswa') }}" :active="request()->is('superadmin/keloladatasiswa')">
+                            <x-sidebar-dropdown-list-link href="{{ route('superadmin.keloladatasiswa') }}" :active="request()->is('superadmin/kelola-data-siswa*') || request()->is('superadmin/siswa*') || request()->is('superadmin/keloladatasiswa*')">
                                 Data Siswa
                             </x-sidebar-dropdown-list-link>
                         </li>
                         <li>
-                            <x-sidebar-dropdown-list-link href="{{ route('superadmin.kelola_staff_akademik') }}" :active="request()->is('superadmin/kelola-staff-akademik')">
+                            <x-sidebar-dropdown-list-link href="{{ route('superadmin.kelola_staff_akademik') }}" :active="request()->is('superadmin/kelola-staff-akademik*') || request()->is('superadmin/staff-akademik*')">
                                 Data Staff Akademik
                             </x-sidebar-dropdown-list-link>
                         </li>
                         <li>
-                            <x-sidebar-dropdown-list-link href="{{ route('superadmin.kelola_staff_perpus') }}" :active="request()->is('superadmin/kelola-staff-perpus')">
+                            <x-sidebar-dropdown-list-link href="{{ route('superadmin.kelola_staff_perpus') }}" :active="request()->is('superadmin/kelola-staff-perpus*') || request()->is('superadmin/staff-perpus*')">
                                 Data Staff Perpus
                             </x-sidebar-dropdown-list-link>
                         </li>
                         <li>
-                            <x-sidebar-dropdown-list-link href="{{ route('superadmin.kelola_pembina_ekstrakurikuler') }}" :active="request()->is('superadmin/kelola-pembina-ekstrakurikuler*')">
+                            <x-sidebar-dropdown-list-link href="{{ route('superadmin.kelola_pembina_ekstrakurikuler') }}" :active="request()->is('superadmin/kelola-pembina-ekstrakurikuler*') || request()->is('superadmin/pembina-ekstrakurikuler*')">
                                 Data Pembina Ekstrakurikuler
                             </x-sidebar-dropdown-list-link>
                         </li>
                         <li>
-                            <x-sidebar-dropdown-list-link href="{{ route('superadmin.keloladatapengurus') }}" :active="request()->is('superadmin/keloladatapengurus*')">
+                            <x-sidebar-dropdown-list-link href="{{ route('superadmin.keloladatapengurus') }}" :active="request()->is('superadmin/kelola-data-pengurus*') || request()->is('superadmin/pengurus-ekstrakurikuler*') || request()->is('superadmin/keloladatapengurus*')">
                                 Data Pengurus Ekstrakurikuler
                             </x-sidebar-dropdown-list-link>                            
                         </li>
