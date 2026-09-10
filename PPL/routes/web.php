@@ -449,13 +449,13 @@ Route::group(['prefix' => 'staff_perpus', 'middleware' => ['staff_perpus']], fun
     Route::get('/laporan/daftar-transaksi-buku', [LaporanController::class, 'transaksibuku'])->name('staff_perpus.laporan.laporantransaksi');
     Route::get('/laporan/transaksibuku', [LaporanController::class, 'transaksibuku']);
 });
-
 /*
 |--------------------------------------------------------------------------
 | 5. Guru Routes (dan Pembina Ekstrakurikuler)
 |--------------------------------------------------------------------------
 | Standardized with clean kebab-case hyphens (-)
 */
+
 Route::group(['prefix' => 'guru', 'middleware' => ['guru']], function () {
     Route::get('/dashboard', [GuruController::class, 'index'])->name('guru.dashboard');
 

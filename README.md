@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Sistem Sekolah Terintegrasi (SST) SMP Negeri 2 Kamal
 
 [![Laravel Version](https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
@@ -321,4 +322,26 @@ Sebelum proses refactoring, sistem mengalami beberapa isu arsitektur dan perform
 Project ini dikembangkan dan direfaktor oleh Tim PPL Mahasiswa Informatika untuk implementasi sistem tata kelola pendidikan di **SMP Negeri 2 Kamal**.
 
 ---
-*Dokumentasi ini dimutakhirkan secara otomatis seiring perkembangan branch `refactor/system-audit-and-architecture`.*
+
+### 📱 Konfigurasi WhatsApp Gateway (Twilio)
+Untuk mengaktifkan pengiriman notifikasi otomatis tugas dan kehadiran via WhatsApp Gateway (Twilio):
+1. Kirim pesan WhatsApp ke nomor `+14155238886`
+2. Ketik `join weak-gold` (tanpa tanda petik) hingga menerima pesan balasan berhasil.
+3. Pastikan nomor tujuan terdaftar dan jalankan worker antrean pada terminal terpisah:
+   ```bash
+   php artisan queue:listen
+   ```
+   dan scheduler:
+   ```bash
+   php artisan schedule:work
+   ```
+
+---
+
+## 👥 Tim Pengembang
+
+Project ini dikembangkan dan direfaktor oleh Tim PPL Mahasiswa Informatika untuk implementasi sistem tata kelola pendidikan di **SMP Negeri 2 Kamal**.
+
+---
+*Dokumentasi ini dimutakhirkan secara berkala untuk mendukung pemeliharaan sistem terpadu.*
+
