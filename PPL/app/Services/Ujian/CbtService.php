@@ -28,12 +28,62 @@ class CbtService
         return $this->ujianRepo->getPaginatedUjian($perPage);
     }
 
+    public function getGroupedUjianByKelas(?string $kelasFilter = null): array
+    {
+        $allUjian = $this->ujianRepo->getAllWithRelations(null);
+
+        // Daftar semua nama kelas yang ada (terurut)
+        $kelasList = $allUjian->map(function ($item) {
+            return $item->kelasMataPelajaran?->kelas?->nama_kelas;
+        })->filter()->unique()->sort()->values();
+
+        // Filter data jika parameter kelas diberikan
+        $filteredUjian = ($kelasFilter && $kelasFilter !== 'all')
+            ? $allUjian->filter(fn ($u) => ($u->kelasMataPelajaran?->kelas?->nama_kelas ?? '') === $kelasFilter)
+            : $allUjian;
+
+        // Grouping per nama kelas
+        $groupedUjian = $filteredUjian->groupBy(function ($item) {
+            return $item->kelasMataPelajaran?->kelas?->nama_kelas ?? 'Tanpa Kelas';
+        })->sortKeys();
+
+        // Hitungan per kelas untuk badge tab
+        $classCounts = $allUjian->groupBy(function ($item) {
+            return $item->kelasMataPelajaran?->kelas?->nama_kelas ?? 'Tanpa Kelas';
+        })->map->count();
+
+        return [
+            'groupedUjian' => $groupedUjian,
+            'kelasList' => $kelasList,
+            'classCounts' => $classCounts,
+            'totalUjian' => $allUjian->count(),
+            'selectedKelas' => $kelasFilter ?? 'all',
+        ];
+    }
+
     public function getCreateUjianFormData(): array
     {
+        $guruId = auth()->guard('web-guru')->user()?->id_guru;
+
+        $kmpQuery = kelas_mata_pelajaran::with(['kelas', 'mataPelajaran', 'guru']);
+        if ($guruId && kelas_mata_pelajaran::where('guru_id', $guruId)->exists()) {
+            $kmpQuery->where('guru_id', $guruId);
+        }
+
+        $kelasMataPelajaran = $kmpQuery->get()->sortBy(fn ($item) => $item->kelas?->nama_kelas ?? '');
+        $groupedKmp = $kelasMataPelajaran->groupBy(fn ($item) => $item->kelas?->nama_kelas ?? 'Lainnya')->sortKeys();
+
+        $topikQuery = topik::query();
+        if ($guruId && kelas_mata_pelajaran::where('guru_id', $guruId)->exists()) {
+            $topikQuery->whereHas('kelasMataPelajaran', fn ($q) => $q->where('guru_id', $guruId));
+        }
+        $topik = $topikQuery->get();
+
         return [
             'soalUjian' => soal_ujian::all(),
-            'topik' => topik::all(),
-            'kelasMataPelajaran' => kelas_mata_pelajaran::with(['kelas', 'mataPelajaran'])->get(),
+            'topik' => $topik,
+            'kelasMataPelajaran' => $kelasMataPelajaran,
+            'groupedKmp' => $groupedKmp,
         ];
     }
 
@@ -41,11 +91,15 @@ class CbtService
     {
         return $this->ujianRepo->create([
             'judul' => $data['judul'],
-            'deskripsi' => $data['deskripsi'],
+            'deskripsi' => $data['deskripsi'] ?? null,
             'jenis_ujian' => $data['jenis_ujian'],
             'topik_id' => $data['topik_id'],
             'kelas_mata_pelajaran_id' => $data['kelas_mata_pelajaran_id'],
             'tanggal_dibuat' => $data['tanggal_dibuat'],
+            'waktu_mulai' => !empty($data['waktu_mulai']) ? $data['waktu_mulai'] : null,
+            'waktu_selesai' => !empty($data['waktu_selesai']) ? $data['waktu_selesai'] : null,
+            'durasi_menit' => !empty($data['durasi_menit']) ? (int) $data['durasi_menit'] : 60,
+            'token' => !empty($data['token']) ? strtoupper(trim($data['token'])) : null,
             'created_at' => now(),
             'updated_at' => now(),
         ]);

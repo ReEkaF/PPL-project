@@ -15,6 +15,11 @@ interface UjianRepositoryInterface extends BaseRepositoryInterface
     public function getPaginatedUjian(int $perPage = 10): LengthAwarePaginator;
 
     /**
+     * Get all exams with eager loaded relations, optionally filtered by class.
+     */
+    public function getAllWithRelations(?string $kelas = null): Collection;
+
+    /**
      * Find exam with attached questions.
      */
     public function findWithQuestions(string $id): ?Model;

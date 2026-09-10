@@ -604,7 +604,6 @@ Route::group(['prefix' => 'guru', 'middleware' => ['guru']], function () {
     Route::delete('/dashboard/ujian/pengumpulan/{id}', [GuruUjianController::class, 'destroy'])->name('guru.ujian.pengumpulan.destroy');
     Route::delete('/dashboard/ujian/pengumpulan/{id}/hapus', [GuruUjianController::class, 'destroy'])->name('guru.dashboard.pengumpulan_ujian.destroy');
     Route::delete('/pengumpulan_ujian/{id}', [GuruUjianController::class, 'destroy']);
-
     // Absensi Guru
     Route::get('/absensi', [guru\AbsensiController::class, 'index'])->name('guru.absensi.index');
     Route::get('/absensi/{id}/pertemuan', [guru\AbsensiController::class, 'details'])->name('guru.absensi.details');

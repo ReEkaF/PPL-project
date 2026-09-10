@@ -72,11 +72,12 @@ class GuruUjianController extends Controller
         return view('guru.ujian.create_ujian', $data);
     }
 
-    public function indexUjian(): View
+    public function indexUjian(Request $request): View
     {
-        $ujian = $this->cbtService->getPaginatedUjian(10);
+        $kelasFilter = $request->query('kelas');
+        $data = $this->cbtService->getGroupedUjianByKelas($kelasFilter);
 
-        return view('guru.ujian.view_ujian', compact('ujian'));
+        return view('guru.ujian.view_ujian', $data);
     }
 
     public function storeData(StoreUjianRequest $request): RedirectResponse

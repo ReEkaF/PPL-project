@@ -25,6 +25,25 @@ class UjianRepository extends BaseRepository implements UjianRepositoryInterface
         return $this->model->latest()->paginate($perPage);
     }
 
+    public function getAllWithRelations(?string $kelas = null): Collection
+    {
+        $query = $this->model->with([
+            'kelasMataPelajaran.kelas',
+            'kelasMataPelajaran.mataPelajaran',
+            'topik',
+        ])
+        ->withCount(['soalUjian', 'pengumpulanUjian'])
+        ->orderBy('tanggal_dibuat', 'desc');
+
+        if ($kelas && $kelas !== 'all') {
+            $query->whereHas('kelasMataPelajaran.kelas', function ($q) use ($kelas) {
+                $q->where('nama_kelas', $kelas);
+            });
+        }
+
+        return $query->get();
+    }
+
     public function findWithQuestions(string $id): ?Model
     {
         return $this->model->with(['soalUjian' => fn ($q) => $q->where('ujian_id', $id)])->find($id);
