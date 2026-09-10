@@ -141,31 +141,16 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {{-- 6. Tanggal Dibuat --}}
-                        <div>
+                        <div class="sm:col-span-2">
                             <label for="tanggal_dibuat" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
                                 Tanggal Dibuat <span class="text-rose-500">*</span>
                             </label>
                             <input type="date" name="tanggal_dibuat" id="tanggal_dibuat" required
                                 value="{{ old('tanggal_dibuat', date('Y-m-d')) }}"
-                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors bg-white">
+                                class="w-full sm:w-1/2 px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors bg-white">
                         </div>
 
-                        {{-- 7. Durasi Pengerjaan --}}
-                        <div>
-                            <label for="durasi_menit" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                                Durasi Pengerjaan (Menit) <span class="text-rose-500">*</span>
-                            </label>
-                            <div class="relative">
-                                <input type="number" name="durasi_menit" id="durasi_menit" min="5" max="300" step="5"
-                                    value="{{ old('durasi_menit', 60) }}" required
-                                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors bg-white pr-16">
-                                <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-xs text-slate-400 font-medium pointer-events-none">
-                                    Menit
-                                </span>
-                            </div>
-                        </div>
-
-                        {{-- 8. Waktu Mulai --}}
+                        {{-- 7. Waktu Mulai --}}
                         <div>
                             <label for="waktu_mulai" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
                                 Waktu Mulai Pengerjaan
@@ -173,10 +158,10 @@
                             <input type="datetime-local" name="waktu_mulai" id="waktu_mulai"
                                 value="{{ old('waktu_mulai') }}"
                                 class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors bg-white">
-                            <p class="text-[11px] text-slate-400 mt-1">Opsional, jadwal pembukaan sesi ujian.</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Jadwal pembukaan sesi ujian bagi siswa.</p>
                         </div>
 
-                        {{-- 9. Waktu Selesai --}}
+                        {{-- 8. Waktu Selesai --}}
                         <div>
                             <label for="waktu_selesai" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
                                 Waktu Selesai Pengerjaan
@@ -184,7 +169,30 @@
                             <input type="datetime-local" name="waktu_selesai" id="waktu_selesai"
                                 value="{{ old('waktu_selesai') }}"
                                 class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors bg-white">
-                            <p class="text-[11px] text-slate-400 mt-1">Opsional, batas akhir penutupan sesi ujian.</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Batas akhir penutupan sesi ujian bagi siswa.</p>
+                        </div>
+
+                        {{-- 9. Durasi Pengerjaan (Otomatis Dihitung) --}}
+                        <div class="sm:col-span-2">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <label for="durasi_menit" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                                    Durasi Pengerjaan (Menit) <span class="text-rose-500">*</span>
+                                </label>
+                                <span id="durasi-badge" class="hidden text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                                    <i class="fa-solid fa-calculator text-[10px] mr-1"></i>Otomatis Terhitung
+                                </span>
+                            </div>
+                            <div class="relative w-full sm:w-1/2">
+                                <input type="number" name="durasi_menit" id="durasi_menit" min="1" max="1440" step="1"
+                                    value="{{ old('durasi_menit', 60) }}" required
+                                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors bg-white pr-16">
+                                <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-xs text-slate-400 font-medium pointer-events-none">
+                                    Menit
+                                </span>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-1">
+                                Otomatis dihitung dari selisih waktu mulai & selesai. Anda juga dapat mengubah durasi ini secara manual jika diinginkan.
+                            </p>
                         </div>
 
                         {{-- 10. Token Akses Ujian --}}
@@ -193,7 +201,7 @@
                                 Token Akses Ujian (CBT)
                             </label>
                             <div class="flex items-center gap-2">
-                                <div class="relative flex-1">
+                                <div class="relative flex-1 sm:w-1/2 sm:flex-none">
                                     <input type="text" name="token" id="token" maxlength="10"
                                         value="{{ old('token') }}"
                                         placeholder="Contoh: PTS7A1 (Kosongkan jika tanpa token)"
@@ -236,6 +244,40 @@
             const topikSelect = document.getElementById('topik_id');
             const generateTokenBtn = document.getElementById('btn-generate-token');
             const tokenInput = document.getElementById('token');
+            const waktuMulaiInput = document.getElementById('waktu_mulai');
+            const waktuSelesaiInput = document.getElementById('waktu_selesai');
+            const durasiInput = document.getElementById('durasi_menit');
+            const durasiBadge = document.getElementById('durasi-badge');
+
+            // Hitung Durasi Otomatis dari Selisih Waktu Mulai & Selesai
+            function hitungDurasiOtomatis() {
+                if (waktuMulaiInput && waktuSelesaiInput && durasiInput) {
+                    const startVal = waktuMulaiInput.value;
+                    const endVal = waktuSelesaiInput.value;
+
+                    if (startVal && endVal) {
+                        const startDate = new Date(startVal);
+                        const endDate = new Date(endVal);
+                        const diffMs = endDate - startDate;
+
+                        if (diffMs > 0) {
+                            const diffMinutes = Math.round(diffMs / (1000 * 60));
+                            durasiInput.value = diffMinutes;
+                            if (durasiBadge) {
+                                durasiBadge.classList.remove('hidden');
+                                durasiBadge.innerHTML = `<i class="fa-solid fa-calculator text-[10px] mr-1"></i>Otomatis: ${diffMinutes} Menit`;
+                            }
+                        } else if (diffMs <= 0) {
+                            alert('Perhatian: Waktu selesai harus lebih besar dari waktu mulai.');
+                        }
+                    }
+                }
+            }
+
+            if (waktuMulaiInput && waktuSelesaiInput) {
+                waktuMulaiInput.addEventListener('change', hitungDurasiOtomatis);
+                waktuSelesaiInput.addEventListener('change', hitungDurasiOtomatis);
+            }
 
             // Generator Token Acak
             if (generateTokenBtn && tokenInput) {

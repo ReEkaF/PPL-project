@@ -106,6 +106,12 @@ class CbtService
 
     public function createUjian(array $data): Model
     {
+        $durasi = !empty($data['durasi_menit']) ? (int) $data['durasi_menit'] : null;
+        if (! $durasi && !empty($data['waktu_mulai']) && !empty($data['waktu_selesai'])) {
+            $durasi = max(1, (int) Carbon::parse($data['waktu_mulai'])->diffInMinutes(Carbon::parse($data['waktu_selesai'])));
+        }
+        $durasi = $durasi ?: 60;
+
         return $this->ujianRepo->create([
             'judul' => $data['judul'],
             'deskripsi' => $data['deskripsi'] ?? null,
@@ -115,7 +121,7 @@ class CbtService
             'tanggal_dibuat' => $data['tanggal_dibuat'],
             'waktu_mulai' => !empty($data['waktu_mulai']) ? $data['waktu_mulai'] : null,
             'waktu_selesai' => !empty($data['waktu_selesai']) ? $data['waktu_selesai'] : null,
-            'durasi_menit' => !empty($data['durasi_menit']) ? (int) $data['durasi_menit'] : 60,
+            'durasi_menit' => $durasi,
             'token' => !empty($data['token']) ? strtoupper(trim($data['token'])) : null,
             'created_at' => now(),
             'updated_at' => now(),
