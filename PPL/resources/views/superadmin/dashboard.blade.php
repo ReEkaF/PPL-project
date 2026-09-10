@@ -4,10 +4,6 @@
         <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                    <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-sky-50 border border-sky-200/70 text-xs font-semibold text-sky-800 mb-2">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                        Sistem Terpusat SMP Negeri 2 Kamal
-                    </div>
                     <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Pusat Kendali Superadmin</h1>
                     <p class="text-sm text-slate-500 mt-1">Kelola direktori pengguna, otentikasi multi-peran, dan hak akses civitas akademika.</p>
                 </div>

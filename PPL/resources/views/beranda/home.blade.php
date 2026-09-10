@@ -9,10 +9,6 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 <!-- Left: Headline & Information -->
                 <div class="lg:col-span-7 space-y-6">
-                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-brand-900/80 border border-brand-700/60 text-brand-200 text-xs font-semibold tracking-wide">
-                        <span class="w-2 h-2 rounded-full bg-accent-500 animate-pulse"></span>
-                        Portal Resmi & Sistem Terintegrasi
-                    </div>
 
                     <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
                         Mewujudkan Generasi <span class="text-accent-500">Berkarakter</span>, Berprestasi, dan Berdaya Saing

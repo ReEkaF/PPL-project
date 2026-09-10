@@ -36,18 +36,11 @@
                         <div class="text-xs font-medium text-brand-300 tracking-wider uppercase">Sistem Sekolah Terintegrasi</div>
                     </div>
                 </div>
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[11px] font-medium text-sky-200">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span>Portal v2.0</span>
-                </div>
             </div>
 
             <!-- Middle Value Proposition -->
             <div class="relative z-20 space-y-8 my-auto py-8">
                 <div class="space-y-3">
-                    <span class="inline-block text-xs font-semibold uppercase tracking-wider text-brand-300">
-                        Platform Digital Terpadu
-                    </span>
                     <h1 class="text-3xl xl:text-4xl font-extrabold tracking-tight text-white leading-snug">
                         Mendukung Ekosistem Pendidikan yang Modern, Cerdas, dan Berintegritas.
                     </h1>
