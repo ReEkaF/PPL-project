@@ -346,7 +346,7 @@ class LmsTugasService
     {
         $tugas = $this->tugasRepo->findWithDetails($tugasId);
         if (! $tugas) {
-            throw new Exception('Tugas tidak ditemukan.');
+            abort(404, 'Tugas tidak ditemukan.');
         }
 
         $pengumpulan = $this->pengumpulanRepo->findByTugasAndSiswa($tugasId, $siswaId);

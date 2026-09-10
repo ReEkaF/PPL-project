@@ -497,16 +497,16 @@ Route::group(['prefix' => 'guru', 'middleware' => ['guru']], function () {
     Route::get('/dashboard/lms/periksa-tugas', [TugasGuruController::class, 'periksaTugas'])->name('guru.dashboard.lms.tugas.periksa');
     Route::get('/dashboard/lms/tugas/create/{id}', [TugasGuruController::class, 'create'])->name('guru.lms.tugas.create');
     Route::get('/dashboard/lms/tugas/tambah/{id}', [TugasGuruController::class, 'create'])->name('guru.dashboard.lms.tugas.create');
-    Route::get('/dashboard/lms/tugas/{id}', [TugasGuruController::class, 'detail'])->name('guru.lms.tugas.detail');
-    Route::get('/dashboard/lms/tugas/detail/{id}', [TugasGuruController::class, 'detail'])->name('guru.dashboard.lms.detail.tugas');
-    Route::post('/dashboard/lms/tugas/{id}', [TugasGuruController::class, 'store'])->name('guru.lms.tugas.store');
-    Route::post('/dashboard/lms/tugas/simpan/{id}', [TugasGuruController::class, 'store'])->name('guru.dashboard.lms.tugas.store');
-    Route::get('/dashboard/lms/tugas/edit/{id}', [TugasGuruController::class, 'edit'])->name('guru.lms.tugas.edit');
-    Route::get('/dashboard/lms/tugas/form-edit/{id}', [TugasGuruController::class, 'edit'])->name('guru.dashboard.lms.tugas.edit');
-    Route::put('/dashboard/lms/tugas/{id}', [TugasGuruController::class, 'update'])->name('guru.lms.tugas.update');
-    Route::put('/dashboard/lms/tugas/update/{id}', [TugasGuruController::class, 'update'])->name('guru.dashboard.lms.tugas.update');
-    Route::delete('/dashboard/lms/tugas/{id}', [TugasGuruController::class, 'destroy'])->name('guru.lms.tugas.destroy');
-    Route::delete('/dashboard/lms/tugas/delete/{id}', [TugasGuruController::class, 'destroy'])->name('guru.dashboard.lms.tugas.destroy');
+    Route::get('/dashboard/lms/tugas/{id}', [TugasGuruController::class, 'detail'])->whereUuid('id')->name('guru.dashboard.lms.detail.tugas');
+    Route::get('/dashboard/lms/tugas/detail/{id}', [TugasGuruController::class, 'detail'])->whereUuid('id')->name('guru.lms.tugas.detail');
+    Route::post('/dashboard/lms/tugas/{id}', [TugasGuruController::class, 'store'])->whereUuid('id')->name('guru.lms.tugas.store');
+    Route::post('/dashboard/lms/tugas/simpan/{id}', [TugasGuruController::class, 'store'])->whereUuid('id')->name('guru.dashboard.lms.tugas.store');
+    Route::get('/dashboard/lms/tugas/edit/{id}', [TugasGuruController::class, 'edit'])->whereUuid('id')->name('guru.lms.tugas.edit');
+    Route::get('/dashboard/lms/tugas/form-edit/{id}', [TugasGuruController::class, 'edit'])->whereUuid('id')->name('guru.dashboard.lms.tugas.edit');
+    Route::put('/dashboard/lms/tugas/{id}', [TugasGuruController::class, 'update'])->whereUuid('id')->name('guru.lms.tugas.update');
+    Route::put('/dashboard/lms/tugas/update/{id}', [TugasGuruController::class, 'update'])->whereUuid('id')->name('guru.dashboard.lms.tugas.update');
+    Route::delete('/dashboard/lms/tugas/{id}', [TugasGuruController::class, 'destroy'])->whereUuid('id')->name('guru.lms.tugas.destroy');
+    Route::delete('/dashboard/lms/tugas/delete/{id}', [TugasGuruController::class, 'destroy'])->whereUuid('id')->name('guru.dashboard.lms.tugas.destroy');
 
     // LMS Guru - Pengumpulan Tugas Siswa (Hyphenated URLs!)
     Route::get('/dashboard/lms/tugas-siswa/{id}', [TugasGuruController::class, 'tugasSiswa'])->name('guru.lms.tugas.siswa');
@@ -664,35 +664,38 @@ Route::group(['prefix' => 'siswa', 'middleware' => ['siswa']], function () {
     Route::get('/dashboard/lms-siswa', [DashboardSiswaController::class, 'index'])->name('siswa.dashboard.lms');
     Route::get('/dashboard/lms/materi', [MateriSiswaController::class, 'index'])->name('siswa.lms.materi.index');
     Route::get('/dashboard/lms/daftar-materi', [MateriSiswaController::class, 'index'])->name('siswa.dashboard.lms.materi');
-    Route::get('/dashboard/lms/materi/{id}', [MateriSiswaController::class, 'detail'])->name('siswa.lms.materi.detail');
-    Route::get('/dashboard/lms/materi-detail/{id}', [MateriSiswaController::class, 'detail'])->name('siswa.dashboard.lms.detail.materi');
+    Route::get('/dashboard/lms/materi/{id}', [MateriSiswaController::class, 'detail'])->whereUuid('id')->name('siswa.dashboard.lms.detail.materi');
+    Route::get('/dashboard/lms/materi-detail/{id}', [MateriSiswaController::class, 'detail'])->whereUuid('id')->name('siswa.lms.materi.detail');
 
-    // LMS Siswa - Tugas
-    Route::get('/dashboard/lms/tugas/{id}', [TugasSiswaController::class, 'detail'])->name('siswa.lms.tugas.detail');
-    Route::get('/dashboard/lms/tugas-detail/{id}', [TugasSiswaController::class, 'detail'])->name('siswa.dashboard.lms.detail.tugas');
-    Route::post('/dashboard/lms/tugas/{id}', [TugasSiswaController::class, 'submit'])->name('siswa.lms.tugas.submit');
-    Route::post('/dashboard/lms/tugas-submit/{id}', [TugasSiswaController::class, 'submit'])->name('siswa.dashboard.lms.submit.tugas');
-    Route::delete('/dashboard/lms/tugas/batal/{id}', [TugasSiswaController::class, 'batalPengumpulan'])->name('siswa.lms.tugas.batal');
-    Route::delete('/dashboard/lms/tugas-batal/{id}', [TugasSiswaController::class, 'batalPengumpulan'])->name('siswa.dashboard.lms.tugas.batal');
-    Route::get('/dashboard/lms/tugas/file/{id}', [TugasSiswaController::class, 'deleteFile'])->name('siswa.lms.tugas.file.delete');
-    Route::get('/dashboard/lms/tugas-file-delete/{id}', [TugasSiswaController::class, 'deleteFile'])->name('siswa.dashboard.lms.tugas.file.delete');
-
-    // LMS Siswa - Forum
-    Route::get('/dashboard/lms/forum/{id}', [ForumSiswaController::class, 'index'])->name('siswa.lms.forum');
-    Route::get('/dashboard/lms/diskusi-forum/{id}', [ForumSiswaController::class, 'index'])->name('siswa.dashboard.lms.forum');
-    Route::get('/dashboard/lms/forum/tugas/{id}', [TugasSiswaController::class, 'forumTugas'])->name('siswa.lms.forum.tugas');
-    Route::get('/dashboard/lms/diskusi-forum/tugas/{id}', [TugasSiswaController::class, 'forumTugas'])->name('siswa.dashboard.lms.forum.tugas');
-    Route::get('/dashboard/lms/forum/anggota/{id}', [AnggotaSiswaController::class, 'index'])->name('siswa.lms.forum.anggota');
-    Route::get('/dashboard/lms/diskusi-forum/anggota/{id}', [AnggotaSiswaController::class, 'index'])->name('siswa.dashboard.lms.forum.anggota');
-
-    // LMS Siswa - Tracking Tugas (Hyphenated URLs!)
-    Route::get('/dashboard/lms/tugas/tracking/ditugaskan', [DaftarTugasSiswaController::class, 'ditugaskan'])->name('siswa.lms.tugas.tracking.ditugaskan');
-    Route::get('/dashboard/lms/tugas/daftar-ditugaskan', [DaftarTugasSiswaController::class, 'ditugaskan'])->name('siswa.dashboard.lms.tracking.tugas.ditugaskan');
+    // LMS Siswa - Tracking Tugas (Didefinisikan SEBELUM wildcard {id} agar tidak tertabrak)
+    Route::get('/dashboard/lms/tugas/tracking/ditugaskan', [DaftarTugasSiswaController::class, 'ditugaskan'])->name('siswa.dashboard.lms.tracking.tugas.ditugaskan');
+    Route::get('/dashboard/lms/tugas/tracking/tugas-ditugaskan', [DaftarTugasSiswaController::class, 'ditugaskan'])->name('siswa.lms.tugas.tracking.ditugaskan');
     Route::get('/dashboard/lms/tugas/tracking/belum-diserahkan', [DaftarTugasSiswaController::class, 'belumDiserahkan'])->name('siswa.lms.tugas.tracking.belum-diserahkan');
-    Route::get('/dashboard/lms/tugas/daftar-belum-diserahkan', [DaftarTugasSiswaController::class, 'belumDiserahkan'])->name('siswa.dashboard.lms.tracking.tugas.belum_diserahkan');
-    Route::get('/dashboard/lms/tugas/tracking/belum_diserahkan', [DaftarTugasSiswaController::class, 'belumDiserahkan']);
-    Route::get('/dashboard/lms/tugas/tracking/diserahkan', [DaftarTugasSiswaController::class, 'diserahkan'])->name('siswa.lms.tugas.tracking.diserahkan');
-    Route::get('/dashboard/lms/tugas/daftar-diserahkan', [DaftarTugasSiswaController::class, 'diserahkan'])->name('siswa.dashboard.lms.tracking.tugas.diserahkan');
+    Route::get('/dashboard/lms/tugas/tracking/belum_diserahkan', [DaftarTugasSiswaController::class, 'belumDiserahkan'])->name('siswa.dashboard.lms.tracking.tugas.belum_diserahkan');
+    Route::get('/dashboard/lms/tugas/tracking/diserahkan', [DaftarTugasSiswaController::class, 'diserahkan'])->name('siswa.dashboard.lms.tracking.tugas.diserahkan');
+    Route::get('/dashboard/lms/tugas/tracking/tugas-diserahkan', [DaftarTugasSiswaController::class, 'diserahkan'])->name('siswa.lms.tugas.tracking.diserahkan');
+
+    // LMS Siswa - Daftar Semua Tugas (Index)
+    Route::get('/dashboard/lms/tugas', [TugasSiswaController::class, 'index'])->name('siswa.dashboard.lms.tugas');
+    Route::get('/dashboard/lms/daftar-tugas', [TugasSiswaController::class, 'index'])->name('siswa.lms.tugas.index');
+
+    // LMS Siswa - Forum Diskusi
+    Route::get('/dashboard/lms/forum/{id}', [ForumSiswaController::class, 'index'])->whereUuid('id')->name('siswa.dashboard.lms.forum');
+    Route::get('/dashboard/lms/diskusi-forum/{id}', [ForumSiswaController::class, 'index'])->whereUuid('id')->name('siswa.lms.forum');
+    Route::get('/dashboard/lms/forum/tugas/{id}', [TugasSiswaController::class, 'forumTugas'])->whereUuid('id')->name('siswa.dashboard.lms.forum.tugas');
+    Route::get('/dashboard/lms/diskusi-forum/tugas/{id}', [TugasSiswaController::class, 'forumTugas'])->whereUuid('id')->name('siswa.lms.forum.tugas');
+    Route::get('/dashboard/lms/forum/anggota/{id}', [AnggotaSiswaController::class, 'index'])->whereUuid('id')->name('siswa.dashboard.lms.forum.anggota');
+    Route::get('/dashboard/lms/diskusi-forum/anggota/{id}', [AnggotaSiswaController::class, 'index'])->whereUuid('id')->name('siswa.lms.forum.anggota');
+
+    // LMS Siswa - Tugas Detail & Pengumpulan (Wildcard {id} dengan UUID constraint)
+    Route::get('/dashboard/lms/tugas/{id}', [TugasSiswaController::class, 'detail'])->whereUuid('id')->name('siswa.dashboard.lms.detail.tugas');
+    Route::get('/dashboard/lms/tugas-detail/{id}', [TugasSiswaController::class, 'detail'])->whereUuid('id')->name('siswa.lms.tugas.detail');
+    Route::post('/dashboard/lms/tugas/{id}', [TugasSiswaController::class, 'submit'])->whereUuid('id')->name('siswa.dashboard.lms.submit.tugas');
+    Route::post('/dashboard/lms/tugas-submit/{id}', [TugasSiswaController::class, 'submit'])->whereUuid('id')->name('siswa.lms.tugas.submit');
+    Route::delete('/dashboard/lms/tugas/batal/{id}', [TugasSiswaController::class, 'batalPengumpulan'])->whereUuid('id')->name('siswa.dashboard.lms.tugas.batal');
+    Route::delete('/dashboard/lms/tugas-batal/{id}', [TugasSiswaController::class, 'batalPengumpulan'])->whereUuid('id')->name('siswa.lms.tugas.batal');
+    Route::get('/dashboard/lms/tugas/file/{id}', [TugasSiswaController::class, 'deleteFile'])->whereUuid('id')->name('siswa.dashboard.lms.tugas.file.delete');
+    Route::get('/dashboard/lms/tugas-file-delete/{id}', [TugasSiswaController::class, 'deleteFile'])->whereUuid('id')->name('siswa.lms.tugas.file.delete');
 
     // CBT Ujian Siswa
     Route::get('/dashboard/ujian', [UjianSiswaController::class, 'index'])->name('siswa.ujian.index');
