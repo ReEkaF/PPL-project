@@ -13,7 +13,7 @@
                 </div>
                 <h1 class="text-xl font-bold text-slate-900 tracking-tight">Tambah Ujian Baru</h1>
                 <p class="text-xs text-slate-500">
-                    Lengkapi informasi ujian sesuai dengan mata pelajaran dan kelas yang diampu.
+                    Lengkapi informasi paket ujian, jadwal pelaksanaan, durasi, dan token akses siswa.
                 </p>
             </div>
         </div>
@@ -33,12 +33,20 @@
             </div>
         @endif
 
-        {{-- Form Card (Sesuai Tabel Migrasi Ujian) --}}
+        {{-- Form Card --}}
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-            <form action="{{ route('ujian.stored') }}" method="POST">
+            <form action="{{ route('ujian.stored') }}" method="POST" class="divide-y divide-slate-100">
                 @csrf
 
+                {{-- Section 1: Rombel Kelas & Informasi Utama Ujian --}}
                 <div class="p-6 space-y-5">
+                    <div class="flex items-center gap-2 pb-2 border-b border-slate-100">
+                        <span class="w-7 h-7 rounded-lg bg-brand-50 text-brand-800 flex items-center justify-center text-xs font-bold">
+                            1
+                        </span>
+                        <h2 class="text-sm font-bold text-slate-900">Rombel Kelas & Informasi Ujian</h2>
+                    </div>
+
                     {{-- 1. Pilih Kelas & Mata Pelajaran (Grouped by Class) --}}
                     <div>
                         <label for="kelas_mata_pelajaran_id" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
@@ -72,7 +80,7 @@
                             Judul Ujian <span class="text-rose-500">*</span>
                         </label>
                         <input type="text" name="judul" id="judul" value="{{ old('judul') }}" required
-                            placeholder="Contoh: Penilaian Tengah Semester (UTS) - Matematika Kelas 7A"
+                            placeholder="Contoh: Penilaian Tengah Semester (PTS) - Matematika Kelas 7A"
                             class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors">
                     </div>
 
@@ -84,9 +92,11 @@
                             </label>
                             <select name="jenis_ujian" id="jenis_ujian" required
                                 class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors bg-white">
-                                <option value="UTS" {{ old('jenis_ujian') == 'UTS' ? 'selected' : '' }}>UTS (Ujian Tengah Semester)</option>
-                                <option value="UAS" {{ old('jenis_ujian') == 'UAS' ? 'selected' : '' }}>UAS (Ujian Akhir Semester)</option>
+                                <option value="PTS" {{ old('jenis_ujian') == 'PTS' ? 'selected' : '' }}>PTS / UTS (Tengah Semester)</option>
+                                <option value="PAS" {{ old('jenis_ujian') == 'PAS' ? 'selected' : '' }}>PAS / UAS (Akhir Semester)</option>
                                 <option value="Ulangan Harian" {{ old('jenis_ujian') == 'Ulangan Harian' ? 'selected' : '' }}>Ulangan Harian</option>
+                                <option value="Kuis" {{ old('jenis_ujian') == 'Kuis' ? 'selected' : '' }}>Kuis / Formatif</option>
+                                <option value="Try Out" {{ old('jenis_ujian') == 'Try Out' ? 'selected' : '' }}>Try Out</option>
                             </select>
                         </div>
 
@@ -109,29 +119,101 @@
                         </div>
                     </div>
 
-                    {{-- 5. Tanggal Dibuat --}}
-                    <div>
-                        <label for="tanggal_dibuat" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                            Tanggal Dibuat <span class="text-rose-500">*</span>
-                        </label>
-                        <input type="date" name="tanggal_dibuat" id="tanggal_dibuat" required
-                            value="{{ old('tanggal_dibuat', date('Y-m-d')) }}"
-                            class="w-full sm:w-1/2 px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors bg-white">
-                    </div>
-
-                    {{-- 6. Deskripsi Ujian --}}
+                    {{-- 5. Deskripsi Ujian --}}
                     <div>
                         <label for="deskripsi" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                            Deskripsi Ujian <span class="text-rose-500">*</span>
+                            Deskripsi / Petunjuk Ujian
                         </label>
-                        <textarea name="deskripsi" id="deskripsi" rows="4" required
-                            placeholder="Tuliskan petunjuk pengerjaan ujian atau instruksi penting bagi siswa..."
+                        <textarea name="deskripsi" id="deskripsi" rows="3"
+                            placeholder="Tuliskan petunjuk pengerjaan ujian, tata tertib asesmen, atau cakupan materi..."
                             class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors">{{ old('deskripsi') }}</textarea>
                     </div>
                 </div>
 
+                {{-- Section 2: Jadwal Pelaksanaan, Durasi & Token CBT --}}
+                <div class="p-6 space-y-5 bg-slate-50/50">
+                    <div class="flex items-center gap-2 pb-2 border-b border-slate-100">
+                        <span class="w-7 h-7 rounded-lg bg-brand-50 text-brand-800 flex items-center justify-center text-xs font-bold">
+                            2
+                        </span>
+                        <h2 class="text-sm font-bold text-slate-900">Jadwal Pelaksanaan & Pengaturan CBT</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {{-- 6. Tanggal Dibuat --}}
+                        <div>
+                            <label for="tanggal_dibuat" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                                Tanggal Dibuat <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="date" name="tanggal_dibuat" id="tanggal_dibuat" required
+                                value="{{ old('tanggal_dibuat', date('Y-m-d')) }}"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors bg-white">
+                        </div>
+
+                        {{-- 7. Durasi Pengerjaan --}}
+                        <div>
+                            <label for="durasi_menit" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                                Durasi Pengerjaan (Menit) <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <input type="number" name="durasi_menit" id="durasi_menit" min="5" max="300" step="5"
+                                    value="{{ old('durasi_menit', 60) }}" required
+                                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors bg-white pr-16">
+                                <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-xs text-slate-400 font-medium pointer-events-none">
+                                    Menit
+                                </span>
+                            </div>
+                        </div>
+
+                        {{-- 8. Waktu Mulai --}}
+                        <div>
+                            <label for="waktu_mulai" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                                Waktu Mulai Pengerjaan
+                            </label>
+                            <input type="datetime-local" name="waktu_mulai" id="waktu_mulai"
+                                value="{{ old('waktu_mulai') }}"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors bg-white">
+                            <p class="text-[11px] text-slate-400 mt-1">Opsional, jadwal pembukaan sesi ujian.</p>
+                        </div>
+
+                        {{-- 9. Waktu Selesai --}}
+                        <div>
+                            <label for="waktu_selesai" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                                Waktu Selesai Pengerjaan
+                            </label>
+                            <input type="datetime-local" name="waktu_selesai" id="waktu_selesai"
+                                value="{{ old('waktu_selesai') }}"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs text-slate-800 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors bg-white">
+                            <p class="text-[11px] text-slate-400 mt-1">Opsional, batas akhir penutupan sesi ujian.</p>
+                        </div>
+
+                        {{-- 10. Token Akses Ujian --}}
+                        <div class="sm:col-span-2">
+                            <label for="token" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                                Token Akses Ujian (CBT)
+                            </label>
+                            <div class="flex items-center gap-2">
+                                <div class="relative flex-1">
+                                    <input type="text" name="token" id="token" maxlength="10"
+                                        value="{{ old('token') }}"
+                                        placeholder="Contoh: PTS7A1 (Kosongkan jika tanpa token)"
+                                        class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-mono font-bold tracking-wider text-slate-800 uppercase focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors bg-white">
+                                </div>
+                                <button type="button" id="btn-generate-token"
+                                    class="px-3.5 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 text-xs font-semibold transition-colors shrink-0 flex items-center gap-1.5 shadow-sm">
+                                    <i class="fa-solid fa-dice text-brand-700"></i>
+                                    <span>Acak Token</span>
+                                </button>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-1">
+                                Token bersifat opsional. Siswa harus memasukkan token ini sebelum memulai pengerjaan tes jika diisi.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 {{-- Footer Actions --}}
-                <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+                <div class="px-6 py-4 bg-slate-50 flex items-center justify-between">
                     <a href="{{ route('ujian.show') }}"
                         class="px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-100 font-semibold text-xs transition-colors shadow-sm">
                         Batal
@@ -139,7 +221,7 @@
                     <button type="submit" id="submitUjian"
                         class="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-brand-800 text-white hover:bg-brand-900 font-semibold text-xs transition-colors shadow-sm">
                         <i class="fa-solid fa-check text-xs"></i>
-                        <span>Simpan Ujian</span>
+                        <span>Simpan Paket Ujian</span>
                     </button>
                 </div>
             </form>
@@ -147,12 +229,27 @@
 
     </div>
 
-    {{-- Filter Topik Berdasarkan Kelas Mata Pelajaran Terpilih --}}
+    {{-- Dynamic Form Interaction Script --}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const kmpSelect = document.getElementById('kelas_mata_pelajaran_id');
             const topikSelect = document.getElementById('topik_id');
+            const generateTokenBtn = document.getElementById('btn-generate-token');
+            const tokenInput = document.getElementById('token');
 
+            // Generator Token Acak
+            if (generateTokenBtn && tokenInput) {
+                generateTokenBtn.addEventListener('click', function () {
+                    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+                    let generated = '';
+                    for (let i = 0; i < 6; i++) {
+                        generated += chars.charAt(Math.floor(Math.random() * chars.length));
+                    }
+                    tokenInput.value = generated;
+                });
+            }
+
+            // Filter Topik Berdasarkan Kelas Mata Pelajaran Terpilih
             if (kmpSelect && topikSelect) {
                 function filterTopik() {
                     const selectedKmp = kmpSelect.value;
