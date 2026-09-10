@@ -77,41 +77,28 @@
                         </x-sidebar-link>
                     </li>
 
-                    {{-- Perpustakaan --}}
-                    @php $isPerpusActive = request()->is('guru/dashboard/perpustakaan*') || request()->routeIs('perpustakaan', 'guru.perpustakaan.*'); @endphp
-                    <li>
-                        <x-sidebar-dropdown label="Perpustakaan" id="perpustakaan" :active="$isPerpusActive">
-                            <i class="w-5 text-center shrink-0 text-base transition-colors {{ $isPerpusActive ? 'text-brand-800' : 'text-slate-400 group-hover:text-slate-600' }} fa-solid fa-book-bookmark"></i>
-                        </x-sidebar-dropdown>
-                        <x-sidebar-dropdown-list id="perpustakaan" :active="$isPerpusActive">
-                            <li>
-                                <x-sidebar-dropdown-list-link href="{{ route('perpustakaan') }}" :active="request()->is('guru/dashboard/perpustakaan') && !request()->is('guru/dashboard/perpustakaan/*')">Katalog Buku</x-sidebar-dropdown-list-link>
-                            </li>
-                            <li>
-                                <x-sidebar-dropdown-list-link href="{{ route('guru.perpustakaan.riwayat') }}" :active="request()->is('guru/dashboard/perpustakaan/riwayat*')">Riwayat Peminjaman</x-sidebar-dropdown-list-link>
-                            </li>
-                            <li>
-                                <x-sidebar-dropdown-list-link href="{{ route('guru.perpustakaan.rules') }}" :active="request()->is('guru/dashboard/perpustakaan/rules*')">Aturan</x-sidebar-dropdown-list-link>
-                            </li>
-                        </x-sidebar-dropdown-list>
-                    </li>
-
                     {{-- Ekstrakurikuler (Khusus Guru Pembina) --}}
-                    @if (auth()->guard('web-guru')->user() && auth()->guard('web-guru')->user()->role_guru == 'pembina')
-                    @php $isEkstraActive = request()->is('*pembina/ekstrakurikuler*') || request()->routeIs('pembina.*'); @endphp
+                    @php
+                        $userGuru = auth()->guard('web-guru')->user();
+                        $isPembina = $userGuru && ($userGuru->role_guru === 'pembina' || $userGuru->ekstrakurikuler()->exists());
+                    @endphp
+                    @if ($isPembina)
+                    @php
+                        $isEkstraActive = request()->is('guru/pembina*') || request()->is('*pembina*') || request()->routeIs('pembina.*', 'pembina-ekstra.*');
+                    @endphp
                     <li>
                         <x-sidebar-dropdown label="Ekstrakurikuler" id="ekstrakurikuler" :active="$isEkstraActive">
                             <i class="w-5 text-center shrink-0 text-base transition-colors {{ $isEkstraActive ? 'text-brand-800' : 'text-slate-400 group-hover:text-slate-600' }} fa-solid fa-users"></i>
                         </x-sidebar-dropdown>
                         <x-sidebar-dropdown-list id="ekstrakurikuler" :active="$isEkstraActive">
                             <li>
-                                <x-sidebar-dropdown-list-link href="{{ route('pembina.penilaian') }}" :active="request()->is('*pembina/ekstrakurikuler/penilaian*')">Penilaian Nilai</x-sidebar-dropdown-list-link>
+                                <x-sidebar-dropdown-list-link href="{{ route('pembina.penilaian') }}" :active="request()->is('guru/pembina/penilaian*') || request()->routeIs('pembina.penilaian*', 'pembina-ekstra.penilaian.*')">Penilaian Nilai</x-sidebar-dropdown-list-link>
                             </li>
                             <li>
-                                <x-sidebar-dropdown-list-link href="{{ route('pembina.anggota') }}" :active="request()->is('*pembina/ekstrakurikuler/anggota*')">Data Anggota</x-sidebar-dropdown-list-link>
+                                <x-sidebar-dropdown-list-link href="{{ route('pembina.anggota') }}" :active="request()->is('guru/pembina/anggota*') || request()->routeIs('pembina.anggota*', 'pembina-ekstra.anggota.*')">Data Anggota</x-sidebar-dropdown-list-link>
                             </li>
                             <li>
-                                <x-sidebar-dropdown-list-link href="{{ route('pembina.perlengkapan') }}" :active="request()->is('*pembina/ekstrakurikuler/perlengkapan*')">Perlengkapan</x-sidebar-dropdown-list-link>
+                                <x-sidebar-dropdown-list-link href="{{ route('pembina.perlengkapan') }}" :active="request()->is('guru/pembina/perlengkapan*') || request()->routeIs('pembina.perlengkapan*', 'pembina-ekstra.perlengkapan.*', 'pembina.histori*')">Perlengkapan</x-sidebar-dropdown-list-link>
                             </li>
                         </x-sidebar-dropdown-list>
                     </li>

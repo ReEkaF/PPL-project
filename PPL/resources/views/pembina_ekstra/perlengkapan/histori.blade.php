@@ -7,7 +7,7 @@
                     <nav class="flex" aria-label="Breadcrumb">
                         <ol class="flex space-x-2">
                             <li class="flex">
-                                <a href="{{ route('pembina.dashboard') }}" class="text-gray-400 hover:text-gray-700">
+                                <a href="{{ route('guru.dashboard') }}" class="text-gray-400 hover:text-gray-700">
                                     <span>Dashboard</span>
                                 </a>
                             </li>
