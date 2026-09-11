@@ -1,103 +1,100 @@
 <x-staffperpustakaan-layout>
     @include('staff_perpus/modal/addCategory_Modal')
     @include('staff_perpus/modal/deleteCategory_Modal')
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg px-16 py-8 bg-white m-4">
-        <div class="pb-4 bg-white dark:bg-gray-900">
-            <label for="table-search" class="sr-only">Search</label>
-            <div class="relative mt-1">
-                <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+    <div class="p-6">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+            <div>
+                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Kategori Buku</h1>
+                <p class="text-sm text-slate-500 mt-1">Kelola klasifikasi dan kategori koleksi buku perpustakaan</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <button data-modal-target="delete-modal" data-modal-toggle="delete-modal" type="button"
+                    class="inline-flex items-center gap-2 px-3.5 py-2 text-sm font-medium text-rose-700 bg-white border border-rose-200 hover:bg-rose-50 rounded-lg shadow-sm transition-colors">
+                    <svg class="w-4 h-4 text-rose-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
-                </div>
-                <input type="text" id="table-search"
-                    class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Search for items">
+                    Hapus Pilihan
+                </button>
+                <button data-modal-target="create-modal" data-modal-toggle="create-modal" type="button"
+                    class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#06466C] hover:bg-[#053a5a] rounded-lg shadow-sm transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Tambah Kategori
+                </button>
             </div>
         </div>
-        <button data-modal-target="delete-modal" data-modal-toggle="delete-modal" type="button"
-            class="text-white bg-red-700 hover:bg-red-800 mb-5 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                    d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
-            </svg>
-            Hapus
-        </button>
-        <button data-modal-target="create-modal" data-modal-toggle="create-modal" type="button"
-            class="text-white bg-green-700 hover:bg-green-800 mb-5 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            <svg class="w-3.5 h-3.5 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                viewBox="0 0 24 24">
-                <path fill-rule="evenodd"
-                    d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z"
-                    clip-rule="evenodd" />
-            </svg>
-            Tambah
-        </button>
-        <table id="categories-table" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th scope="col" class="p-4">
-                        <div class="flex items-center">
-                            <input id="checkbox-all-search" type="checkbox"
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="checkbox-all-search" class="sr-only">checkbox</label>
-                        </div>
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Category name
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Action
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($arrayCategory as $AC)
-                    @include('staff_perpus/modal/editCategory_Modal')
-                    <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <td class="w-4 p-4">
-                            <div class="flex items-center">
-                                <input type="checkbox" class="category-checkbox" data-id="{{ $AC->id_kategori_buku }}"
-                                    id="checkbox"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label for="checkbox" class="sr-only">checkbox</label>
-                            </div>
-                        </td>
-                        <th scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $AC->nama_kategori }}
-                        </th>
-                        <td class="px-6 py-4">
-                            <button data-modal-target="update-modal-{{ $AC->nama_kategori }}"
-                                data-modal-toggle="update-modal-{{ $AC->nama_kategori }}" type="button" class="flex">
-                                <span>Edit</span>
-                                <svg class="w-5 h-5 ml-2 text-gray-800 dark:text-white" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path fill-rule="evenodd"
-                                        d="M14 4.182A4.136 4.136 0 0 1 16.9 3c1.087 0 2.13.425 2.899 1.182A4.01 4.01 0 0 1 21 7.037c0 1.068-.43 2.092-1.194 2.849L18.5 11.214l-5.8-5.71 1.287-1.31.012-.012Zm-2.717 2.763L6.186 12.13l2.175 2.141 5.063-5.218-2.141-2.108Zm-6.25 6.886-1.98 5.849a.992.992 0 0 0 .245 1.026 1.03 1.03 0 0 0 1.043.242L10.282 19l-5.25-5.168Zm6.954 4.01 5.096-5.186-2.218-2.183-5.063 5.218 2.185 2.15Z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </button>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
 
+        <!-- Card Container -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+            <!-- Search Bar -->
+            <div class="p-4 border-b border-slate-200 bg-slate-50/50">
+                <div class="relative max-w-md">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <input type="text" id="table-search"
+                        class="w-full pl-9 pr-4 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                        placeholder="Cari kategori buku...">
+                </div>
+            </div>
 
-    <!-- Pagination controls -->
-    <div id="pagination-controls" class="mt-6 mx-4 py-4 px-16 flex w-min-[96] bg-white rounded-lg">
-        <button id="prev-btn"
-            class="px-4 bg-[#D9D9D9] text-black font-semibold h-[2rem] font-['Poppins'] mx-[0.3rem]">Previous</button>
-        <div id="page-numbers"></div>
-        <button id="next-btn"
-            class="px-4 bg-[#D9D9D9] text-black font-semibold h-[2rem] font-['Poppins'] mx-[0.3rem]">Next</button>
+            <!-- Table -->
+            <div class="overflow-x-auto">
+                <table id="categories-table" class="w-full text-sm text-left">
+                    <thead class="text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50 border-b border-slate-200">
+                        <tr>
+                            <th scope="col" class="w-12 px-6 py-3.5">
+                                <input id="checkbox-all-search" type="checkbox"
+                                    class="w-4 h-4 text-[#06466C] bg-white border-slate-300 rounded focus:ring-[#06466C]">
+                            </th>
+                            <th scope="col" class="px-6 py-3.5">
+                                Nama Kategori
+                            </th>
+                            <th scope="col" class="px-6 py-3.5 text-right">
+                                Aksi
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        @foreach ($arrayCategory as $AC)
+                            @include('staff_perpus/modal/editCategory_Modal')
+                            <tr class="hover:bg-slate-50/75 transition-colors">
+                                <td class="w-12 px-6 py-4">
+                                    <input type="checkbox" class="category-checkbox w-4 h-4 text-[#06466C] bg-white border-slate-300 rounded focus:ring-[#06466C]"
+                                        data-id="{{ $AC->id_kategori_buku }}">
+                                </td>
+                                <td class="px-6 py-4 font-medium text-slate-900">
+                                    {{ $AC->nama_kategori }}
+                                </td>
+                                <td class="px-6 py-4 text-right">
+                                    <button data-modal-target="update-modal-{{ $AC->nama_kategori }}"
+                                        data-modal-toggle="update-modal-{{ $AC->nama_kategori }}" type="button"
+                                        class="inline-flex items-center gap-1.5 text-xs font-medium text-[#06466C] hover:text-[#053a5a] transition-colors">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                        </svg>
+                                        Edit
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination controls -->
+            <div id="pagination-controls" class="px-6 py-4 border-t border-slate-200 flex items-center justify-between bg-white">
+                <button id="prev-btn"
+                    class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-300 rounded-md hover:bg-slate-50 transition-colors disabled:opacity-50">Previous</button>
+                <div id="page-numbers" class="flex items-center gap-1"></div>
+                <button id="next-btn"
+                    class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-300 rounded-md hover:bg-slate-50 transition-colors disabled:opacity-50">Next</button>
+            </div>
+        </div>
     </div>
 </x-staffperpustakaan-layout>
 
@@ -149,9 +146,10 @@
             for (let i = 1; i <= totalPages; i++) {
                 const pageButton = document.createElement('button');
                 pageButton.textContent = i;
-                pageButton.classList.add('page-btn');
                 if (i === currentPage) {
-                    pageButton.classList.add('active'); // Optional: Add a class to highlight the current page
+                    pageButton.className = 'w-8 h-8 flex items-center justify-center rounded-md text-xs font-semibold bg-[#06466C] text-white shadow-sm';
+                } else {
+                    pageButton.className = 'w-8 h-8 flex items-center justify-center rounded-md text-xs font-medium text-slate-700 hover:bg-slate-100 transition-colors';
                 }
                 pageButton.addEventListener('click', () => {
                     currentPage = i;

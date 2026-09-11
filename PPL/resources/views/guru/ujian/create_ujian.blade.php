@@ -80,7 +80,7 @@
                                 -- Pilih Rombel Kelas & Mata Pelajaran --
                             </option>
                             @foreach ($groupedKmp as $namaKelas => $items)
-                                <optgroup label="🏫 KELAS {{ $namaKelas }}">
+                                <optgroup label="Kelas {{ $namaKelas }}">
                                     @foreach ($items as $item)
                                         <option value="{{ $item->id_kelas_mata_pelajaran }}"
                                             data-kmp="{{ $item->id_kelas_mata_pelajaran }}"

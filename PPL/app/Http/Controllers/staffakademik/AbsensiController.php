@@ -43,21 +43,30 @@ class AbsensiController extends Controller
 
     public function generatePresenceData(GeneratePresenceRequest $request, $id)
     {
-        $this->absensiService->generatePresenceData(
-            $id,
-            $request->input('first_week_date'),
-            (int) $request->input('total_meetings')
-        );
+        try {
+            $this->absensiService->generatePresenceData(
+                $id,
+                $request->input('first_week_date'),
+                (int) $request->input('total_meetings')
+            );
 
-        return redirect()->route('akademik.absensi.details', $id)->with('success', 'Sukses membuat data absensi');
+            return redirect()->route('akademik.absensi.details', $id)->with('success', 'Sukses membuat data absensi dan QR Code');
+        } catch (\Exception $e) {
+            return redirect()->route('akademik.absensi.details', $id)->with('error', 'Gagal membuat absensi: ' . $e->getMessage());
+        }
     }
 
     public function resetPertemuan($id)
     {
-        $this->absensiService->resetPertemuan($id);
+        try {
+            $this->absensiService->resetPertemuan($id);
 
-        return redirect()->route('akademik.absensi.details', $id)
-            ->with('success', 'Sukses mereset absensi pertemuan');
+            return redirect()->route('akademik.absensi.details', $id)
+                ->with('success', 'Sukses mereset absensi pertemuan');
+        } catch (\Exception $e) {
+            return redirect()->route('akademik.absensi.details', $id)
+                ->with('error', 'Gagal mereset absensi: ' . $e->getMessage());
+        }
     }
 
     public function updateStatus(Request $request)

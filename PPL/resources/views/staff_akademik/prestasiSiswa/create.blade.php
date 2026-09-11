@@ -1,115 +1,107 @@
 <x-staffakademik-layout>
-    <div class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
-        <div class="mb-4 col-span-full xl:mb-2">
-            <div class="p-4 mb-4 space-y-6 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-                <nav class="flex mb-5" aria-label="Breadcrumb">
-                    <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+    <div class="space-y-6 pb-10">
+        {{-- Header & Breadcrumbs --}}
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="space-y-1">
+                <nav class="flex" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 md:space-x-2 text-xs">
                         <li class="inline-flex items-center">
-                            <a href="#"
-                                class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500">
-                                <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
-                                </svg>
-                                Home
+                            <a href="{{ route('staff_akademik.dashboard') }}" class="text-slate-500 hover:text-brand-800 transition-colors flex items-center gap-1.5">
+                                <i class="fa-solid fa-house text-[11px]"></i>
+                                <span>Dashboard</span>
                             </a>
                         </li>
-                        <li>
-                            <div class="flex items-center">
-                                <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                <a href="#" class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-primary-500">Prestasi</a>
-                            </div>
+                        <li class="flex items-center text-slate-400">
+                            <i class="fa-solid fa-chevron-right text-[10px] mx-1"></i>
+                            <a href="{{ route('prestasi.index') }}" class="text-slate-500 hover:text-brand-800 transition-colors">Prestasi Siswa</a>
                         </li>
-                        <li>
-                            <div class="flex items-center">
-                                <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500" aria-current="page">Kelola Prestasi</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="flex items-center">
-                                <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500" aria-current="page">Tambah Data</span>
-                            </div>
+                        <li class="flex items-center text-slate-400">
+                            <i class="fa-solid fa-chevron-right text-[10px] mx-1"></i>
+                            <span class="text-slate-800 font-medium">Tambah Prestasi</span>
                         </li>
                     </ol>
                 </nav>
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-                    Tambah Prestasi
-                </h1>
-                <p class="mb-2 text-gray-300 dark:text-gray-200">Ini adalah halaman untuk menambahkan prestasi siswa</p>
-                <div class="flex items-center">
-                    <a href="{{route('prestasi.index')}}"
-                        class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
-                        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                            Kelola Prestasi
-                        </span>
-                    </a>
+                <h1 class="text-xl font-bold text-slate-900 tracking-tight">Tambah Rekam Prestasi Siswa</h1>
+                <p class="text-xs text-slate-500">
+                    Dokumentasikan piagam kejuaraan, sertifikat penghargaan, atau prestasi akademik/non-akademik siswa.
+                </p>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="{{ route('prestasi.index') }}"
+                    class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors shadow-sm">
+                    <i class="fa-solid fa-arrow-left text-[11px]"></i>
+                    <span>Kembali ke Daftar</span>
+                </a>
+            </div>
+        </div>
 
+        {{-- Form Card --}}
+        <div class="max-w-2xl bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            <div class="p-5 border-b border-slate-100 bg-slate-50/40">
+                <h2 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Formulir Rekam Prestasi</h2>
+            </div>
+            <form action="{{ route('prestasi.store') }}" method="POST" enctype="multipart/form-data" class="p-5 sm:p-6 space-y-4">
+                @csrf
+                <div>
+                    <label for="siswa_id" class="block text-xs font-semibold text-slate-700 mb-1.5">Siswa Penerima Prestasi</label>
+                    <select id="siswa_id" name="siswa_id" required
+                        class="block w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors">
+                        <option value="">-- Pilih Siswa --</option>
+                        @foreach($siswa as $s)
+                            <option value="{{ $s->id_siswa }}" {{ old('siswa_id') == $s->id_siswa ? 'selected' : '' }}>
+                                {{ $s->nama_siswa }} (NISN: {{ $s->nisn ?? '-' }})
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('siswa_id')
+                        <p class="text-[11px] text-rose-600 mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
-            </div>
+
+                <div>
+                    <label for="nama_prestasi" class="block text-xs font-semibold text-slate-700 mb-1.5">Nama Prestasi / Kejuaraan</label>
+                    <input type="text" id="nama_prestasi" name="nama_prestasi" value="{{ old('nama_prestasi') }}" required
+                        placeholder="Contoh: Juara 1 Olimpiade Sains Nasional Tingkat Kabupaten"
+                        class="block w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors">
+                    @error('nama_prestasi')
+                        <p class="text-[11px] text-rose-600 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="bukti_prestasi" class="block text-xs font-semibold text-slate-700 mb-1.5">
+                        Berkas Piagam / Sertifikat Bukti
+                        <span class="text-slate-400 font-normal">(Opsional, JPG/PNG/PDF max 2MB)</span>
+                    </label>
+                    <input type="file" id="bukti_prestasi" name="bukti_prestasi" accept="image/*,.pdf"
+                        class="block w-full text-xs text-slate-600 bg-white border border-slate-200 rounded-lg file:mr-3 file:py-2 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 cursor-pointer">
+                    @error('bukti_prestasi')
+                        <p class="text-[11px] text-rose-600 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="deskripsi_prestasi" class="block text-xs font-semibold text-slate-700 mb-1.5">Deskripsi Lengkap Prestasi</label>
+                    <textarea id="deskripsi_prestasi" name="deskripsi_prestasi" rows="4" required
+                        placeholder="Uraikan rincian capaian, penyelenggara, tingkatan lomba, serta tanggal perolehan prestasi..."
+                        class="block w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors">{{ old('deskripsi_prestasi') }}</textarea>
+                    @error('deskripsi_prestasi')
+                        <p class="text-[11px] text-rose-600 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="flex items-center justify-end gap-2 pt-4 border-t border-slate-100">
+                    <a href="{{ route('prestasi.index') }}"
+                        class="px-4 py-2 text-xs font-medium text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors">
+                        Batal
+                    </a>
+                    <button type="submit"
+                        class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-brand-800 hover:bg-brand-900 rounded-lg shadow-sm transition-colors">
+                        <i class="fa-solid fa-check text-[11px]"></i>
+                        <span>Simpan Prestasi</span>
+                    </button>
+                </div>
+            </form>
         </div>
-
-        <!-- Right Content -->
-        <!-- Right Content -->
-        <div class="mb-4 col-span-full xl:mb-2 flex justify-center">
-            <div class="p-6 bg-white rounded-lg shadow-lg w-full max-w-3xl">
-                <br>
-                <h2 class="text-lg font-semibold text-gray-800 text-center">Tambah Prestasi</h2> <br>
-                <hr class="my-2 w-1/2 mx-auto border-gray-300"> <br>
-                <form action="{{ route('prestasi.store') }}" method="POST" enctype="multipart/form-data" class="mt-4">
-                    @csrf
-                    <div class="space-y-4">
-                        <div>
-                            <label for="siswa_id" class="block text-sm font-medium text-gray-700">ID Siswa</label>
-                            <select id="siswa_id" name="siswa_id" required
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
-                                <option value="">-- Pilih Siswa --</option>
-                                @foreach($siswa as $s)
-                                <option value="{{ $s->id_siswa }}">{{ $s->nama_siswa }}</option>
-                                @endforeach
-                            </select>
-                            @error('siswa_id')
-                            <div class="text-red-500 text-sm">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label for="nama_prestasi" class="block text-sm font-medium text-gray-700">Nama Prestasi</label>
-                            <input type="text" id="nama_prestasi" name="nama_prestasi" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" placeholder="Masukkan nama prestasi">
-                            @error('nama_prestasi')
-                            <div class="text-red-500 text-sm">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label for="bukti_prestasi" class="block text-sm font-medium text-gray-700">Bukti (file)</label>
-                            <input type="file" id="bukti_prestasi" name="bukti_prestasi" accept="image/*" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
-                            @error('bukti_prestasi')
-                            <div class="text-red-500 text-sm">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label for="deskripsi_prestasi" class="block text-sm font-medium text-gray-700">Deskripsi Prestasi</label>
-                            <textarea id="deskripsi_prestasi" name="deskripsi_prestasi" rows="4" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" placeholder="Masukkan deskripsi prestasi"></textarea>
-                            @error('deskripsi_prestasi')
-                            <div class="text-red-500 text-sm">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="mt-6 flex justify-end">
-                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
     </div>
 </x-staffakademik-layout>

@@ -1,100 +1,107 @@
 <x-staffperpustakaan-layout>
-    <div class="container mx-auto p-6 bg-white shadow-md rounded-lg">
-        <h1 class="text-3xl font-bold mb-6 text-gray-800">Laporan Transaksi Buku</h1>
+    <div class="p-6">
+        <!-- Page Header -->
+        <div class="mb-6">
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">Laporan Transaksi Buku</h1>
+            <p class="text-sm text-slate-500 mt-1">Rekapitulasi aktivitas transaksi peminjaman buku perpustakaan</p>
+        </div>
 
-        <!-- Filter Form -->
-        <form action="{{ route('staff_perpus.laporan.laporantransaksi') }}" method="GET" class="mb-6">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <!-- Filter Bulan Awal -->
-                <div>
-                    <label for="bulan_awal" class="block text-sm font-medium text-gray-700">Bulan Awal</label>
-                    <select name="bulan_awal" id="bulan_awal" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <option value="1" {{ $bulan_awal == 1 ? 'selected' : '' }}>Januari</option>
-                        <option value="2" {{ $bulan_awal == 2 ? 'selected' : '' }}>Februari</option>
-                        <option value="3" {{ $bulan_awal == 3 ? 'selected' : '' }}>Maret</option>
-                        <option value="4" {{ $bulan_awal == 4 ? 'selected' : '' }}>April</option>
-                        <option value="5" {{ $bulan_awal == 5 ? 'selected' : '' }}>Mei</option>
-                        <option value="6" {{ $bulan_awal == 6 ? 'selected' : '' }}>Juni</option>
-                        <option value="7" {{ $bulan_awal == 7 ? 'selected' : '' }}>Juli</option>
-                        <option value="8" {{ $bulan_awal == 8 ? 'selected' : '' }}>Agustus</option>
-                        <option value="9" {{ $bulan_awal == 9 ? 'selected' : '' }}>September</option>
-                        <option value="10" {{ $bulan_awal == 10 ? 'selected' : '' }}>Oktober</option>
-                        <option value="11" {{ $bulan_awal == 11 ? 'selected' : '' }}>November</option>
-                        <option value="12" {{ $bulan_awal == 12 ? 'selected' : '' }}>Desember</option>
-                    </select>
-                </div>
+        <!-- Filter Card -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 mb-6">
+            <form action="{{ route('staff_perpus.laporan.laporantransaksi') }}" method="GET">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+                    <!-- Filter Bulan Awal -->
+                    <div>
+                        <label for="bulan_awal" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Bulan Awal</label>
+                        <select name="bulan_awal" id="bulan_awal" class="w-full text-sm rounded-lg border border-slate-300 px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors">
+                            @foreach([1=>'Januari', 2=>'Februari', 3=>'Maret', 4=>'April', 5=>'Mei', 6=>'Juni', 7=>'Juli', 8=>'Agustus', 9=>'September', 10=>'Oktober', 11=>'November', 12=>'Desember'] as $num => $month)
+                                <option value="{{ $num }}" {{ $bulan_awal == $num ? 'selected' : '' }}>{{ $month }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                <!-- Filter Tahun Awal -->
-                <div>
-                    <label for="tahun_awal" class="block text-sm font-medium text-gray-700">Tahun Awal</label>
-                    <input type="number" name="tahun_awal" id="tahun_awal" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" value="{{ $tahun_awal }}">
-                </div>
+                    <!-- Filter Tahun Awal -->
+                    <div>
+                        <label for="tahun_awal" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Tahun Awal</label>
+                        <input type="number" name="tahun_awal" id="tahun_awal"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3 py-2 font-mono focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            value="{{ $tahun_awal }}">
+                    </div>
 
-                <!-- Filter Bulan Akhir -->
-                <div>
-                    <label for="bulan_akhir" class="block text-sm font-medium text-gray-700">Bulan Akhir</label>
-                    <select name="bulan_akhir" id="bulan_akhir" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <option value="1" {{ $bulan_akhir == 1 ? 'selected' : '' }}>Januari</option>
-                        <option value="2" {{ $bulan_akhir == 2 ? 'selected' : '' }}>Februari</option>
-                        <option value="3" {{ $bulan_akhir == 3 ? 'selected' : '' }}>Maret</option>
-                        <option value="4" {{ $bulan_akhir == 4 ? 'selected' : '' }}>April</option>
-                        <option value="5" {{ $bulan_akhir == 5 ? 'selected' : '' }}>Mei</option>
-                        <option value="6" {{ $bulan_akhir == 6 ? 'selected' : '' }}>Juni</option>
-                        <option value="7" {{ $bulan_akhir == 7 ? 'selected' : '' }}>Juli</option>
-                        <option value="8" {{ $bulan_akhir == 8 ? 'selected' : '' }}>Agustus</option>
-                        <option value="9" {{ $bulan_akhir == 9 ? 'selected' : '' }}>September</option>
-                        <option value="10" {{ $bulan_akhir == 10 ? 'selected' : '' }}>Oktober</option>
-                        <option value="11" {{ $bulan_akhir == 11 ? 'selected' : '' }}>November</option>
-                        <option value="12" {{ $bulan_akhir == 12 ? 'selected' : '' }}>Desember</option>
-                    </select>
-                </div>
+                    <!-- Filter Bulan Akhir -->
+                    <div>
+                        <label for="bulan_akhir" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Bulan Akhir</label>
+                        <select name="bulan_akhir" id="bulan_akhir" class="w-full text-sm rounded-lg border border-slate-300 px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors">
+                            @foreach([1=>'Januari', 2=>'Februari', 3=>'Maret', 4=>'April', 5=>'Mei', 6=>'Juni', 7=>'Juli', 8=>'Agustus', 9=>'September', 10=>'Oktober', 11=>'November', 12=>'Desember'] as $num => $month)
+                                <option value="{{ $num }}" {{ $bulan_akhir == $num ? 'selected' : '' }}>{{ $month }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                <!-- Filter Tahun Akhir -->
-                <div>
-                    <label for="tahun_akhir" class="block text-sm font-medium text-gray-700">Tahun Akhir</label>
-                    <input type="number" name="tahun_akhir" id="tahun_akhir" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" value="{{ $tahun_akhir }}">
-                </div>
+                    <!-- Filter Tahun Akhir -->
+                    <div>
+                        <label for="tahun_akhir" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Tahun Akhir</label>
+                        <input type="number" name="tahun_akhir" id="tahun_akhir"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3 py-2 font-mono focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            value="{{ $tahun_akhir }}">
+                    </div>
 
-                <div class="flex justify-center items-end">
-                    <button type="submit" class="mt-4 w-full sm:w-auto bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">Filter</button>
+                    <div>
+                        <button type="submit"
+                            class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#06466C] hover:bg-[#053a5a] rounded-lg shadow-sm transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                            </svg>
+                            Terapkan Filter
+                        </button>
+                    </div>
                 </div>
+            </form>
+        </div>
+
+        <!-- Metric Summary Card -->
+        <div class="mb-6">
+            <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm inline-block min-w-[240px]">
+                <div class="text-xs font-medium text-slate-500">Total Transaksi Periode Ini</div>
+                <div class="text-2xl font-bold font-mono text-[#06466C] mt-1">{{ $jumlah_transaksi }} <span class="text-xs font-sans text-slate-500 font-normal">transaksi</span></div>
             </div>
-        </form>
-
-        <h2 class="text-2xl font-semibold mb-4">Total Transaksi: <span class="text-indigo-600">{{ $jumlah_transaksi }}</span></h2>
+        </div>
 
         <!-- Tabel Daftar Transaksi -->
-        <div class="bg-white shadow-md rounded-lg overflow-hidden">
-            <table class="w-full text-left table-auto">
-                <thead>
-                    <tr class="bg-gray-100 text-gray-600 uppercase text-sm">
-                        <th class="py-3 px-6">Judul Buku</th>
-                        <th class="py-3 px-6">Kode Peminjam</th>
-                        <th class="py-3 px-6">Tanggal Peminjaman</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($transaksi_buku as $transaksi)
-                        <tr class="border-b hover:bg-gray-50">
-                            <td class="py-3 px-6">{{ $transaksi->buku->judul_buku }}</td>
-                            <td class="py-3 px-6">{{ $transaksi->kode_peminjam }}</td>
-                            <td class="py-3 px-6">{{ \Carbon\Carbon::parse($transaksi->tgl_awal_peminjaman)->format('d F Y') }}</td>
-                        </tr>
-                    @endforeach
-                    @if($transaksi_buku->isEmpty())
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                         <tr>
-                            <td colspan="3" class="text-center py-3 text-red-500">
-                                Tidak ada data transaksi
-                            </td>
+                            <th class="px-6 py-3.5">Judul Buku</th>
+                            <th class="px-6 py-3.5">Kode Peminjam</th>
+                            <th class="px-6 py-3.5">Tanggal Peminjaman</th>
                         </tr>
-                    @endif
-                </tbody>
-            </table>
-        </div>
-        <br>
-        <!-- Menampilkan tombol pagination -->
-        <div class="pagination-container">
-            {{ $transaksi_buku->links() }}
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        @forelse ($transaksi_buku as $transaksi)
+                            <tr class="hover:bg-slate-50/75 transition-colors">
+                                <td class="px-6 py-4 font-medium text-slate-900">{{ $transaksi->buku->judul_buku }}</td>
+                                <td class="px-6 py-4 font-mono text-slate-600">{{ $transaksi->kode_peminjam }}</td>
+                                <td class="px-6 py-4 text-slate-600">{{ \Carbon\Carbon::parse($transaksi->tgl_awal_peminjaman)->format('d M Y') }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="px-6 py-8 text-center text-sm text-slate-500">
+                                    Tidak ada data transaksi pada periode yang dipilih.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Menampilkan tombol pagination -->
+            @if($transaksi_buku->hasPages())
+                <div class="px-6 py-4 border-t border-slate-200 bg-white">
+                    {{ $transaksi_buku->links('pagination::tailwind') }}
+                </div>
+            @endif
         </div>
     </div>
 </x-staffperpustakaan-layout>

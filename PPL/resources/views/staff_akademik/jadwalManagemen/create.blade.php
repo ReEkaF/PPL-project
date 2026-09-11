@@ -1,185 +1,207 @@
 <x-staffakademik-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Tambah Jadwal') }}
-        </h2>
-    </x-slot>
+    <div class="space-y-6 pb-10">
+        {{-- Flash Alerts --}}
+        @if($errors->any())
+            <div class="p-4 text-xs font-medium text-rose-800 bg-rose-50 border border-rose-200 rounded-xl shadow-sm space-y-1">
+                <div class="flex items-center gap-2 font-bold text-rose-800 mb-1">
+                    <i class="fa-solid fa-triangle-exclamation text-rose-600 text-sm"></i>
+                    <span>Terdapat kesalahan pada formulir:</span>
+                </div>
+                <ul class="list-disc list-inside space-y-0.5 text-rose-700">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-    <div class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
-        {{-- HEADER --}}
-        <div class="mb-4 col-span-full xl:mb-2">
-            <div class="p-4 mb-4 space-y-6 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-            <nav class="flex mb-5" aria-label="Breadcrumb">
-                <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
-                    <li class="inline-flex items-center">
-                        <a href="{{ route('staff_akademik.dashboard') }}"
-                            class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500">
-                            <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
-                                </path>
-                            </svg>
-                            Home
-                        </a>
-                    </li>
-                    <li>
-                        <div class="flex items-center">
-                            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <a href="{{ route('staff_akademik.jadwal') }}"
-                                class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500">Kelola Jadwal</a>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center">
-                            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <a href="{{ route('staff_akademik.jadwal.create') }}"
-                                class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-primary-500">Tambah Jadwal</a>
-                        </div>
-                    </li>
-                </ol>
-            </nav>
-            
-            <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Tambah Jadwal
-            </h1>
-            <p class="mb-2 text-black-300 dark:text-black-200">Ini merupakan halaman Tambah Jadwal</p>
-            <div class="flex items-center space-x-4">
-                <!-- KEMBALI -->
-                <button onclick="window.location.href='{{ route('staff_akademik.jadwal') }}'"
-                class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800" 
-                data-modal-target="authentication-modal" data-modal-toggle="authentication-modal">
-                <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                Kembali
-                </span>
-                </button>
+        {{-- Header & Breadcrumb --}}
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="space-y-1">
+                <nav class="flex" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 md:space-x-2 text-xs">
+                        <li class="inline-flex items-center">
+                            <a href="{{ route('staff_akademik.dashboard') }}" class="text-slate-500 hover:text-brand-800 transition-colors flex items-center gap-1.5">
+                                <i class="fa-solid fa-house text-[11px]"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="flex items-center text-slate-400">
+                            <i class="fa-solid fa-chevron-right text-[10px] mx-1"></i>
+                            <a href="{{ route('staff_akademik.jadwal') }}" class="text-slate-500 hover:text-brand-800 transition-colors">Kelola Jadwal</a>
+                        </li>
+                        <li class="flex items-center text-slate-400">
+                            <i class="fa-solid fa-chevron-right text-[10px] mx-1"></i>
+                            <span class="text-slate-800 font-medium">Tambah Jadwal</span>
+                        </li>
+                    </ol>
+                </nav>
+                <h1 class="text-xl font-bold text-slate-900 tracking-tight">Tambah Jadwal Pelajaran</h1>
+                <p class="text-xs text-slate-500">
+                    Tambahkan susunan jadwal pembelajaran baru untuk kelas pada semester aktif.
+                </p>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="{{ route('staff_akademik.jadwal') }}"
+                    class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors shadow-sm">
+                    <i class="fa-solid fa-arrow-left text-[11px]"></i>
+                    <span>Kembali ke Jadwal</span>
+                </a>
             </div>
         </div>
 
-        {{-- KONTEN --}}
-        <div class="col-span-full xl:col-auto">
-            <div class="p-4 mb-4 space-y-6 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-                <!-- Form Tambah Jadwal -->
-                <form action="{{ route('staff_akademik.jadwal.store') }}" method="POST">
-                    @csrf
-                    {{-- Mendapatkan id tahun ajaran --}}
-                    <input type="hidden" name="tahun_ajaran_id" value="{{ $tahunAjaran->id_tahun_ajaran }}">
-                    <!-- Pilih Kelas -->
-                    <div class="mb-4">
-                        <label for="kelas_id" class="block text-gray-700">Kelas:</label>
-                        <select name="kelas_id" id="kelas_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                            @foreach ($kelas as $kls)
-                                <option value="{{ $kls->id_kelas }}">{{ $kls->nama_kelas }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <!-- Table Input Jadwal -->
-                    <table class="w-full text-left border mt-4">
-                        <thead>
-                            <tr>
-                                <th>Hari</th>
-                                <th>Waktu Mulai-Selesai</th>
-                                <th>Guru dan Mata Pelajaran</th>
-                            </tr>
-                        </thead>
-                        <tbody id="jadwal-rows">
-                            <tr>
-                                <!-- Pilihan Hari -->
-                                <td>
-                                    <select name="jadwal[0][hari_id]" class="border-gray-300 rounded">
-                                        @foreach ($hari as $h)
-                                            <option value="{{ $h->id_hari }}">{{ $h->nama_hari }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <!-- Pilihan Jam Pelajaran -->
-                                <td>
-                                    <select name="jadwal[0][jam_pelajaran]" class="border-gray-300 rounded">
-                                        <option value="07:00-09:00">07:00-09:00</option>
-                                        <option value="10:00-12:00">10:00-12:00</option>
-                                        <option value="13:00-15:00">13:00-15:00</option>
-                                        <option value="15:01-16:00">15:01-16:00</option>
-                                    </select>
-                                </td>
-                                <!-- Pilihan Guru dan Mata Pelajaran -->
-                                <td>
-                                    <select name="jadwal[0][guru_id]" class="border-gray-300 rounded">
-                                        @foreach ($guruMataPelajaran as $guruMatpel)
-                                            <option value="{{ $guruMatpel->id_guru }}_{{ $guruMatpel->id_matpel }}">
-                                                {{ $guruMatpel->nama_guru }} - {{ $guruMatpel->nama_matpel }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="mt-6 flex space-x-4">
-                        <!-- Tombol Tambah Row -->
-                        <button type="button" onclick="addRow()" 
-                            class="inline-flex items-center justify-center px-6 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transform transition-all duration-200 ease-in-out">
-                            Tambah
-                        </button>
-                    
-                        <!-- Tombol Submit -->
-                        <button type="submit" 
-                            class="inline-flex items-center justify-center px-6 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transform transition-all duration-200 ease-in-out">
-                            Submit
-                        </button>
-                    </div>
-                    
-                </form>
+        {{-- Form Card --}}
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            <div class="p-5 border-b border-slate-100 bg-slate-50/40 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div>
+                    <h2 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Formulir Jadwal Baru</h2>
+                    <p class="text-[11px] text-slate-500 mt-0.5">Pilih kelas tujuan lalu tentukan sesi pembelajaran.</p>
+                </div>
+                <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-brand-50 border border-brand-100 text-brand-800 text-xs font-medium">
+                    <i class="fa-solid fa-calendar-check text-[11px]"></i>
+                    <span>Tahun Ajaran: {{ $tahunAjaran->tahun_ajaran }} ({{ $tahunAjaran->semester }})</span>
+                </div>
             </div>
+
+            <form action="{{ route('staff_akademik.jadwal.store') }}" method="POST" class="p-5 sm:p-6 space-y-6">
+                @csrf
+                <input type="hidden" name="tahun_ajaran_id" value="{{ $tahunAjaran->id_tahun_ajaran }}">
+
+                {{-- Pilih Kelas --}}
+                <div class="max-w-md">
+                    <label for="kelas_id" class="block text-xs font-semibold text-slate-700 mb-1.5">Kelas / Rombongan Belajar</label>
+                    <select name="kelas_id" id="kelas_id" required
+                        class="block w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors">
+                        @foreach ($kelas as $kls)
+                            <option value="{{ $kls->id_kelas }}" {{ old('kelas_id') == $kls->id_kelas ? 'selected' : '' }}>
+                                {{ $kls->nama_kelas }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('kelas_id')
+                        <p class="text-[11px] text-rose-600 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Table Sesi Jadwal --}}
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label class="block text-xs font-semibold text-slate-700">Daftar Sesi Pembelajaran</label>
+                        <button type="button" onclick="addRow()"
+                            class="inline-flex items-center gap-1 px-3 py-1.5 bg-white hover:bg-slate-50 text-slate-700 font-medium text-xs rounded-lg border border-slate-200 transition-colors shadow-sm">
+                            <i class="fa-solid fa-plus text-[10px] text-brand-700"></i>
+                            <span>Tambah Baris Sesi</span>
+                        </button>
+                    </div>
+
+                    <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                        <table class="w-full text-left text-xs text-slate-600">
+                            <thead class="bg-slate-50/75 border-b border-slate-100 text-slate-700 font-semibold uppercase text-[11px] tracking-wider">
+                                <tr>
+                                    <th class="px-4 py-3 w-36">Hari</th>
+                                    <th class="px-4 py-3 w-52">Waktu Sesi</th>
+                                    <th class="px-4 py-3">Guru & Mata Pelajaran</th>
+                                    <th class="px-4 py-3 w-16 text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="jadwal-rows" class="divide-y divide-slate-100">
+                                <tr>
+                                    <td class="px-4 py-2.5">
+                                        <select name="jadwal[0][hari_id]" required
+                                            class="w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500">
+                                            @foreach ($hari as $h)
+                                                <option value="{{ $h->id_hari }}">{{ $h->nama_hari }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td class="px-4 py-2.5">
+                                        <select name="jadwal[0][jam_pelajaran]" required
+                                            class="w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500">
+                                            <option value="07:00-09:00">07:00 - 09:00 WIB (Sesi 1)</option>
+                                            <option value="10:00-12:00">10:00 - 12:00 WIB (Sesi 2)</option>
+                                            <option value="13:00-15:00">13:00 - 15:00 WIB (Sesi 3)</option>
+                                            <option value="15:01-16:00">15:01 - 16:00 WIB (Sesi 4)</option>
+                                        </select>
+                                    </td>
+                                    <td class="px-4 py-2.5">
+                                        <select name="jadwal[0][guru_id]" required
+                                            class="w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500">
+                                            @foreach ($guruMataPelajaran as $guruMatpel)
+                                                <option value="{{ $guruMatpel->id_guru }}_{{ $guruMatpel->id_matpel }}">
+                                                    {{ $guruMatpel->nama_guru }} — {{ $guruMatpel->nama_matpel }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td class="px-4 py-2.5 text-center">
+                                        <span class="text-slate-300 text-xs">—</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {{-- Action Buttons --}}
+                <div class="pt-4 border-t border-slate-100 flex items-center gap-2.5">
+                    <button type="submit"
+                        class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-xs font-medium bg-brand-800 hover:bg-brand-900 text-white shadow-sm transition-colors">
+                        <i class="fa-solid fa-check text-[11px]"></i>
+                        <span>Simpan Jadwal</span>
+                    </button>
+                    <a href="{{ route('staff_akademik.jadwal') }}"
+                        class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">
+                        <span>Batal</span>
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
 
-    <!-- Script untuk menambah row baru -->
+    {{-- Script Tambah Row --}}
     <script>
         let rowCount = 1;
+        const hariOptions = `@foreach ($hari as $h)<option value="{{ $h->id_hari }}">{{ $h->nama_hari }}</option>@endforeach`;
+        const guruOptions = `@foreach ($guruMataPelajaran as $guruMatpel)<option value="{{ $guruMatpel->id_guru }}_{{ $guruMatpel->id_matpel }}">{{ addslashes($guruMatpel->nama_guru) }} — {{ addslashes($guruMatpel->nama_matpel) }}</option>@endforeach`;
 
         function addRow() {
             const tbody = document.getElementById('jadwal-rows');
             const newRow = document.createElement('tr');
+            newRow.className = 'hover:bg-slate-50/60 transition-colors';
 
             newRow.innerHTML = `
-                <td>
-                    <select name="jadwal[${rowCount}][hari_id]" class="border-gray-300 rounded">
-                        @foreach ($hari as $h)
-                            <option value="{{ $h->id_hari }}">{{ $h->nama_hari }}</option>
-                        @endforeach
+                <td class="px-4 py-2.5">
+                    <select name="jadwal[${rowCount}][hari_id]" required
+                        class="w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500">
+                        ${hariOptions}
                     </select>
                 </td>
-                <td>
-                    <select name="jadwal[${rowCount}][jam_pelajaran]" class="border-gray-300 rounded">
-                        <option value="07:00-09:00">07:00-09:00</option>
-                        <option value="10:00-12:00">10:00-12:00</option>
-                        <option value="13:00-15:00">13:00-15:00</option>
-                        <option value="15:01-16:00">15:01-16:00</option>
+                <td class="px-4 py-2.5">
+                    <select name="jadwal[${rowCount}][jam_pelajaran]" required
+                        class="w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500">
+                        <option value="07:00-09:00">07:00 - 09:00 WIB (Sesi 1)</option>
+                        <option value="10:00-12:00">10:00 - 12:00 WIB (Sesi 2)</option>
+                        <option value="13:00-15:00">13:00 - 15:00 WIB (Sesi 3)</option>
+                        <option value="15:01-16:00">15:01 - 16:00 WIB (Sesi 4)</option>
                     </select>
                 </td>
-                <td>
-                    <select name="jadwal[${rowCount}][guru_id]" class="border-gray-300 rounded">
-                        @foreach ($guruMataPelajaran as $guruMatpel)
-                            <option value="{{ $guruMatpel->id_guru }}_{{ $guruMatpel->id_matpel }}">
-                                {{ $guruMatpel->nama_guru }} - {{ $guruMatpel->nama_matpel }}
-                            </option>
-                        @endforeach
+                <td class="px-4 py-2.5">
+                    <select name="jadwal[${rowCount}][guru_id]" required
+                        class="w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500">
+                        ${guruOptions}
                     </select>
+                </td>
+                <td class="px-4 py-2.5 text-center">
+                    <button type="button" onclick="this.closest('tr').remove()"
+                        class="px-2 py-1 text-xs font-medium text-rose-700 bg-rose-50 border border-rose-100 rounded-lg hover:bg-rose-100 transition-colors"
+                        title="Hapus baris">
+                        <i class="fa-solid fa-trash text-[10px]"></i>
+                    </button>
                 </td>
             `;
 
-        tbody.appendChild(newRow);
-        rowCount++;
-    }
+            tbody.appendChild(newRow);
+            rowCount++;
+        }
     </script>
-    
 </x-staffakademik-layout>

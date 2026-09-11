@@ -1,80 +1,100 @@
 <x-admin-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Tambah Data Guru') }}
-        </h2>
-    </x-slot>
-
-    <div class="flex items-center justify-center min-h-screen bg-gray-50 py-8">
-        <div class="max-w-6xl w-full p-8 bg-white rounded-lg shadow-md border-2 border-black">
-            <nav class="text-sm text-gray-500 mb-4">
-                <a href="{{ route('superadmin.dashboard') }}" class="text-black-500 hover:underline">Dashboard</a> >
-                <a href="{{ route('superadmin.kelola_staff_akademik') }}" class="text-black-500 hover:underline">Kelola Staff Akademik</a> >
-                <a href="#" class="text-black-500 hover:underline"><b>Tambah Akun Staff Akademik</b></a>
+    <div class="p-6 max-w-4xl mx-auto">
+        <!-- Breadcrumbs & Header -->
+        <div class="mb-6">
+            <nav class="flex items-center gap-2 text-xs text-slate-500 mb-2">
+                <a href="{{ route('superadmin.dashboard') }}" class="hover:text-slate-900 transition-colors">Dashboard</a>
+                <span>/</span>
+                <a href="{{ route('superadmin.kelola_staff_akademik') }}" class="hover:text-slate-900 transition-colors">Staff Akademik</a>
+                <span>/</span>
+                <span class="text-slate-700 font-medium">Tambah Staff Baru</span>
             </nav>
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">Tambah Akun Staff Akademik</h1>
+            <p class="text-sm text-slate-500 mt-1">Lengkapi data untuk membuat akun dan profil staff akademik baru</p>
+        </div>
 
-            <h2 class="text-lg font-semibold text-gray-800">Tambah Akun Staff Akademik</h2>
-            <p class="text-sm text-gray-600 mb-6">Ini adalah halaman untuk menambah data Staff Akademik</p>
-
-            <form action="{{ route('superadmin.kelola_staff_akademik.store') }}" method="POST" enctype="multipart/form-data">
+        <!-- Form Card -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 sm:p-8">
+            <form action="{{ route('superadmin.kelola_staff_akademik.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                 @csrf
 
-                <!-- Username -->
-                <div class="mb-4">
-                    <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username :</label>
-                    <input type="text" id="username" name="username" value="{{ old('username') }}" class="w-full border border-black rounded-md p-2.5 focus:outline-none focus:border-blue-500">
-                    @error('username')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <!-- Username -->
+                    <div>
+                        <label for="username" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Username <span class="text-rose-500">*</span></label>
+                        <input type="text" id="username" name="username" value="{{ old('username') }}"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            placeholder="Username akun staff" required>
+                        @error('username')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <label for="password" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Password <span class="text-rose-500">*</span></label>
+                        <input type="password" id="password" name="password"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            placeholder="Minimal 6 karakter" required>
+                        @error('password')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Nama Staff Akademik -->
+                    <div>
+                        <label for="nama_staff_akademik" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Nama Lengkap <span class="text-rose-500">*</span></label>
+                        <input type="text" id="nama_staff_akademik" name="nama_staff_akademik" value="{{ old('nama_staff_akademik') }}"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            placeholder="Nama lengkap beserta gelar" required>
+                        @error('nama_staff_akademik')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Alamat Email <span class="text-rose-500">*</span></label>
+                        <input type="email" id="email" name="email" value="{{ old('email') }}"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            placeholder="staff@sekolah.sch.id" required>
+                        @error('email')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Nomor WA -->
+                    <div class="sm:col-span-2">
+                        <label for="wa_staff_akademik" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Nomor WhatsApp</label>
+                        <input type="text" id="wa_staff_akademik" name="wa_staff_akademik" value="{{ old('wa_staff_akademik') }}"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 font-mono focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            placeholder="08xxxxxxxxxx">
+                        @error('wa_staff_akademik')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Alamat -->
+                    <div class="sm:col-span-2">
+                        <label for="alamat_staff_akademik" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Alamat Lengkap</label>
+                        <textarea id="alamat_staff_akademik" name="alamat_staff_akademik" rows="3"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            placeholder="Alamat domisili staf">{{ old('alamat_staff_akademik') }}</textarea>
+                        @error('alamat_staff_akademik')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
 
-                <!-- Password -->
-                <div class="mb-4">
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password :</label>
-                    <input type="password" id="password" name="password" class="w-full border border-black rounded-md p-2.5 focus:outline-none focus:border-blue-500">
-                    @error('password')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- Nama -->
-                <div class="mb-4">
-                    <label for="nama_staff_akademik" class="block text-sm font-medium text-gray-700 mb-1">Nama :</label>
-                    <input type="text" id="nama_staff_akademik" name="nama_staff_akademik" value="{{ old('nama_staff_akademik') }}" class="w-full border border-black rounded-md p-2.5 focus:outline-none focus:border-blue-500">
-                    @error('nama_staff_akademik')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- Alamat -->
-                <div class="mb-4">
-                    <label for="alamat_staff_akademik" class="block text-sm font-medium text-gray-700 mb-1">Alamat :</label>
-                    <input type="text" id="alamat_staff_akademik" name="alamat_staff_akademik" value="{{ old('alamat_staff_akademik') }}" class="w-full border border-black rounded-md p-2.5 focus:outline-none focus:border-blue-500">
-                    @error('alamat_staff_akademik')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- Nomor WA -->
-                <div class="mb-4">
-                    <label for="wa_staff_akademik" class="block text-sm font-medium text-gray-700 mb-1">Nomor WA :</label>
-                    <input type="text" id="wa_staff_akademik" name="wa_staff_akademik" value="{{ old('wa_staff_akademik') }}" class="w-full border border-black rounded-md p-2.5 focus:outline-none focus:border-blue-500" placeholder="e.g. +62089515896944">
-                    @error('wa_staff_akademik')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="mb-4">
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Nomor WA :</label>
-                    <input type="text" id="email" name="email" value="{{ old('email') }}" class="w-full border border-black rounded-md p-2.5 focus:outline-none focus:border-blue-500" placeholder=" @gmail.com">
-                    @error('email')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- Submit -->
-                <div class="flex justify-center">
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-full mt-4">
-                        Tambahkan Data
+                <!-- Submit & Cancel Buttons -->
+                <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+                    <a href="{{ route('superadmin.kelola_staff_akademik') }}"
+                        class="px-4 py-2.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-lg transition-colors">
+                        Batal
+                    </a>
+                    <button type="submit"
+                        class="px-5 py-2.5 text-sm font-semibold text-white bg-[#06466C] hover:bg-[#053a5a] rounded-lg shadow-sm transition-colors">
+                        Simpan Data Staff
                     </button>
                 </div>
             </form>

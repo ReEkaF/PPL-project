@@ -41,7 +41,7 @@
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 {{-- Left: Subject & Teacher Details --}}
                 <div class="flex items-start gap-4">
-                    <div class="w-14 h-14 rounded-2xl bg-brand-50 text-brand-700 dark:bg-brand-950/50 dark:text-brand-300 border border-brand-100 dark:border-brand-800 flex items-center justify-center font-extrabold text-lg shrink-0">
+                    <div class="w-14 h-14 rounded-2xl bg-[#06466C]/10 text-[#06466C] dark:bg-[#06466C]/30 dark:text-sky-300 border border-slate-200 dark:border-slate-700 flex items-center justify-center font-bold text-lg shrink-0">
                         {{ strtoupper(substr($mapelName, 0, 2)) }}
                     </div>
                     <div>

@@ -50,6 +50,7 @@ use App\Http\Controllers\staffakademik\LihatJadwalController;
 use App\Http\Controllers\staffakademik\PrestasiController;
 use App\Http\Controllers\staffakademik\RaporController;
 use App\Http\Controllers\staffakademik\StaffakademikController;
+use App\Http\Controllers\staffakademik\TahunAjaranController;
 use App\Http\Controllers\staffperpus\CategoryController;
 use App\Http\Controllers\staffperpus\LaporanController;
 use App\Http\Controllers\staffperpus\RiwayatTransaksiController;
@@ -322,6 +323,13 @@ Route::group(['prefix' => 'staff_akademik', 'middleware' => ['staff_akademik']],
     Route::get('/matpel/master-guru', [KelasController::class, 'showMasterGuru'])->name('staff_akademik.master.guru');
     Route::get('/matpel/master-kelas', [KelasController::class, 'showMasterKelas'])->name('staff_akademik.master.kelas');
     Route::get('/matpel/master-matpel', [KelasController::class, 'showMasterMatpel'])->name('staff_akademik.master.matpel');
+
+    // Manajemen Tahun Ajaran
+    Route::get('/tahun-ajaran', [TahunAjaranController::class, 'index'])->name('staff_akademik.tahun-ajaran.index');
+    Route::post('/tahun-ajaran', [TahunAjaranController::class, 'store'])->name('staff_akademik.tahun-ajaran.store');
+    Route::put('/tahun-ajaran/{id}', [TahunAjaranController::class, 'update'])->name('staff_akademik.tahun-ajaran.update');
+    Route::put('/tahun-ajaran/{id}/aktifkan', [TahunAjaranController::class, 'activate'])->name('staff_akademik.tahun-ajaran.activate');
+    Route::delete('/tahun-ajaran/{id}', [TahunAjaranController::class, 'destroy'])->name('staff_akademik.tahun-ajaran.destroy');
 
     // Lihat Jadwal
     Route::get('/jadwal-kelas', [LihatJadwalController::class, 'kelas_index'])->name('staff_akademik.lihat-jadwal.kelas');

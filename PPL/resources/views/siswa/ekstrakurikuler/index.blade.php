@@ -1,24 +1,23 @@
 <x-siswa-layout>
     <div class="space-y-6">
         {{-- Hero Header --}}
-        <div class="relative overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-indigo-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl shadow-brand-950/10">
-            <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
-            <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                <div class="max-w-2xl space-y-2">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm text-xs font-semibold tracking-wide text-brand-100 border border-white/10">
-                        <i class="fa-solid fa-users text-amber-300"></i>
+        <div class="bg-[#06466C] rounded-2xl p-6 sm:p-8 text-white shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <div class="max-w-2xl space-y-3">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold tracking-wide text-sky-100 border border-white/10">
+                        <i class="fa-solid fa-users text-sky-200"></i>
                         <span>Ekstrakurikuler SMPN 2 Kamal</span>
                     </div>
-                    <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Kembangkan Bakat & Minatmu</h1>
-                    <p class="text-sm sm:text-base text-brand-100/90 leading-relaxed">
+                    <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">Kembangkan Bakat & Minatmu</h1>
+                    <p class="text-sm text-sky-100/90 leading-relaxed">
                         Temukan berbagai kegiatan positif di luar jam pelajaran sekolah. Asah keterampilan, kepemimpinan, dan raih prestasi membanggakan bersama teman-teman!
                     </p>
                     <div class="pt-2 flex flex-wrap gap-3">
-                        <a href="{{ route('siswa.ekstrakurikuler.pendaftaran') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-amber-400 hover:bg-amber-300 text-slate-900 font-semibold text-sm rounded-xl shadow-sm transition-all duration-200 hover:scale-105 active:scale-95">
+                        <a href="{{ route('siswa.ekstrakurikuler.pendaftaran') }}" class="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-[#06466C] hover:bg-slate-100 font-semibold text-xs rounded-xl shadow-sm transition-colors">
                             <i class="fa-solid fa-user-plus"></i>
                             <span>Daftar Ekskul Sekarang</span>
                         </a>
-                        <a href="{{ route('siswa.ekstrakurikuler.saya') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-medium text-sm rounded-xl border border-white/20 backdrop-blur-sm transition-colors">
+                        <a href="{{ route('siswa.ekstrakurikuler.saya') }}" class="inline-flex items-center gap-2 px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white font-medium text-xs rounded-xl border border-white/20 transition-colors">
                             <i class="fa-solid fa-address-card"></i>
                             <span>Ekskul Saya</span>
                         </a>
@@ -27,17 +26,17 @@
 
                 {{-- Metric Badges --}}
                 <div class="grid grid-cols-3 md:grid-cols-1 gap-3 shrink-0">
-                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-4 border border-white/10 text-center md:text-left min-w-[130px]">
-                        <p class="text-xs text-brand-200">Total Ekskul</p>
-                        <p class="text-xl sm:text-2xl font-black text-white">{{ $totalEkskul }}</p>
+                    <div class="bg-white/10 rounded-xl p-3 sm:p-4 border border-white/10 text-center md:text-left min-w-[130px]">
+                        <p class="text-xs text-sky-200">Total ekskul</p>
+                        <p class="text-xl sm:text-2xl font-bold font-mono text-white">{{ $totalEkskul }}</p>
                     </div>
-                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-4 border border-white/10 text-center md:text-left min-w-[130px]">
-                        <p class="text-xs text-brand-200">Pendaftaran Buka</p>
-                        <p class="text-xl sm:text-2xl font-black text-emerald-300">{{ $ekskulBuka }}</p>
+                    <div class="bg-white/10 rounded-xl p-3 sm:p-4 border border-white/10 text-center md:text-left min-w-[130px]">
+                        <p class="text-xs text-sky-200">Pendaftaran buka</p>
+                        <p class="text-xl sm:text-2xl font-bold font-mono text-white">{{ $ekskulBuka }}</p>
                     </div>
-                    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 sm:p-4 border border-white/10 text-center md:text-left min-w-[130px]">
-                        <p class="text-xs text-brand-200">Ekskul Diikuti</p>
-                        <p class="text-xl sm:text-2xl font-black text-amber-300">{{ $totalEkskulDiikuti }}</p>
+                    <div class="bg-white/10 rounded-xl p-3 sm:p-4 border border-white/10 text-center md:text-left min-w-[130px]">
+                        <p class="text-xs text-sky-200">Ekskul diikuti</p>
+                        <p class="text-xl sm:text-2xl font-bold font-mono text-white">{{ $totalEkskulDiikuti }}</p>
                     </div>
                 </div>
             </div>
@@ -92,9 +91,9 @@
                             @if ($ekstra->gambar && file_exists(public_path('images/ekstra/' . $ekstra->gambar)))
                                 <img src="{{ asset('images/ekstra/' . $ekstra->gambar) }}"
                                     alt="{{ $ekstra->nama_ekstrakurikuler }}"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                    class="w-full h-full object-cover">
                             @else
-                                <div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-tr from-slate-200 to-slate-100 text-slate-400">
+                                <div class="w-full h-full flex flex-col items-center justify-center bg-slate-100 text-slate-400">
                                     <i class="fa-solid fa-users text-4xl mb-2 text-slate-300"></i>
                                     <span class="text-xs font-medium">Foto Ekskul</span>
                                 </div>
@@ -104,8 +103,8 @@
                             <div class="absolute top-3 right-3">
                                 @php $statusDinamis = $ekstra->status_pendaftaran_dinamis; @endphp
                                 @if ($statusDinamis === 'buka')
-                                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/90 text-white backdrop-blur-md shadow-sm">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-600 text-white shadow-sm">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
                                         Pendaftaran Buka
                                     </span>
                                 @elseif ($statusDinamis === 'akan_datang')

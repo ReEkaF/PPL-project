@@ -12,6 +12,8 @@ interface BaseRepositoryInterface
 
     public function paginate(int $perPage = 15, array $columns = ['*'], array $relations = []): LengthAwarePaginator;
 
+    public function find(string|int $id, array $columns = ['*'], array $relations = []): ?Model;
+
     public function findById(string|int $id, array $columns = ['*'], array $relations = []): ?Model;
 
     public function findOrFail(string|int $id, array $columns = ['*'], array $relations = []): Model;

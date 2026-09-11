@@ -146,8 +146,13 @@ class AkademikManagementService
 
     public function getEditWaliKelasData(string $idKelas): array
     {
-        $kelas = $this->kelasRepo->findOrFail($idKelas);
-        $gurus = Guru::whereDoesntHave('kelasSiswas')->get();
+        $kelas = $this->kelasRepo->findWithStudentsAndWali($idKelas) ?? $this->kelasRepo->findOrFail($idKelas);
+        $gurus = Guru::where(function ($query) use ($idKelas) {
+            $query->whereDoesntHave('kelasSiswas')
+                ->orWhereHas('kelasSiswas', function ($q) use ($idKelas) {
+                    $q->where('id_kelas', $idKelas);
+                });
+        })->orderBy('nama_guru')->get();
 
         return [
             'kelas' => $kelas,

@@ -7,11 +7,11 @@
     'badgeVariant' => 'success',
 ])
 
-<div {{ $attributes->merge(['class' => 'bg-white p-5 rounded-xl border border-slate-200/80 shadow-sm relative overflow-hidden']) }}>
-    <div class="flex items-start justify-between">
+<div {{ $attributes->merge(['class' => 'bg-white p-5 rounded-xl border border-slate-200 relative overflow-hidden transition-colors']) }}>
+    <div class="flex items-start justify-between gap-3">
         <div>
-            <p class="text-xs font-medium uppercase tracking-wider text-slate-500">{{ $title }}</p>
-            <h4 class="text-2xl font-bold text-slate-900 mt-1.5">{{ $value }}</h4>
+            <p class="text-xs font-medium text-slate-500">{{ $title }}</p>
+            <h4 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1 tabular-nums tracking-tight">{{ $value }}</h4>
             @if($description || $badge)
                 <div class="flex items-center gap-2 mt-2">
                     @if($badge)
@@ -24,7 +24,7 @@
             @endif
         </div>
         @if($icon || isset($iconSlot))
-            <div class="w-11 h-11 rounded-lg bg-brand-50 text-brand-700 flex items-center justify-center shrink-0">
+            <div class="w-10 h-10 rounded-lg bg-brand-50 text-brand-800 flex items-center justify-center shrink-0">
                 {{ $iconSlot ?? $icon }}
             </div>
         @endif

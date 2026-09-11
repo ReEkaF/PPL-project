@@ -31,39 +31,39 @@
             {{-- Perwalian Hero & Metric Cards --}}
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-xl bg-brand-50 text-brand-700 flex items-center justify-center shrink-0">
+                    <div class="w-12 h-12 rounded-xl bg-[#06466C]/10 text-[#06466C] flex items-center justify-center shrink-0">
                         <i class="fa-solid fa-chalkboard-user text-xl"></i>
                     </div>
                     <div>
-                        <p class="text-xs text-slate-500 font-medium">Kelas Perwalian</p>
+                        <p class="text-xs text-slate-500 font-medium">Kelas perwalian</p>
                         <p class="text-xl font-bold text-slate-900">{{ $kelasWali->nama_kelas }}</p>
-                        <p class="text-[11px] text-brand-700 font-medium mt-0.5">Wali: {{ $guru->nama_guru }}</p>
+                        <p class="text-[11px] text-[#06466C] font-medium mt-0.5">Wali: {{ $guru->nama_guru }}</p>
                     </div>
                 </div>
 
                 <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                    <div class="w-12 h-12 rounded-xl bg-[#06466C]/10 text-[#06466C] flex items-center justify-center shrink-0">
                         <i class="fa-solid fa-users text-xl"></i>
                     </div>
                     <div>
-                        <p class="text-xs text-slate-500 font-medium">Total Siswa Terdaftar</p>
-                        <p class="text-xl font-bold text-slate-900">{{ $totalSiswa }} Siswa</p>
+                        <p class="text-xs text-slate-500 font-medium">Total siswa terdaftar</p>
+                        <p class="text-xl font-bold font-mono text-slate-900">{{ $totalSiswa }} Siswa</p>
                         <p class="text-[11px] text-slate-400 mt-0.5">Aktif di rombel</p>
                     </div>
                 </div>
 
                 <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
+                    <div class="w-12 h-12 rounded-xl bg-[#06466C]/10 text-[#06466C] flex items-center justify-center shrink-0">
                         <i class="fa-solid fa-venus-mars text-xl"></i>
                     </div>
                     <div>
-                        <p class="text-xs text-slate-500 font-medium">Komposisi Gender</p>
-                        <div class="flex items-center gap-2 mt-0.5">
-                            <span class="text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-lg border border-blue-200/60">
-                                <i class="fa-solid fa-mars text-[10px] mr-0.5"></i> {{ $totalLaki }} L
+                        <p class="text-xs text-slate-500 font-medium">Komposisi gender</p>
+                        <div class="flex items-center gap-2 mt-0.5 font-mono">
+                            <span class="text-xs font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-lg border border-slate-200">
+                                <i class="fa-solid fa-mars text-[10px] mr-0.5 text-sky-600"></i> {{ $totalLaki }} L
                             </span>
-                            <span class="text-xs font-semibold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-lg border border-rose-200/60">
-                                <i class="fa-solid fa-venus text-[10px] mr-0.5"></i> {{ $totalPerempuan }} P
+                            <span class="text-xs font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-lg border border-slate-200">
+                                <i class="fa-solid fa-venus text-[10px] mr-0.5 text-rose-500"></i> {{ $totalPerempuan }} P
                             </span>
                         </div>
                     </div>

@@ -11,7 +11,7 @@
                 <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Kelola Akun Staff Akademik</h1>
             </div>
             <div class="flex items-center gap-2">
-                <a href="{{ route('superadmin.kelola_staff_akademik.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-indigo-700 hover:bg-indigo-800 text-white text-sm font-medium shadow-sm transition-colors">
+                <a href="{{ route('superadmin.kelola_staff_akademik.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#06466C] hover:bg-[#053a5a] text-white text-sm font-medium shadow-sm transition-colors">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
                     </svg>
@@ -57,7 +57,7 @@
                             <tr class="hover:bg-slate-50/60 transition-colors">
                                 <td class="py-3.5 px-4 sm:px-6">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-9 h-9 rounded-full bg-indigo-100 text-indigo-800 font-bold flex items-center justify-center text-xs flex-shrink-0">
+                                        <div class="w-9 h-9 rounded-full bg-[#06466C]/10 text-[#06466C] font-bold flex items-center justify-center text-xs flex-shrink-0">
                                             {{ strtoupper(substr($staff->nama_staff_akademik ?? $staff->username, 0, 2)) }}
                                         </div>
                                         <div>

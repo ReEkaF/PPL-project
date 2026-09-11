@@ -17,7 +17,7 @@
                         alt="{{ $ekstrakurikuler->nama_ekstrakurikuler }}"
                         class="w-full h-full object-cover opacity-90">
                 @else
-                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-r from-brand-900 to-indigo-900 text-white/50">
+                    <div class="w-full h-full flex items-center justify-center bg-[#06466C] text-white/50">
                         <i class="fa-solid fa-users text-6xl"></i>
                     </div>
                 @endif
@@ -27,12 +27,12 @@
                 <div class="absolute top-4 right-4 flex items-center gap-2">
                     @php $statusDinamis = $ekstrakurikuler->status_pendaftaran_dinamis; @endphp
                     @if ($statusDinamis === 'buka')
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-500 text-white shadow-md">
-                            <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-600 text-white shadow-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
                             Pendaftaran Terbuka
                         </span>
                     @elseif ($statusDinamis === 'akan_datang')
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-sky-500 text-white shadow-md">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-sky-600 text-white shadow-sm">
                             <i class="fa-solid fa-calendar-day text-[10px]"></i>
                             Akan Datang
                         </span>
@@ -46,16 +46,16 @@
                 {{-- Hero Content at bottom --}}
                 <div class="absolute bottom-6 left-6 right-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4 text-white">
                     <div class="space-y-1">
-                        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight drop-shadow-sm">
+                        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">
                             {{ $ekstrakurikuler->nama_ekstrakurikuler }}
                         </h1>
                         <div class="text-xs sm:text-sm text-slate-200 flex flex-wrap items-center gap-x-3 gap-y-1">
-                            <span><i class="fa-solid fa-user-tie mr-1 text-amber-300"></i> Pembina: {{ $ekstrakurikuler->pembinaEkstra->nama_guru ?? 'Belum ditentukan' }}</span>
+                            <span><i class="fa-solid fa-user-tie mr-1 text-sky-200"></i> Pembina: {{ $ekstrakurikuler->pembinaEkstra->nama_guru ?? 'Belum ditentukan' }}</span>
                             <span>•</span>
-                            <span><i class="fa-solid fa-users mr-1 text-emerald-300"></i> {{ $ekstrakurikuler->total_anggota ?? 0 }} Anggota Aktif</span>
+                            <span><i class="fa-solid fa-users mr-1 text-sky-200"></i> {{ $ekstrakurikuler->total_anggota ?? 0 }} Anggota Aktif</span>
                             @if ($ekstrakurikuler->rentang_pendaftaran_formatted)
                                 <span>•</span>
-                                <span><i class="fa-solid fa-calendar-days mr-1 text-sky-300"></i> Periode: {{ $ekstrakurikuler->rentang_pendaftaran_formatted }}</span>
+                                <span><i class="fa-solid fa-calendar-days mr-1 text-sky-200"></i> Periode: {{ $ekstrakurikuler->rentang_pendaftaran_formatted }}</span>
                             @endif
                         </div>
                     </div>
@@ -63,22 +63,22 @@
                     <div class="shrink-0 flex items-center gap-3">
                         @if ($statusPendaftaranSiswa)
                             @if ($statusPendaftaranSiswa->status === 'diterima')
-                                <span class="px-4 py-2 bg-emerald-600/90 text-white rounded-xl text-xs font-bold shadow-sm inline-flex items-center gap-1.5">
+                                <span class="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold shadow-sm inline-flex items-center gap-1.5">
                                     <i class="fa-solid fa-circle-check"></i> Kamu Adalah Anggota
                                 </span>
                             @elseif ($statusPendaftaranSiswa->status === 'menunggu')
-                                <span class="px-4 py-2 bg-amber-500/90 text-white rounded-xl text-xs font-bold shadow-sm inline-flex items-center gap-1.5">
+                                <span class="px-4 py-2 bg-amber-500 text-white rounded-xl text-xs font-bold shadow-sm inline-flex items-center gap-1.5">
                                     <i class="fa-solid fa-clock"></i> Pendaftaran Menunggu Verifikasi
                                 </span>
                             @elseif ($statusPendaftaranSiswa->status === 'ditolak')
                                 <a href="{{ route('siswa.ekstrakurikuler.pendaftaran', ['pilih' => $ekstrakurikuler->id_ekstrakurikuler]) }}"
-                                    class="px-4 py-2 bg-brand-700 hover:bg-brand-600 text-white rounded-xl text-xs font-bold shadow-sm inline-flex items-center gap-1.5 transition-colors">
+                                    class="px-4 py-2 bg-[#06466C] hover:bg-[#053a5a] text-white rounded-xl text-xs font-bold shadow-sm inline-flex items-center gap-1.5 transition-colors">
                                     <i class="fa-solid fa-rotate-right"></i> Ajukan Ulang
                                 </a>
                             @endif
                         @elseif ($ekstrakurikuler->isPendaftaranBuka())
                             <a href="{{ route('siswa.ekstrakurikuler.pendaftaran', ['pilih' => $ekstrakurikuler->id_ekstrakurikuler]) }}"
-                                class="px-5 py-2.5 bg-amber-400 hover:bg-amber-300 text-slate-900 rounded-xl text-xs sm:text-sm font-bold shadow-lg transition-transform hover:scale-105 active:scale-95 inline-flex items-center gap-2">
+                                class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs sm:text-sm font-semibold shadow-sm transition-colors inline-flex items-center gap-2">
                                 <i class="fa-solid fa-paper-plane"></i>
                                 <span>Daftar Sekarang</span>
                             </a>

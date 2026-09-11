@@ -50,40 +50,43 @@
                 </ol>
             </nav>
 
-            <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Import Jadwal
-            </h1>
-            <p class="mb-2 text-black-300 dark:text-black-200">Ini merupakan halaman Import Jadwal</p>
-            <a href="{{ asset('files/template_excel.xlsx') }}" class="text-blue-500 hover:underline">Download Template Excel</a>
-            <div class="flex items-center space-x-4">
+            <h1 class="text-xl font-bold text-slate-900 tracking-tight">Import Jadwal Pembelajaran</h1>
+            <p class="mb-3 text-xs text-slate-500">Unggah berkas spreadsheet Excel (.xlsx) untuk memasukkan jadwal kelas secara massal</p>
+            <div class="flex flex-wrap items-center gap-3">
+                <a href="{{ asset('files/template_excel.xlsx') }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-brand-50 text-brand-800 border border-brand-200/60 hover:bg-brand-100 transition-colors">
+                    <i class="fa-solid fa-download text-[11px]"></i>
+                    <span>Unduh Template Excel</span>
+                </a>
                 <!-- KEMBALI -->
-                <button onclick="window.location.href='{{ route('staff_akademik.jadwal') }}'"
-                class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800" 
-                data-modal-target="authentication-modal" data-modal-toggle="authentication-modal">
-                <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                Kembali
-                </span>
-                </button>
+                <a href="{{ route('staff_akademik.jadwal') }}"
+                    class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg transition-colors shadow-sm">
+                    <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                    <span>Kembali</span>
+                </a>
             </div>
         </div>
 
         {{-- KONTEN --}}
         <div class="col-span-full xl:col-auto">
-            <div class="p-4 mb-4 space-y-6 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+            <div class="p-5 bg-white border border-slate-200 rounded-xl shadow-sm">
                 {{-- FORM IMPORT --}}
-                <form action="{{ route('staff_akademik.jadwal.import') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('staff_akademik.jadwal.import') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                     @csrf
-                    <input type="file" name="file" id="fileInput" class="mb-2">
-                    <button type="submit" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
-                        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                            Import Excel
-                        </span>
-                    </button>
-                    {{-- Tombol untuk Preview --}}
-                    <button type="button" onclick="previewExcel()" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-yellow-500 to-orange-500 group-hover:from-yellow-500 group-hover:to-orange-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-yellow-200 dark:focus:ring-yellow-800">
-                        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                            Preview Excel
-                        </span>
-                    </button>
+                    <div>
+                        <label for="fileInput" class="block text-xs font-medium text-slate-700 mb-1">Pilih Berkas Excel:</label>
+                        <input type="file" name="file" id="fileInput" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-50 file:text-brand-800 hover:file:bg-brand-100 cursor-pointer">
+                    </div>
+                    <div class="flex items-center gap-3 pt-2">
+                        <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 bg-brand-800 hover:bg-brand-900 text-white font-medium text-xs rounded-lg transition-colors shadow-sm">
+                            <i class="fa-solid fa-file-import text-[11px]"></i>
+                            <span>Import Jadwal</span>
+                        </button>
+                        {{-- Tombol untuk Preview --}}
+                        <button type="button" onclick="previewExcel()" class="inline-flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 font-medium text-xs rounded-lg border border-slate-200 transition-colors shadow-sm">
+                            <i class="fa-regular fa-eye text-[11px]"></i>
+                            <span>Preview Excel</span>
+                        </button>
+                    </div>
                 </form>
 
                 {{-- Area Preview --}}

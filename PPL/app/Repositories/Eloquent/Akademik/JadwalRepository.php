@@ -55,9 +55,9 @@ class JadwalRepository extends BaseRepository implements JadwalRepositoryInterfa
             ->get();
     }
 
-    public function getJadwalForGuru(string $guruId): Collection
+    public function getJadwalForGuru(?string $guruId = null): Collection
     {
-        return DB::table('kelas_mata_pelajaran')
+        $query = DB::table('kelas_mata_pelajaran')
             ->join('kelas', 'kelas_mata_pelajaran.kelas_id', '=', 'kelas.id_kelas')
             ->join('mata_pelajaran', 'kelas_mata_pelajaran.mata_pelajaran_id', '=', 'mata_pelajaran.id_matpel')
             ->join('guru', 'kelas_mata_pelajaran.guru_id', '=', 'guru.id_guru')
@@ -68,11 +68,18 @@ class JadwalRepository extends BaseRepository implements JadwalRepositoryInterfa
                 'kelas_mata_pelajaran.waktu_mulai',
                 'kelas_mata_pelajaran.waktu_selesai',
                 'mata_pelajaran.nama_matpel',
-                'kelas.nama_kelas'
+                'kelas.nama_kelas',
+                'guru.id_guru',
+                'guru.nama_guru',
+                'guru.nip'
             )
-            ->where('tahun_ajaran.aktif', 1)
-            ->where('kelas_mata_pelajaran.guru_id', $guruId)
-            ->orderBy('hari.id_hari')
+            ->where('tahun_ajaran.aktif', 1);
+
+        if (! empty($guruId)) {
+            $query->where('kelas_mata_pelajaran.guru_id', $guruId);
+        }
+
+        return $query->orderBy('hari.id_hari')
             ->orderBy('kelas_mata_pelajaran.waktu_mulai')
             ->get();
     }

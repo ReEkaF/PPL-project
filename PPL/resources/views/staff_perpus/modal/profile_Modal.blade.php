@@ -1,81 +1,70 @@
 <!-- Main modal -->
 <div id="edit-modal" tabindex="-1" aria-hidden="true"
-    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative p-4 w-full max-w-md max-h-full">
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-slate-900/50 backdrop-blur-sm">
+    <div class="relative p-4 w-full max-w-lg max-h-full">
         <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div class="relative bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
             <!-- Modal header -->
-            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                    Edit Profile
-                </h3>
+            <div class="flex items-center justify-between p-4 md:p-5 border-b border-slate-100 bg-slate-50/50">
+                <div>
+                    <h3 class="text-base font-bold text-slate-900">
+                        Edit Profil Petugas
+                    </h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Perbarui informasi identitas staf perpustakaan.</p>
+                </div>
                 <button type="button"
-                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    class="text-slate-400 bg-transparent hover:bg-slate-100 hover:text-slate-700 rounded-lg text-xs w-8 h-8 ms-auto inline-flex justify-center items-center transition-colors"
                     data-modal-toggle="edit-modal">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                    </svg>
+                    <i class="fa-solid fa-xmark text-sm"></i>
                     <span class="sr-only">Tutup</span>
                 </button>
             </div>
             <!-- Modal body -->
-
-
-            <form action="{{ route('staff_perpus.editprofile') }}" method="POST" class="p-4 md:p-5">
+            <form action="{{ route('staff_perpus.editprofile') }}" method="POST" class="p-5 space-y-4">
                 @csrf
-                <div class="relative z-0 w-full mb-5 group">
-                    <input type="text" name="nama" id="floating_email"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                <div>
+                    <label for="edit_nama" class="block text-xs font-semibold text-slate-700 mb-1.5">Nama Lengkap</label>
+                    <input type="text" name="nama" id="edit_nama"
+                        class="block w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                         value="{{ $staff_account->nama_staff_perpustakaan }}" required />
-                    <label for="floating_email"
-                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                        Nama Lengkap</label>
                 </div>
-                <div class="relative z-0 w-full mb-5 group">
-                    <input type="text" name="user" id="floating_email"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        value="{{ $staff_account->username }}" required />
-                    <label for="floating_email"
-                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                        Username</label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="edit_user" class="block text-xs font-semibold text-slate-700 mb-1.5">Username</label>
+                        <input type="text" name="user" id="edit_user"
+                            class="block w-full text-xs font-mono text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors"
+                            value="{{ $staff_account->username }}" required />
+                    </div>
+                    <div>
+                        <label for="edit_email" class="block text-xs font-semibold text-slate-700 mb-1.5">Alamat Email</label>
+                        <input type="email" name="email" id="edit_email"
+                            class="block w-full text-xs font-mono text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors"
+                            value="{{ $staff_account->email }}" required />
+                    </div>
                 </div>
-                <div class="relative z-0 w-full mb-5 group">
-                    <input type="email" name="email" id="floating_email"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        value="{{ $staff_account->email }}" required />
-                    <label for="floating_email"
-                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email
-                        address</label>
+                <div>
+                    <label for="edit_alamat" class="block text-xs font-semibold text-slate-700 mb-1.5">Alamat Rumah</label>
+                    <textarea name="alamat" id="edit_alamat" rows="2"
+                        class="block w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors"
+                        required>{{ $staff_account->alamat_staff_perpustakaan }}</textarea>
                 </div>
-                <div class="relative z-0 w-full mb-5 group">
-                    <input type="text" name="alamat" id="floating_email"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        value="{{ $staff_account->alamat_staff_perpustakaan }}" required />
-                    <label for="floating_email"
-                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Alamat
-                    </label>
-                </div>
-                <div class="relative z-0 w-full mb-5 group">
-                    <input type="text" name="no_wa" id="floating_email"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                <div>
+                    <label for="edit_no_wa" class="block text-xs font-semibold text-slate-700 mb-1.5">Nomor WhatsApp</label>
+                    <input type="text" name="no_wa" id="edit_no_wa"
+                        class="block w-full text-xs font-mono text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                         value="{{ $staff_account->wa_staff_perpustakaan }}" required />
-                    <label for="floating_email"
-                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nomor
-                        WA</label>
                 </div>
-                <button type="submit"
-                    class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    <svg class="w-6 h-6 text-white dark:text-white mr-2" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                        viewBox="0 0 24 24">
-                        <path fill-rule="evenodd"
-                            d="M5 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7.414A2 2 0 0 0 20.414 6L18 3.586A2 2 0 0 0 16.586 3H5Zm10 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7V5h8v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1Z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    Save
-                </button>
+                <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+                    <button type="button" data-modal-toggle="edit-modal"
+                        class="px-3.5 py-2 text-xs font-medium text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors">
+                        Batal
+                    </button>
+                    <button type="submit"
+                        class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-brand-800 hover:bg-brand-900 rounded-lg shadow-sm transition-colors">
+                        <i class="fa-solid fa-check text-[11px]"></i>
+                        <span>Simpan Perubahan</span>
+                    </button>
+                </div>
             </form>
         </div>
     </div>

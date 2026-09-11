@@ -56,7 +56,7 @@
                 <div>
                     <div class="flex items-center gap-1.5">
                         <p class="text-xs font-bold text-brand-900">Step 2: Soal & Kunci Jawaban</p>
-                        <span class="text-[10px] font-bold text-brand-700 bg-brand-50 px-1.5 py-0.5 rounded animate-pulse">Sedang Aktif</span>
+                        <span class="text-[10px] font-bold text-brand-700 bg-brand-50 px-1.5 py-0.5 rounded">Sedang Aktif</span>
                     </div>
                     <p class="text-[11px] text-slate-500">Pilih Form Manual atau Upload Excel</p>
                 </div>
@@ -104,10 +104,10 @@
                         {{ $ujian->jenis_ujian ?? 'UJIAN CBT' }}
                     </span>
                     <span class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
-                        🏫 Kelas {{ $ujian->kelasMataPelajaran?->kelas?->nama_kelas ?? '-' }}
+                        Kelas {{ $ujian->kelasMataPelajaran?->kelas?->nama_kelas ?? '-' }}
                     </span>
                     <span class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">
-                        📖 {{ $ujian->kelasMataPelajaran?->mataPelajaran?->nama_matpel ?? '-' }}
+                        {{ $ujian->kelasMataPelajaran?->mataPelajaran?->nama_matpel ?? '-' }}
                     </span>
                 </div>
                 <div class="flex items-center gap-2">
@@ -275,14 +275,14 @@
             {{-- TAB 2: UPLOAD EXCEL --}}
             <div id="tab-content-excel" class="p-6 space-y-6 hidden">
                 {{-- Banner Download Template --}}
-                <div class="p-5 rounded-2xl bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border border-emerald-200/80 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
+                <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
                     <div class="flex items-start gap-3.5">
                         <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-lg shadow-sm shrink-0 mt-0.5">
                             <i class="fa-solid fa-file-excel"></i>
                         </div>
                         <div class="space-y-1">
-                            <h3 class="text-sm font-bold text-emerald-950">Unduh Template Resmi Soal Ujian Excel</h3>
-                            <p class="text-xs text-emerald-800 leading-relaxed">
+                            <h3 class="text-sm font-bold text-slate-900">Unduh Template Resmi Soal Ujian Excel</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed">
                                 Gunakan template resmi kami agar format kolom soal, opsi pilihan A sampai D, dan kunci jawaban terorganisir rapi dan otomatis terbaca oleh sistem saat diimpor.
                             </p>
                             <div class="pt-1 flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-emerald-900">

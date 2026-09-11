@@ -86,6 +86,10 @@ class StaffPerpusService
             'buku10' => $book10,
             'cat10' => $cat10,
             'totalCategory' => $totalCategory,
+            'borrowCount' => $borrowCount,
+            'backCount' => $backCount,
+            'lostCount' => $lostCount,
+            'totalBookStock' => $totalBookStock,
         ];
     }
 

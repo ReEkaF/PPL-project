@@ -125,7 +125,10 @@ class AbsensiRepository extends BaseRepository implements AbsensiRepositoryInter
     public function generatePresenceData(string $kmpId, string $firstWeekDate, int $totalMeetings): void
     {
         DB::transaction(function () use ($kmpId, $firstWeekDate, $totalMeetings) {
-            $kmp = $this->find($kmpId);
+            $kmp = $this->findById($kmpId);
+            if (! $kmp) {
+                throw new \Exception('Jadwal kelas mata pelajaran tidak ditemukan.');
+            }
             $idKelas = $kmp->kelas_id;
 
             $siswaList = Siswa::whereHas('kelassiswa', fn ($q) => $q->where('id_kelas', $idKelas))->get();

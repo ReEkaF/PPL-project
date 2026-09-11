@@ -12,15 +12,15 @@
 
             {{-- Metric Badge --}}
             <div class="flex items-center gap-3">
-                <div class="px-4 py-2 bg-amber-50 border border-amber-200 rounded-xl flex items-center gap-2.5 shadow-xs">
-                    <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
+                <div class="px-4 py-2 bg-white border border-slate-200 rounded-xl flex items-center gap-2.5 shadow-sm">
+                    <div class="w-8 h-8 rounded-lg bg-[#06466C]/10 text-[#06466C] flex items-center justify-center font-bold">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
                         </svg>
                     </div>
                     <div>
-                        <p class="text-[10px] uppercase font-semibold text-amber-700 leading-tight">Total Prestasi</p>
-                        <p class="text-base font-bold text-amber-900 leading-tight">{{ $totalPrestasi }} Prestasi</p>
+                        <p class="text-[10px] font-semibold text-slate-500 leading-tight">Total prestasi</p>
+                        <p class="text-base font-bold font-mono text-slate-900 leading-tight">{{ $totalPrestasi }} Prestasi</p>
                     </div>
                 </div>
             </div>
@@ -37,10 +37,10 @@
                     </div>
                     <input type="text" name="search" value="{{ $search ?? '' }}"
                         placeholder="Cari nama prestasi, kompetensi, atau penghargaan..."
-                        class="w-full pl-9 pr-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-slate-800 placeholder-slate-400 transition-colors">
+                        class="w-full pl-9 pr-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] text-slate-800 placeholder-slate-400 transition-colors">
                 </div>
                 <button type="submit"
-                    class="px-4 py-2 bg-brand-800 hover:bg-brand-900 text-white text-xs font-semibold rounded-lg transition shadow-xs">
+                    class="px-4 py-2 bg-[#06466C] hover:bg-[#053a5a] text-white text-xs font-semibold rounded-lg transition shadow-xs">
                     Cari
                 </button>
                 @if (!empty($search))

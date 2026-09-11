@@ -1,141 +1,176 @@
 <x-staffperpustakaan-layout>
-    <div class="container mx-auto max-w-lg p-6 bg-white shadow-md rounded-lg">
-        <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Edit Buku</h1>
-        <div>
-            <a href="{{ route('staff_perpus.buku.daftarbuku') }}" class="text-blue-500 hover:text-blue-700 flex items-center mt-12">
-                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+    <div class="p-6 max-w-4xl mx-auto">
+        <!-- Back navigation & Header -->
+        <div class="mb-6">
+            <a href="{{ route('staff_perpus.buku.daftarbuku') }}" class="inline-flex items-center gap-2 text-xs font-medium text-slate-500 hover:text-slate-800 transition-colors mb-3">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
-                Kembali
+                Kembali ke Daftar Buku
             </a>
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">Edit Data Buku</h1>
+            <p class="text-sm text-slate-500 mt-1">Perbarui detail katalog atau stok ketersediaan untuk buku "{{ $buku->judul_buku }}"</p>
         </div>
-        <form action="{{ route('staff_perpus.buku.update', $buku->id_buku) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-            @csrf
-            @method('PUT')
-            
-            <!-- Foto Buku -->
-            <div>
-                <div class="mb-6">
-                    <img src="{{ asset($buku->foto_buku) }}"  alt="Gambar Buku" class="w-32 h-32 mx-auto rounded shadow-md">
+
+        <!-- Form Card -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 sm:p-8">
+            <form action="{{ route('staff_perpus.buku.update', $buku->id_buku) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                @csrf
+                @method('PUT')
+
+                <!-- Current Photo & Upload -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 p-4 rounded-lg bg-slate-50 border border-slate-200">
+                    <div class="w-20 h-28 flex-shrink-0 rounded-lg overflow-hidden border border-slate-200 bg-white shadow-sm">
+                        <img src="{{ asset($buku->foto_buku) }}" alt="{{ $buku->judul_buku }}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Perbarui Foto Sampul</label>
+                        <p class="text-xs text-slate-500 mb-3">Biarkan kosong jika tidak ingin mengubah foto sampul buku.</p>
+                        <input type="file" name="foto_buku"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3 py-1.5 file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-[#06466C]/10 file:text-[#06466C] hover:file:bg-[#06466C]/20 cursor-pointer focus:outline-none bg-white"
+                            accept="image/*">
+                        @error('foto_buku')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
-                {{-- @if($buku->foto_buku)
-                    <img src="{{ asset($buku->foto_buku) }}"  alt="Gambar Buku" class="mt-3 mx-auto w-24 h-36 rounded-md shadow">
-                @endif --}}
-                <label class="block text-gray-700 font-semibold mb-2">Foto Buku</label>
-                <input type="file" name="foto_buku" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200">
-                @error('foto_buku')
-                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                @enderror
-            </div>
 
-            <!-- Judul Buku -->
-            <div>
-                <label class="block text-gray-700 font-semibold mb-2">Judul Buku</label>
-                <input type="text" name="judul_buku" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200" value="{{ old('judul_buku', $buku->judul_buku) }}" >
-                @error('judul_buku')
-                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                @enderror
-            </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <!-- Judul Buku -->
+                    <div class="sm:col-span-2">
+                        <label for="judul_buku" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Judul Buku <span class="text-rose-500">*</span></label>
+                        <input type="text" name="judul_buku" id="judul_buku"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            value="{{ old('judul_buku', $buku->judul_buku) }}" required>
+                        @error('judul_buku')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-            <!-- Author Buku -->
-            <div>
-                <label class="block text-gray-700 font-semibold mb-2">Author</label>
-                <input type="text" name="author_buku" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200" value="{{ old('author_buku', $buku->author_buku) }}" >
-                @error('author_buku')
-                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                @enderror
-            </div>
+                    <!-- Author Buku -->
+                    <div>
+                        <label for="author_buku" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Penulis / Author <span class="text-rose-500">*</span></label>
+                        <input type="text" name="author_buku" id="author_buku"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            value="{{ old('author_buku', $buku->author_buku) }}" required>
+                        @error('author_buku')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-            <!-- Publisher Buku -->
-            <div>
-                <label class="block text-gray-700 font-semibold mb-2">Publisher</label>
-                <input type="text" name="publisher_buku" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200" value="{{ old('publisher_buku', $buku->publisher_buku) }}" >
-                @error('publisher_buku')
-                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                @enderror
-            </div>
+                    <!-- Publisher Buku -->
+                    <div>
+                        <label for="publisher_buku" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Penerbit</label>
+                        <input type="text" name="publisher_buku" id="publisher_buku"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            value="{{ old('publisher_buku', $buku->publisher_buku) }}">
+                        @error('publisher_buku')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-            <!-- Tahun Terbit -->
-            <div>
-                <label class="block text-gray-700 font-semibold mb-2">Tahun Terbit</label>
-                <input type="text" name="tahun_terbit" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200" value="{{ old('tahun_terbit', $buku->tahun_terbit) }}" >
-                @error('tahun_terbit')
-                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                @enderror
-            </div>
+                    <!-- Kategori Buku -->
+                    <div>
+                        <label for="id_kategori_buku" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Kategori Buku <span class="text-rose-500">*</span></label>
+                        <select name="id_kategori_buku" id="id_kategori_buku"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors">
+                            <option value="">Pilih Kategori</option>
+                            @foreach($kategoriBuku as $kategori)
+                                <option value="{{ $kategori->id_kategori_buku }}" {{ old('id_kategori_buku', $buku->id_kategori_buku) == $kategori->id_kategori_buku ? 'selected' : '' }}>
+                                    {{ $kategori->nama_kategori }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('id_kategori_buku')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-            <!-- Bahasa Buku -->
-            <div>
-                <label class="block text-gray-700 font-semibold mb-2">Bahasa</label>
-                <input type="text" name="bahasa_buku" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200" value="{{ old('bahasa_buku', $buku->bahasa_buku) }}" >
-                @error('bahasa_buku')
-                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                @enderror
-            </div>
+                    <!-- Jenis Buku -->
+                    <div>
+                        <label for="id_jenis_buku" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Jenis Koleksi <span class="text-rose-500">*</span></label>
+                        <select name="id_jenis_buku" id="id_jenis_buku"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors">
+                            <option value="">Pilih Jenis</option>
+                            @foreach($jenisBuku as $jenis)
+                                <option value="{{ $jenis->id_jenis_buku }}" {{ old('id_jenis_buku', $buku->id_jenis_buku) == $jenis->id_jenis_buku ? 'selected' : '' }}>
+                                    {{ $jenis->nama_jenis_buku }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('id_jenis_buku')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-            <!-- Stok Buku -->
-            <div>
-                <label class="block text-gray-700 font-semibold mb-2">Stok Buku</label>
-                <input type="number" name="stok_buku" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200" value="{{ old('stok_buku', $buku->stok_buku) }}"  min="0">
-                @error('stok_buku')
-                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                @enderror
-            </div>
+                    <!-- Tahun Terbit -->
+                    <div>
+                        <label for="tahun_terbit" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Tahun Terbit</label>
+                        <input type="text" name="tahun_terbit" id="tahun_terbit"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors font-mono"
+                            value="{{ old('tahun_terbit', $buku->tahun_terbit) }}">
+                        @error('tahun_terbit')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-            <!-- Rak Buku -->
-            <div>
-                <label class="block text-gray-700 font-semibold mb-2">Rak Buku</label>
-                <input type="number" name="rak_buku" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200" value="{{ old('rak_buku', $buku->rak_buku) }}" >
-                @error('rak_buku')
-                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                @enderror
-            </div>
+                    <!-- Bahasa Buku -->
+                    <div>
+                        <label for="bahasa_buku" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Bahasa</label>
+                        <input type="text" name="bahasa_buku" id="bahasa_buku"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            value="{{ old('bahasa_buku', $buku->bahasa_buku) }}">
+                        @error('bahasa_buku')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-            <!-- Kategori Buku -->
-            <div>
-                <label class="block text-gray-700 font-semibold mb-2">Kategori Buku</label>
-                <select name="id_kategori_buku" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200" >
-                    <option value="">Pilih Kategori</option>
-                    @foreach($kategoriBuku as $kategori)
-                        <option value="{{ $kategori->id_kategori_buku }}" {{ old('id_kategori_buku', $buku->id_kategori_buku) == $kategori->id_kategori_buku ? 'selected' : '' }}>
-                            {{ $kategori->nama_kategori }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('id_kategori_buku')
-                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                @enderror
-            </div>
+                    <!-- Stok Buku -->
+                    <div>
+                        <label for="stok_buku" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Jumlah Stok <span class="text-rose-500">*</span></label>
+                        <input type="number" name="stok_buku" id="stok_buku"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors font-mono"
+                            value="{{ old('stok_buku', $buku->stok_buku) }}" min="0" required>
+                        @error('stok_buku')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-            <!-- Jenis Buku -->
-            <div>
-                <label class="block text-gray-700 font-semibold mb-2">Jenis Buku</label>
-                <select name="id_jenis_buku" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200" >
-                    <option value="">Pilih Jenis</option>
-                    @foreach($jenisBuku as $jenis)
-                        <option value="{{ $jenis->id_jenis_buku }}" {{ old('id_jenis_buku', $buku->id_jenis_buku) == $jenis->id_jenis_buku ? 'selected' : '' }}>
-                            {{ $jenis->nama_jenis_buku }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('id_jenis_buku')
-                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                @enderror
-            </div>
+                    <!-- Rak Buku -->
+                    <div>
+                        <label for="rak_buku" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Nomor Rak / Lokasi</label>
+                        <input type="number" name="rak_buku" id="rak_buku"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors font-mono"
+                            value="{{ old('rak_buku', $buku->rak_buku) }}">
+                        @error('rak_buku')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-            <!-- Harga Buku -->
-            <div>
-                <label class="block text-gray-700 font-semibold mb-2">Harga Buku</label>
-                <input type="number" name="harga_buku" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200" value="{{ old('harga_buku', $buku->harga_buku) }}" min="0" step="0.01">
-                @error('harga_buku')
-                    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
-                @enderror
-            </div>
+                    <!-- Harga Buku -->
+                    <div>
+                        <label for="harga_buku" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Harga Buku (Rp)</label>
+                        <input type="number" name="harga_buku" id="harga_buku"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors font-mono"
+                            value="{{ old('harga_buku', $buku->harga_buku) }}" step="0.01" min="0">
+                        @error('harga_buku')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
 
-            <!-- Tombol Submit -->
-            <div class="text-left">
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-600 transition duration-300">Update Buku</button>
-            </div>
-        </form>
+                <!-- Submit & Cancel Buttons -->
+                <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+                    <a href="{{ route('staff_perpus.buku.daftarbuku') }}"
+                        class="px-4 py-2.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-lg transition-colors">
+                        Batal
+                    </a>
+                    <button type="submit"
+                        class="px-5 py-2.5 text-sm font-semibold text-white bg-[#06466C] hover:bg-[#053a5a] rounded-lg shadow-sm transition-colors">
+                        Perbarui Buku
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </x-staffperpustakaan-layout>

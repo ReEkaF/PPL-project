@@ -29,7 +29,7 @@
             <div class="flex items-center gap-3">
                 {{-- User Info --}}
                 <div class="hidden lg:flex flex-col items-end">
-                    <span class="text-sm font-semibold text-slate-700">{{ auth()->guard('web-staffakademik')->user()->nama_staff_akademik }}</span>
+                    <span class="text-sm font-semibold text-slate-700">{{ auth()->guard('web-staffakademik')->user()?->nama_staff_akademik ?? 'Staff Akademik' }}</span>
                     <span class="text-xs text-slate-400">Staff Akademik</span>
                 </div>
 
@@ -38,7 +38,7 @@
                     <button @click="open = !open" type="button"
                         class="flex items-center justify-center w-9 h-9 rounded-full bg-brand-800 text-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-brand-700 focus:ring-offset-2 hover:bg-brand-900 transition"
                         aria-expanded="false">
-                        {{ strtoupper(substr(auth()->guard('web-staffakademik')->user()->nama_staff_akademik ?? 'SA', 0, 2)) }}
+                        {{ strtoupper(substr(auth()->guard('web-staffakademik')->user()?->nama_staff_akademik ?? 'SA', 0, 2)) }}
                     </button>
 
                     <div x-show="open" @click.away="open = false" x-cloak
@@ -50,8 +50,8 @@
                         x-transition:leave-end="opacity-0 scale-95"
                         class="absolute right-0 top-12 w-56 bg-white border border-slate-200 rounded-xl shadow-lg z-50 overflow-hidden">
                         <div class="px-4 py-3 border-b border-slate-100">
-                            <p class="text-sm font-semibold text-slate-800">{{ auth()->guard('web-staffakademik')->user()->nama_staff_akademik }}</p>
-                            <p class="text-xs text-slate-500 truncate">{{ auth()->guard('web-staffakademik')->user()->email }}</p>
+                            <p class="text-sm font-semibold text-slate-800">{{ auth()->guard('web-staffakademik')->user()?->nama_staff_akademik ?? 'Staff Akademik' }}</p>
+                            <p class="text-xs text-slate-500 truncate">{{ auth()->guard('web-staffakademik')->user()?->email ?? 'staff@smpn2kamal.sch.id' }}</p>
                         </div>
                         <ul class="py-1">
                             <li>

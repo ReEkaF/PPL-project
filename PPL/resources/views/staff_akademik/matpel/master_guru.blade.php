@@ -1,205 +1,305 @@
 <x-staffakademik-layout>
-    <main>
-            <div id="notification-container" class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50"> 
-                <!-- Notifikasi Sukses (Tambah Data) -->
-                @if(session('success'))
-                <div id="toast-success" class="flex items-center w-full max-w-xs p-4 mb-4 text-white bg-blue-600 rounded-lg shadow dark:bg-blue-700">
-                    <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-blue-800 rounded-lg">
-                        <svg class="w-5 h-5 text-white" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                        </svg>
-                        <span class="sr-only">Success</span>
-                    </div>
-                    <div class="ms-3 text-sm font-normal">{{ session('success') }}</div>
-                    <button type="button" onclick="closeToast()" class="ms-auto -mx-1.5 -my-1.5 bg-transparent text-white hover:text-gray-300 rounded-lg p-1.5">
-                        <svg class="w-3 h-3" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                        </svg>
-                    </button>
+    <div class="space-y-6 pb-10">
+        {{-- Session Flash Messages --}}
+        @if(session('success'))
+            <div class="flex items-center justify-between p-4 text-xs font-medium text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-xl shadow-sm">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-circle-check text-sm text-emerald-600"></i>
+                    <span>{{ session('success') }}</span>
                 </div>
-                @endif
-                 
-                <!-- Notifikasi Update -->
-                @if(session('update'))
-                <div id="toast-update" class="flex items-center w-full max-w-xs p-4 mb-4 text-white bg-green-600 rounded-lg shadow dark:bg-green-700">
-                    <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-green-800 rounded-lg">
-                        <svg class="w-5 h-5 text-white" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 1 1 1.414 1.414Z"/>
-                        </svg>
-                        <span class="sr-only">Update</span>
-                    </div>
-                    <div class="ms-3 text-sm font-normal">{{ session('update') }}</div>
-                    <button type="button" onclick="closeToast()" class="ms-auto -mx-1.5 -my-1.5 bg-transparent text-white hover:text-gray-300 rounded-lg p-1.5">
-                        <svg class="w-3 h-3" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                        </svg>
-                    </button>
-                </div>
-                @endif
-                 
-                <!-- Notifikasi Bahaya (Hapus Data) -->
-                @if(session('danger'))
-                <div id="toast-danger" class="flex items-center w-full max-w-xs p-4 mb-4 text-white bg-red-600 rounded-lg shadow dark:bg-red-700">
-                    <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-red-800 rounded-lg">
-                        <svg class="w-5 h-5 text-white" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
-                        </svg>
-                        <span class="sr-only">Danger</span>
-                    </div>
-                    <div class="ms-3 text-sm font-normal">{{ session('danger') }}</div>
-                    <button type="button" onclick="closeToast()" class="ms-auto -mx-1.5 -my-1.5 bg-transparent text-white hover:text-gray-300 rounded-lg p-1.5">
-                        <svg class="w-3 h-3" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                        </svg>
-                    </button>
-                </div>
-                @endif
+                <button type="button" onclick="this.parentElement.remove()" class="text-emerald-500 hover:text-emerald-700">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
             </div>
-            
-            <div class="p-4 bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <div class="w-full mb-1">
-                    <div class="mb-4">
-                        <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Penugasan Guru Mata Pelajaran</h1>
-                    </div>
-                    <div class="items-center justify-between block sm:flex">
-                        <form class="sm:pr-3" action="{{ route('staff_akademik.guru_mata_pelajaran.index') }}" method="GET">
-                            <label for="search" class="sr-only">Cari Penugasan</label>
-                            <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
-                                <input type="text" name="search" id="search" value="{{ request()->get('search') }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Cari penugasan">
-                            </div>
-                        </form>
-                        <button type="button" onclick="document.getElementById('crud-modal').classList.remove('hidden')" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            Tambah Penugasan
-                        </button>
-                    </div>
+        @endif
+        @if(session('update'))
+            <div class="flex items-center justify-between p-4 text-xs font-medium text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-xl shadow-sm">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-circle-check text-sm text-emerald-600"></i>
+                    <span>{{ session('update') }}</span>
                 </div>
+                <button type="button" onclick="this.parentElement.remove()" class="text-emerald-500 hover:text-emerald-700">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
             </div>
-        
-            <div class="p-4">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                        <thead class="bg-gray-100 dark:bg-gray-700">
-                            <tr>
-                                <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">No</th>
-                                <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">Nama Guru</th>
-                                <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">Mata Pelajaran</th>
-                                <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y dark:bg-gray-800 dark:divide-gray-700">
-                            @forelse($guruMataPelajaran as $index => $penugasan)
-                                <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                                    <td class="p-4 text-sm text-gray-500 dark:text-gray-400">{{ $index + 1 + ($guruMataPelajaran->currentPage() - 1) * $guruMataPelajaran->perPage() }}</td>
-                                    <td class="p-4 text-sm text-gray-900 dark:text-white">{{ $penugasan->guru->nama_guru }}</td>
-                                    <td class="p-4 text-sm text-gray-900 dark:text-white">{{ $penugasan->mataPelajaran->nama_matpel }}</td>
-                                    <td class="p-4 space-x-2 whitespace-nowrap">
-                                        <!-- Button untuk membuka modal edit -->
-                                        <button type="button" onclick="document.getElementById('edit-modal-{{ $penugasan->id_guru_mata_pelajaran }}').classList.remove('hidden')" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                            Update
-                                        </button>
+        @endif
+        @if(session('danger'))
+            <div class="flex items-center justify-between p-4 text-xs font-medium text-rose-800 bg-rose-50 border border-rose-200 rounded-xl shadow-sm">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-triangle-exclamation text-sm text-rose-600"></i>
+                    <span>{{ session('danger') }}</span>
+                </div>
+                <button type="button" onclick="this.parentElement.remove()" class="text-rose-500 hover:text-rose-700">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+        @endif
 
-                                        <!-- Modal Edit -->
-                                        <div id="edit-modal-{{ $penugasan->id_guru_mata_pelajaran }}" class="hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full p-4 h-full bg-black bg-opacity-50">
-                                            <div class="relative w-full max-w-md bg-white rounded-lg shadow dark:bg-gray-700">
-                                                <button type="button" onclick="document.getElementById('edit-modal-{{ $penugasan->id_guru_mata_pelajaran }}').classList.add('hidden')" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 rounded-lg text-sm w-8 h-8 dark:hover:bg-gray-600">
-                                                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414 1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                                    </svg>
-                                                    <span class="sr-only">Close modal</span>
-                                                </button>
-                                                <form method="POST" action="{{ route('staff_akademik.guru_mata_pelajaran.update', $penugasan->id_guru_mata_pelajaran) }}" class="p-6">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Edit Penugasan</h3>
-                                                    <div class="mt-4">
-                                                        <label for="edit_guru_id_{{ $penugasan->id_guru_mata_pelajaran }}" class="block text-sm font-medium text-gray-700 dark:text-white">Pilih Guru</label>
-                                                        <select name="guru_id" id="edit_guru_id_{{ $penugasan->id_guru_mata_pelajaran }}" class="block w-full mt-1 bg-gray-50 border border-gray-300 rounded-md dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
-                                                            @foreach($gurus as $guru)
-                                                                <option value="{{ $guru->id_guru }}" {{ $guru->id_guru == $penugasan->guru_id ? 'selected' : '' }}>{{ $guru->nama_guru }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="mt-4">
-                                                        <label for="edit_matpel_id_{{ $penugasan->id_guru_mata_pelajaran }}" class="block text-sm font-medium text-gray-700 dark:text-white">Pilih Mata Pelajaran</label>
-                                                        <select name="matpel_id" id="edit_matpel_id_{{ $penugasan->id_guru_mata_pelajaran }}" class="block w-full mt-1 bg-gray-50 border border-gray-300 rounded-md dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
-                                                            @foreach($mataPelajaran as $matpel)
-                                                                <option value="{{ $matpel->id_matpel }}" {{ $matpel->id_matpel == $penugasan->matpel_id ? 'selected' : '' }}>{{ $matpel->nama_matpel }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <button type="submit" class="w-full px-5 py-2 mt-4 font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">Update Penugasan</button>
-                                                </form>
-                                            </div>
+        {{-- Header & Breadcrumbs --}}
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="space-y-1">
+                <nav class="flex" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 md:space-x-2 text-xs">
+                        <li class="inline-flex items-center">
+                            <a href="{{ route('staff_akademik.dashboard') }}" class="text-slate-500 hover:text-brand-800 transition-colors flex items-center gap-1.5">
+                                <i class="fa-solid fa-house text-[11px]"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="flex items-center text-slate-400">
+                            <i class="fa-solid fa-chevron-right text-[10px] mx-1"></i>
+                            <span class="text-slate-800 font-medium">Penugasan Guru Pengampu</span>
+                        </li>
+                    </ol>
+                </nav>
+                <h1 class="text-xl font-bold text-slate-900 tracking-tight">Penugasan Guru Mata Pelajaran</h1>
+                <p class="text-xs text-slate-500">
+                    Petakan dan atur penugasan tenaga pendidik untuk masing-masing bidang studi mata pelajaran.
+                </p>
+            </div>
+            <div class="flex items-center gap-2">
+                <button type="button" onclick="openCreateModal()"
+                    class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-medium bg-brand-800 hover:bg-brand-900 text-white transition-colors shadow-sm">
+                    <i class="fa-solid fa-plus text-[11px]"></i>
+                    <span>Tambah Penugasan</span>
+                </button>
+            </div>
+        </div>
+
+        {{-- Card Container --}}
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            {{-- Toolbar Filter & Pencarian --}}
+            <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-slate-50/40">
+                <h2 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Daftar Penugasan Guru</h2>
+                <form action="{{ route('staff_akademik.guru_mata_pelajaran.index') }}" method="GET" class="flex items-center gap-2">
+                    <div class="relative w-full sm:w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                        <input type="text" name="search" id="search" value="{{ request()->get('search') }}"
+                            placeholder="Cari guru atau mapel..."
+                            class="w-full pl-9 pr-3 py-1.5 text-xs bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors">
+                    </div>
+                    <button type="submit"
+                        class="px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors shadow-sm">
+                        Cari
+                    </button>
+                    @if(request('search'))
+                        <a href="{{ route('staff_akademik.guru_mata_pelajaran.index') }}"
+                            class="px-2.5 py-1.5 text-xs text-slate-500 hover:text-slate-700 transition-colors" title="Reset filter">
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </a>
+                    @endif
+                </form>
+            </div>
+
+            {{-- Table --}}
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-slate-600">
+                    <thead class="bg-slate-50/75 border-b border-slate-100 text-slate-700 font-semibold uppercase text-[11px] tracking-wider">
+                        <tr>
+                            <th class="px-5 py-3 w-14 text-center">No</th>
+                            <th class="px-5 py-3">Nama Guru</th>
+                            <th class="px-5 py-3">Mata Pelajaran</th>
+                            <th class="px-5 py-3 text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        @forelse($guruMataPelajaran as $index => $penugasan)
+                            <tr class="hover:bg-slate-50/60 transition-colors">
+                                <td class="px-5 py-3.5 text-center font-mono text-slate-400">
+                                    {{ $index + 1 + ($guruMataPelajaran->currentPage() - 1) * $guruMataPelajaran->perPage() }}
+                                </td>
+                                <td class="px-5 py-3.5 font-semibold text-slate-800">
+                                    <div class="inline-flex items-center gap-2.5">
+                                        <div class="w-7 h-7 rounded-lg bg-slate-100 border border-slate-200 text-slate-700 flex items-center justify-center font-bold text-xs">
+                                            {{ substr($penugasan->guru->nama_guru ?? 'G', 0, 1) }}
                                         </div>
-
-                                        <!-- Tombol Hapus -->
-                                        <form method="POST" action="{{ route('staff_akademik.guru_mata_pelajaran.destroy', $penugasan->id_guru_mata_pelajaran) }}" style="display:inline;">
+                                        <span>{{ $penugasan->guru->nama_guru ?? '-' }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-5 py-3.5">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-medium bg-brand-50 border border-brand-100 text-brand-800">
+                                        <i class="fa-solid fa-book-open text-[10px]"></i>
+                                        <span>{{ $penugasan->mataPelajaran->nama_matpel ?? '-' }}</span>
+                                    </span>
+                                </td>
+                                <td class="px-5 py-3.5 text-right whitespace-nowrap">
+                                    <div class="inline-flex items-center gap-1.5 justify-end">
+                                        <button type="button"
+                                            onclick="openEditModal('{{ $penugasan->id_guru_mata_pelajaran }}', '{{ $penugasan->guru_id }}', '{{ $penugasan->matpel_id }}')"
+                                            class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors shadow-sm"
+                                            title="Edit Penugasan">
+                                            <i class="fa-solid fa-pen text-[10px] text-slate-500"></i>
+                                            <span>Edit</span>
+                                        </button>
+                                        <form method="POST" action="{{ route('staff_akademik.guru_mata_pelajaran.destroy', $penugasan->id_guru_mata_pelajaran) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus penugasan ini?');" class="inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
-                                                Delete
+                                            <button type="submit"
+                                                class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-rose-700 bg-rose-50 border border-rose-100 rounded-lg hover:bg-rose-100 transition-colors"
+                                                title="Hapus Penugasan">
+                                                <i class="fa-solid fa-trash text-[10px]"></i>
+                                                <span>Hapus</span>
                                             </button>
                                         </form>
-                                    </td>                                 
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="p-4 text-center text-gray-500 dark:text-gray-400">Tidak ada data penugasan ditemukan.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                    <div class="mt-4">
-                        {{ $guruMataPelajaran->links() }}
-                    </div>
-                </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="px-5 py-12 text-center text-slate-400">
+                                    <i class="fa-regular fa-folder-open text-3xl mb-2 text-slate-300 block"></i>
+                                    <span>Belum ada data penugasan guru yang terdaftar atau sesuai pencarian.</span>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
 
-            <!-- Modal Tambah -->
-            <div id="crud-modal" class="hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full p-4 h-full bg-black bg-opacity-50">
-                <div class="relative w-full max-w-md bg-white rounded-lg shadow dark:bg-gray-700">
-                    <button type="button" onclick="document.getElementById('crud-modal').classList.add('hidden')" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 rounded-lg text-sm w-8 h-8 dark:hover:bg-gray-600">
-                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414 1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                        </svg>
-                        <span class="sr-only">Close modal</span>
+            {{-- Pagination --}}
+            @if($guruMataPelajaran->hasPages())
+                <div class="px-5 py-3.5 border-t border-slate-100 bg-slate-50/40">
+                    {{ $guruMataPelajaran->links() }}
+                </div>
+            @endif
+        </div>
+    </div>
+
+    {{-- Modal Tambah Penugasan Guru --}}
+    <div id="crud-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+        <div class="relative w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            <div class="flex items-center justify-between p-4 md:p-5 border-b border-slate-100 bg-slate-50/50">
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900">Tambah Penugasan Guru</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Tugaskan guru ke mata pelajaran terkait.</p>
+                </div>
+                <button type="button" onclick="closeCreateModal()"
+                    class="text-slate-400 hover:text-slate-700 rounded-lg text-xs w-8 h-8 inline-flex justify-center items-center transition-colors">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+            <form method="POST" action="{{ route('staff_akademik.guru_mata_pelajaran.store') }}" class="p-5 space-y-4">
+                @csrf
+                <div>
+                    <label for="create_guru_id" class="block text-xs font-semibold text-slate-700 mb-1.5">Pilih Guru</label>
+                    <select name="guru_id" id="create_guru_id"
+                        class="block w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors"
+                        required>
+                        <option value="">-- Pilih Guru Pengajar --</option>
+                        @foreach($gurus as $guru)
+                            <option value="{{ $guru->id_guru }}">{{ $guru->nama_guru }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="create_matpel_id" class="block text-xs font-semibold text-slate-700 mb-1.5">Pilih Mata Pelajaran</label>
+                    <select name="matpel_id" id="create_matpel_id"
+                        class="block w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors"
+                        required>
+                        <option value="">-- Pilih Mata Pelajaran --</option>
+                        @foreach($mataPelajaran as $matpel)
+                            <option value="{{ $matpel->id_matpel }}">{{ $matpel->nama_matpel }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closeCreateModal()"
+                        class="px-3.5 py-2 text-xs font-medium text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors">
+                        Batal
                     </button>
-                    <form method="POST" action="{{ route('staff_akademik.guru_mata_pelajaran.store') }}" class="p-6">
-                        @csrf
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Tambah Penugasan</h3>
-                        <div class="mt-4">
-                            <label for="guru_id" class="block text-sm font-medium text-gray-700 dark:text-white">Pilih Guru</label>
-                            <select name="guru_id" id="guru_id" class="block w-full mt-1 bg-gray-50 border border-gray-300 rounded-md dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
-                                @foreach($gurus as $guru)
-                                    <option value="{{ $guru->id_guru }}">{{ $guru->nama_guru }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mt-4">
-                            <label for="matpel_id" class="block text-sm font-medium text-gray-700 dark:text-white">Pilih Mata Pelajaran</label>
-                            <select name="matpel_id" id="matpel_id" class="block w-full mt-1 bg-gray-50 border border-gray-300 rounded-md dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
-                                @foreach($mataPelajaran as $matpel)
-                                    <option value="{{ $matpel->id_matpel }}">{{ $matpel->nama_matpel }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <button type="submit" class="w-full px-5 py-2 mt-4 font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">Tambah Penugasan</button>
-                    </form>
+                    <button type="submit"
+                        class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-brand-800 hover:bg-brand-900 rounded-lg shadow-sm transition-colors">
+                        <i class="fa-solid fa-check text-[11px]"></i>
+                        <span>Simpan Penugasan</span>
+                    </button>
                 </div>
-            </div>
-        </main>
-        <script>
-            
-             // Mengatur agar notifikasi otomatis tertutup setelah 3 detik
-        setTimeout(function() {
-            const successToast = document.getElementById("toast-success");
-            const updateToast = document.getElementById("toast-update");
-            const dangerToast = document.getElementById("toast-danger");
+            </form>
+        </div>
+    </div>
 
-            if (successToast) successToast.style.display = 'none';
-            if (updateToast) updateToast.style.display = 'none';
-            if (dangerToast) dangerToast.style.display = 'none';
-        }, 3000); // 5000 ms = 5 seconds
-            
-        </script>
-    </x-staffakademik-layout>
+    {{-- Modal Edit Penugasan Guru (Dinamis - Reusable) --}}
+    <div id="edit-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+        <div class="relative w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            <div class="flex items-center justify-between p-4 md:p-5 border-b border-slate-100 bg-slate-50/50">
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900">Perbarui Penugasan Guru</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Ubah pemetaan guru atau mata pelajaran.</p>
+                </div>
+                <button type="button" onclick="closeEditModal()"
+                    class="text-slate-400 hover:text-slate-700 rounded-lg text-xs w-8 h-8 inline-flex justify-center items-center transition-colors">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+            <form method="POST" id="edit-form" class="p-5 space-y-4">
+                @csrf
+                @method('PUT')
+                <div>
+                    <label for="edit_guru_id" class="block text-xs font-semibold text-slate-700 mb-1.5">Pilih Guru</label>
+                    <select name="guru_id" id="edit_guru_id"
+                        class="block w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors"
+                        required>
+                        <option value="">-- Pilih Guru Pengajar --</option>
+                        @foreach($gurus as $guru)
+                            <option value="{{ $guru->id_guru }}">{{ $guru->nama_guru }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="edit_matpel_id" class="block text-xs font-semibold text-slate-700 mb-1.5">Pilih Mata Pelajaran</label>
+                    <select name="matpel_id" id="edit_matpel_id"
+                        class="block w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors"
+                        required>
+                        <option value="">-- Pilih Mata Pelajaran --</option>
+                        @foreach($mataPelajaran as $matpel)
+                            <option value="{{ $matpel->id_matpel }}">{{ $matpel->nama_matpel }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closeEditModal()"
+                        class="px-3.5 py-2 text-xs font-medium text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors">
+                        Batal
+                    </button>
+                    <button type="submit"
+                        class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-brand-800 hover:bg-brand-900 rounded-lg shadow-sm transition-colors">
+                        <i class="fa-solid fa-check text-[11px]"></i>
+                        <span>Simpan Perubahan</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openCreateModal() {
+            document.getElementById('crud-modal').classList.remove('hidden');
+        }
+
+        function closeCreateModal() {
+            document.getElementById('crud-modal').classList.add('hidden');
+        }
+
+        function openEditModal(id, guruId, matpelId) {
+            const editForm = document.getElementById('edit-form');
+            editForm.action = `/staff_akademik/guru-mata-pelajaran/${id}`;
+            document.getElementById('edit_guru_id').value = guruId;
+            document.getElementById('edit_matpel_id').value = matpelId;
+            document.getElementById('edit-modal').classList.remove('hidden');
+        }
+
+        function closeEditModal() {
+            document.getElementById('edit-modal').classList.add('hidden');
+        }
+
+        window.onclick = function(event) {
+            const createModal = document.getElementById('crud-modal');
+            const editModal = document.getElementById('edit-modal');
+            if (event.target === createModal) {
+                closeCreateModal();
+            }
+            if (event.target === editModal) {
+                closeEditModal();
+            }
+        };
+    </script>
+</x-staffakademik-layout>

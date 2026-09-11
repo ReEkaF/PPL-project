@@ -16,7 +16,7 @@ interface JadwalRepositoryInterface extends BaseRepositoryInterface
     /**
      * Get active academic year teacher schedule.
      */
-    public function getJadwalForGuru(string $guruId): Collection;
+    public function getJadwalForGuru(?string $guruId = null): Collection;
 
     /**
      * Check if a teacher has a schedule conflict.

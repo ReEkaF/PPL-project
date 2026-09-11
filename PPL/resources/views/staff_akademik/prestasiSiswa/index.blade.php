@@ -1,198 +1,255 @@
 <x-staffakademik-layout>
-    <div class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
-        <!-- Bagian Atas -->
-        <div class="flex-grow mb-4 col-span-full xl:mb-2">
-            <div class="p-4 mb-4 space-y-6 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-                
-                <!-- Breadcrumb -->
-                <nav class="flex mb-5" aria-label="Breadcrumb">
-                    <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+    <div class="space-y-6 pb-10">
+        {{-- Session Flash Messages --}}
+        @if(session('success'))
+            <div class="flex items-center justify-between p-4 text-xs font-medium text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-xl shadow-sm">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-circle-check text-sm text-emerald-600"></i>
+                    <span>{{ session('success') }}</span>
+                </div>
+                <button type="button" onclick="this.parentElement.remove()" class="text-emerald-500 hover:text-emerald-700">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="flex items-center justify-between p-4 text-xs font-medium text-rose-800 bg-rose-50 border border-rose-200 rounded-xl shadow-sm">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-triangle-exclamation text-sm text-rose-600"></i>
+                    <span>{{ session('error') }}</span>
+                </div>
+                <button type="button" onclick="this.parentElement.remove()" class="text-rose-500 hover:text-rose-700">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+        @endif
+
+        {{-- Header & Breadcrumbs --}}
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="space-y-1">
+                <nav class="flex" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 md:space-x-2 text-xs">
                         <li class="inline-flex items-center">
-                            <a href="#" class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500">
-                                <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
-                                </svg>
-                                Home
+                            <a href="{{ route('staff_akademik.dashboard') }}" class="text-slate-500 hover:text-brand-800 transition-colors flex items-center gap-1.5">
+                                <i class="fa-solid fa-house text-[11px]"></i>
+                                <span>Dashboard</span>
                             </a>
                         </li>
-                        <li>
-                            <div class="flex items-center">
-                                <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                <a href="#" class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-primary-500">Prestasi</a>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="flex items-center">
-                                <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500" aria-current="page">Kelola Prestasi</span>
-                            </div>
+                        <li class="flex items-center text-slate-400">
+                            <i class="fa-solid fa-chevron-right text-[10px] mx-1"></i>
+                            <span class="text-slate-800 font-medium">Prestasi Siswa</span>
                         </li>
                     </ol>
                 </nav>
-
-                <!-- Header dan Deskripsi -->
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Kelola Prestasi</h1>
-                <p class="mb-2 text-gray-300 dark:text-gray-200">Ini merupakan halaman kelola Prestasi</p>
-                
-                <!-- Tombol Tambah Data -->
-                <div class="flex items-center space-x-4">
-                    <button onclick="window.location.href='{{ route('prestasi.create') }}'"
-                            class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                            Tambah Prestasi
-                        </span>
-                    </button>
-                </div>
+                <h1 class="text-xl font-bold text-slate-900 tracking-tight">Kelola Data Prestasi Siswa</h1>
+                <p class="text-xs text-slate-500">
+                    Inventarisasi dan dokumentasi piagam penghargaan serta capaian prestasi siswa.
+                </p>
             </div>
+            <div class="flex items-center gap-2">
+                <a href="{{ route('staff_akademik.prestasi.pengajuan') }}"
+                    class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors shadow-sm">
+                    <i class="fa-solid fa-inbox text-[11px] text-slate-500"></i>
+                    <span>Daftar Pengajuan</span>
+                </a>
+                <a href="{{ route('prestasi.create') }}"
+                    class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-medium bg-brand-800 hover:bg-brand-900 text-white transition-colors shadow-sm">
+                    <i class="fa-solid fa-plus text-[11px]"></i>
+                    <span>Tambah Prestasi</span>
+                </a>
+            </div>
+        </div>
 
-            <!-- Tabel Data Prestasi -->
-            <div class="col-span-full xl:col-auto">
-                <div class="p-4 mb-4 space-y-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-                    <div class="px-4 py-2 text-gray-700 border-b border-gray-200 dark:border-gray-600">
-                        <center><h3 class="font-semibold text-lg">Data Prestasi</h3></center>
-                        
-                        <!-- Form Pencarian -->
-                        <div class="flex justify-between mb-4">
-                            <form action="{{ route('prestasi.index') }}" method="GET" class="flex space-x-4">
-                                <input type="text" name="search" value="{{ request()->search }}" placeholder="Search Prestasi" class="w-1/2 px-3 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white" />
-                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md">Search</button>
-                            </form>
-                        </div>
+        {{-- Card Container --}}
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            {{-- Toolbar Filter & Pencarian --}}
+            <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-slate-50/40">
+                <h2 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Daftar Prestasi Siswa Terdata</h2>
+                <form action="{{ route('prestasi.index') }}" method="GET" class="flex items-center gap-2">
+                    <div class="relative w-full sm:w-72">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                        <input type="text" name="search" id="search" value="{{ request('search') }}"
+                            placeholder="Cari nama siswa atau prestasi..."
+                            class="w-full pl-9 pr-3 py-1.5 text-xs bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors">
                     </div>
-
-                    <!-- Tabel Data -->
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 rounded-lg">
-                            <thead class="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 uppercase text-sm leading-normal">
-                                <tr>
-                                    <th class="py-3 px-6 text-left">No</th>
-                                    <th class="py-3 px-6 text-left">Nama Siswa</th>
-                                    <th class="py-3 px-6 text-left">Nama Prestasi</th>
-                                    <th class="py-3 px-6 text-left">Bukti</th>
-                                    <th class="py-3 px-6 text-left">Deskripsi</th>
-                                    <th class="py-3 px-6 text-left">Status</th>
-                                    <th class="py-3 px-6 text-left">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($prestasi as $row)
-                                    <tr class="border-b border-gray-200 dark:border-gray-700">
-                                        <td class="py-3 px-6">{{ $loop->iteration }}</td>
-                                        <td class="py-3 px-6">{{ $row->siswa->nama_siswa }}</td>
-                                        <td class="py-3 px-6">{{ $row->nama_prestasi }}</td>
-                                        <td class="py-3 px-6">
-                                            @if ($row->bukti_prestasi)
-                                                <a href="{{ route('prestasi.show', $row->id_prestasi) }}" target="_blank" class="text-blue-600 hover:underline">Lihat Detail</a>
-                                            @else
-                                                <span class="text-gray-500">Tidak Ada Bukti</span>
-                                            @endif
-                                        </td>
-                                        <td class="py-3 px-6">{{ $row->deskripsi_prestasi }}</td>
-                                        <td class="py-3 px-6">
-                                            <span class="px-3 py-1 rounded-full text-white {{ $row->status_prestasi == 1 ? 'bg-green-500' : 'bg-red-500' }}">
-                                                {{ $row->status_prestasi == 1 ? 'Verified' : 'Unverified' }}
-                                            </span>
-                                        </td>
-                                        <td class="py-3 px-6 flex space-x-2">
-                                            <button onclick="toggleModal('edit-modal-{{ $row->id_prestasi }}')" class="px-4 py-2 bg-blue-500 text-white rounded-md">Update</button>
-                                            <form action="{{ route('prestasi.destroy', $row->id_prestasi) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-
-                                    <!-- Modal Edit -->
-                                    <div id="edit-modal-{{ $row->id_prestasi }}" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
-                                        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 space-y-4">
-                                            <!-- Konten Modal -->
-                                            <h2 class="text-lg font-semibold text-gray-700 dark:text-white">Edit Prestasi</h2>
-                                            <form action="{{ route('prestasi.update', $row->id_prestasi) }}" method="POST">
-                                                @csrf
-                                                @method('PUT')
-                                                <!-- Form Input Prestasi -->
-                                                <div class="mb-4">
-                                                    <label class="block text-gray-700 dark:text-gray-300">Nama Prestasi</label>
-                                                    <input type="text" name="nama_prestasi" value="{{ $row->nama_prestasi }}" class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white" required>
-                                                </div>
-                                                <div class="mb-4">
-                                                    <label class="block text-gray-700 dark:text-gray-300">Deskripsi</label>
-                                                    <textarea name="deskripsi_prestasi" class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:text-white" required>{{ $row->deskripsi_prestasi }}</textarea>
-                                                </div>
-                                                <div class="flex justify-end space-x-2">
-                                                    <button type="button" onclick="toggleModal('edit-modal-{{ $row->id_prestasi }}')" class="px-4 py-2 bg-gray-500 text-white rounded-md">Cancel</button>
-                                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md">Save</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <!-- Showing and Pagination -->
-                        <div class="mt-4 flex justify-between items-center w-full">
-                            <!-- Showing -->
-                            <div class="text-gray-600 dark:text-gray-300 text-sm">
-                            Showing {{ $prestasi->firstItem() }} to {{ $prestasi->lastItem() }} of {{ $prestasi->total() }} results
-                            </div>
-                        </div>
-                        <br>
-                       
-                       <!-- Pagination -->
-                       <!-- Pagination -->
-                       <div class="flex justify-center">
-                        <nav aria-label="Page navigation example">
-                            <ul class="flex items-center -space-x-px h-8 text-sm">
-                            <!-- Previous Page Link -->
-                            <li>
-                                <a href="{{ $prestasi->previousPageUrl() }}" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                <span class="sr-only">Previous</span>
-                                <svg class="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
-                                </svg>
-                                </a>
-                            </li>
-                            
-                            <!-- Pagination Links -->
-                            @foreach ($prestasi->getUrlRange(1, $prestasi->lastPage()) as $page => $url)
-                                <li>
-                                <a href="{{ $url }}" class="flex items-center justify-center px-3 h-8 leading-tight {{ $prestasi->currentPage() == $page ? 'z-10 text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white' : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white' }}">
-                                    {{ $page }}
-                                </a>
-                                </li>
-                            @endforeach
-                        
-                            <!-- Next Page Link -->
-                            <li>
-                                <a href="{{ $prestasi->nextPageUrl() }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                <span class="sr-only">Next</span>
-                                <svg class="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                                </svg>
-                                </a>
-                            </li>
-                            </ul>
-                        </nav>
-                       </div>
-                       <br>
-                    </div> 
-                </div>
+                    <button type="submit"
+                        class="px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors shadow-sm">
+                        Cari
+                    </button>
+                    @if(request('search'))
+                        <a href="{{ route('prestasi.index') }}"
+                            class="px-2.5 py-1.5 text-xs text-slate-500 hover:text-slate-700 transition-colors" title="Reset filter">
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </a>
+                    @endif
+                </form>
             </div>
+
+            {{-- Table --}}
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-slate-600">
+                    <thead class="bg-slate-50/75 border-b border-slate-100 text-slate-700 font-semibold uppercase text-[11px] tracking-wider">
+                        <tr>
+                            <th class="px-5 py-3 w-14 text-center">No</th>
+                            <th class="px-5 py-3">Nama Siswa</th>
+                            <th class="px-5 py-3">Nama Prestasi</th>
+                            <th class="px-5 py-3">Bukti</th>
+                            <th class="px-5 py-3">Deskripsi</th>
+                            <th class="px-5 py-3 text-center">Status</th>
+                            <th class="px-5 py-3 text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        @forelse ($prestasi as $row)
+                            <tr class="hover:bg-slate-50/60 transition-colors">
+                                <td class="px-5 py-3.5 text-center font-mono text-slate-400">
+                                    {{ $loop->iteration + ($prestasi->currentPage() - 1) * $prestasi->perPage() }}
+                                </td>
+                                <td class="px-5 py-3.5 font-semibold text-slate-900 whitespace-nowrap">
+                                    <div class="inline-flex items-center gap-2">
+                                        <div class="w-7 h-7 rounded-full bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center">
+                                            {{ substr($row->siswa->nama_siswa ?? 'S', 0, 1) }}
+                                        </div>
+                                        <span>{{ $row->siswa->nama_siswa ?? '-' }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-5 py-3.5 font-medium text-slate-800">
+                                    <div class="inline-flex items-center gap-1.5">
+                                        <i class="fa-solid fa-trophy text-amber-500 text-[11px]"></i>
+                                        <span>{{ $row->nama_prestasi }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-5 py-3.5 whitespace-nowrap">
+                                    @if ($row->bukti_prestasi)
+                                        <a href="{{ route('prestasi.show', $row->id_prestasi) }}" target="_blank"
+                                            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-medium bg-brand-50 text-brand-800 hover:bg-brand-100 border border-brand-100 transition-colors">
+                                            <i class="fa-solid fa-file-lines text-[10px]"></i>
+                                            <span>Lihat Bukti</span>
+                                        </a>
+                                    @else
+                                        <span class="text-slate-400 italic text-[11px]">Tidak ada berkas</span>
+                                    @endif
+                                </td>
+                                <td class="px-5 py-3.5 text-slate-500 max-w-xs truncate">
+                                    {{ $row->deskripsi_prestasi ?: '-' }}
+                                </td>
+                                <td class="px-5 py-3.5 text-center whitespace-nowrap">
+                                    @if($row->status_prestasi == 1)
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#EAF6EF] text-[#1F7A46]">
+                                            <i class="fa-solid fa-circle-check text-[9px]"></i>
+                                            <span>Terverifikasi</span>
+                                        </span>
+                                    @else
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#FDF3E4] text-[#92620A]">
+                                            <i class="fa-solid fa-clock text-[9px]"></i>
+                                            <span>Menunggu</span>
+                                        </span>
+                                    @endif
+                                </td>
+                                <td class="px-5 py-3.5 text-right whitespace-nowrap">
+                                    <div class="inline-flex items-center gap-1.5 justify-end">
+                                        <button type="button"
+                                            onclick="openEditModal('{{ $row->id_prestasi }}', '{{ addslashes($row->nama_prestasi) }}', '{{ addslashes($row->deskripsi_prestasi) }}')"
+                                            class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors shadow-sm"
+                                            title="Edit Prestasi">
+                                            <i class="fa-solid fa-pen text-[10px] text-slate-500"></i>
+                                            <span>Edit</span>
+                                        </button>
+                                        <form method="POST" action="{{ route('prestasi.destroy', $row->id_prestasi) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data prestasi ini?');" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-rose-700 bg-rose-50 border border-rose-100 rounded-lg hover:bg-rose-100 transition-colors"
+                                                title="Hapus Prestasi">
+                                                <i class="fa-solid fa-trash text-[10px]"></i>
+                                                <span>Hapus</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="px-5 py-12 text-center text-slate-400">
+                                    <i class="fa-regular fa-folder-open text-3xl mb-2 text-slate-300 block"></i>
+                                    <span>Belum ada data prestasi yang terdaftar atau sesuai filter.</span>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            {{-- Pagination --}}
+            @if($prestasi->hasPages())
+                <div class="px-5 py-3.5 border-t border-slate-100 bg-slate-50/40">
+                    {{ $prestasi->links() }}
+                </div>
+            @endif
         </div>
     </div>
 
-    <!-- Script untuk Toggle Modal -->
+    {{-- Modal Edit Prestasi (Dinamis) --}}
+    <div id="edit-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+        <div class="relative w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            <div class="flex items-center justify-between p-4 md:p-5 border-b border-slate-100 bg-slate-50/50">
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900">Perbarui Data Prestasi</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Edit nama dan rincian catatan prestasi siswa.</p>
+                </div>
+                <button type="button" onclick="closeEditModal()"
+                    class="text-slate-400 hover:text-slate-700 rounded-lg text-xs w-8 h-8 inline-flex justify-center items-center transition-colors">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+            <form method="POST" id="edit-form" class="p-5 space-y-4">
+                @csrf
+                @method('PUT')
+                <div>
+                    <label for="edit_nama_prestasi" class="block text-xs font-semibold text-slate-700 mb-1.5">Nama Prestasi</label>
+                    <input type="text" name="nama_prestasi" id="edit_nama_prestasi"
+                        class="block w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors"
+                        required>
+                </div>
+                <div>
+                    <label for="edit_deskripsi_prestasi" class="block text-xs font-semibold text-slate-700 mb-1.5">Deskripsi Prestasi</label>
+                    <textarea name="deskripsi_prestasi" id="edit_deskripsi_prestasi" rows="4"
+                        class="block w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors"
+                        required></textarea>
+                </div>
+                <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closeEditModal()"
+                        class="px-3.5 py-2 text-xs font-medium text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors">
+                        Batal
+                    </button>
+                    <button type="submit"
+                        class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-brand-800 hover:bg-brand-900 rounded-lg shadow-sm transition-colors">
+                        <i class="fa-solid fa-check text-[11px]"></i>
+                        <span>Simpan Perubahan</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
-        function toggleModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.toggle('hidden');
-            }
+        function openEditModal(id, nama, deskripsi) {
+            const form = document.getElementById('edit-form');
+            form.action = `/staff_akademik/prestasi/${id}`;
+            document.getElementById('edit_nama_prestasi').value = nama;
+            document.getElementById('edit_deskripsi_prestasi').value = deskripsi;
+            document.getElementById('edit-modal').classList.remove('hidden');
         }
+
+        function closeEditModal() {
+            document.getElementById('edit-modal').classList.add('hidden');
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('edit-modal');
+            if (event.target === modal) {
+                closeEditModal();
+            }
+        };
     </script>
 </x-staffakademik-layout>

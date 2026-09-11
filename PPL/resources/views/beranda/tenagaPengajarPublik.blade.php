@@ -1,14 +1,14 @@
 <x-guest-layout>
-    <!-- Header Banner -->
-    <section class="bg-slate-900 text-white py-14 border-b border-slate-800">
+    <!-- Header Banner (Clean Light Theme) -->
+    <section class="bg-white text-slate-900 py-14 lg:py-18 border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="max-w-2xl space-y-3">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-brand-900/80 border border-brand-700/60 text-brand-200 text-xs font-semibold">
-                    Direktori Tenaga Pendidik
-                </span>
-                <h1 class="text-3xl font-extrabold tracking-tight">Dewan Guru SMPN 2 Kamal</h1>
-                <p class="text-sm text-slate-300 leading-relaxed">
-                    Tenaga pendidik profesional dan berdedikasi tinggi yang membimbing para siswa dalam proses belajar mengajar serta pembentukan karakter budi pekerti.
+            <div class="max-w-3xl space-y-3">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-brand-50 border border-brand-200 text-brand-800 text-xs font-semibold">
+                    <span>Direktori Tenaga Pendidik</span>
+                </div>
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">Dewan Guru SMPN 2 Kamal</h1>
+                <p class="text-base text-slate-600 leading-relaxed">
+                    Tenaga pendidik profesional dan berdedikasi tinggi yang membimbing para siswa dalam proses belajar mengajar serta pembentukan karakter budi pekerti luhur.
                 </p>
             </div>
         </div>
@@ -34,17 +34,17 @@
                         })->filter()->unique()->values();
                     @endphp
 
-                    <div class="bg-white border border-slate-200/80 rounded-xl overflow-hidden flex flex-col justify-between hover:shadow-md transition group">
+                    <div class="bg-white border border-slate-200 rounded-xl overflow-hidden flex flex-col justify-between hover:border-brand-700 transition">
                         <div>
                             <div class="h-52 bg-slate-100 overflow-hidden relative">
                                 <img src="{{ $photoUrl }}"
                                      alt="{{ $gurus->nama_guru }}"
-                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                     class="w-full h-full object-cover"
                                      loading="lazy"
                                      onerror="this.src='{{ asset('images/profile-none.jpeg') }}'">
                             </div>
-                            <div class="p-4 space-y-2">
-                                <h3 class="font-bold text-sm text-slate-900 group-hover:text-brand-800 transition-colors line-clamp-2">
+                            <div class="p-4 space-y-1.5">
+                                <h3 class="font-bold text-sm text-slate-900 line-clamp-2">
                                     {{ $gurus->nama_guru }}
                                 </h3>
                                 <p class="text-xs text-slate-500">

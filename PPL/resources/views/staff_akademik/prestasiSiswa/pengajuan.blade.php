@@ -31,22 +31,21 @@
                     </ol>
                 </nav>
 
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Pengajuan Prestasi</h1>
-                <p class="mb-2 text-gray-300 dark:text-gray-200">Halaman ini menampilkan pengajuan prestasi yang menunggu persetujuan.</p>
-                <div class="flex items-center space-x-4">
-                    <button onclick="window.location.href='{{ route('prestasi.index') }}'"
-                            class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                            Kelola Data
-                        </span>
-                    </button>
+                <h1 class="text-xl font-bold text-slate-900 tracking-tight">Verifikasi Pengajuan Prestasi</h1>
+                <p class="mb-3 text-xs text-slate-500">Tinjau dan berikan persetujuan atau penolakan atas klaim piagam prestasi yang diajukan oleh siswa</p>
+                <div class="flex items-center gap-3">
+                    <a href="{{ route('prestasi.index') }}"
+                        class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg transition-colors shadow-sm">
+                        <i class="fa-solid fa-list text-[10px]"></i>
+                        <span>Kelola Data Prestasi</span>
+                    </a>
                 </div>
             </div>
 
             <div class="col-span-full xl:col-auto">
-                <div class="p-4 mb-4 space-y-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
-                    <div class="px-4 py-2 text-gray-700 border-b border-gray-200 dark:border-gray-600">
-                        <center><h3 class="font-semibold text-lg">Data Pengajuan Prestasi</h3></center>
+                <div class="p-5 bg-white border border-slate-200 rounded-xl shadow-sm">
+                    <div class="pb-3 border-b border-slate-100 mb-4">
+                        <h3 class="font-semibold text-sm text-slate-800">Daftar Pengajuan Prestasi Siswa</h3>
                     </div>
                     <!-- Form Pencarian -->
                     <div class="flex justify-between mb-4">

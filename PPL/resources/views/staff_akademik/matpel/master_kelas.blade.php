@@ -1,217 +1,265 @@
 <x-staffakademik-layout>
-    <main>
-            <div id="notification-container" class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
-                <!-- Notifikasi Sukses (Tambah Data) -->
-                @if(session('success'))
-                <div id="toast-success" class="flex items-center w-full max-w-xs p-4 mb-4 text-white bg-blue-600 rounded-lg shadow dark:bg-blue-700">
-                    <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-blue-800 rounded-lg">
-                        <!-- Ikon Sukses -->
-                        <svg class="w-5 h-5 text-white" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                        </svg>
-                        <span class="sr-only">Success</span>
-                    </div>
-                    <div class="ms-3 text-sm font-normal">{{ session('success') }}</div>
-                    <button type="button" onclick="closeToast()" class="ms-auto -mx-1.5 -my-1.5 bg-transparent text-white hover:text-gray-300 rounded-lg p-1.5">
-                        <svg class="w-3 h-3" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                        </svg>
-                    </button>
+    <div class="space-y-6 pb-10">
+        {{-- Session Flash Messages --}}
+        @if(session('success'))
+            <div class="flex items-center justify-between p-4 text-xs font-medium text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-xl shadow-sm">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-circle-check text-sm text-emerald-600"></i>
+                    <span>{{ session('success') }}</span>
                 </div>
-                @endif
-         
-                <!-- Notifikasi Update -->
-                @if(session('update'))
-                <div id="toast-update" class="flex items-center w-full max-w-xs p-4 mb-4 text-white bg-green-600 rounded-lg shadow dark:bg-green-700">
-                    <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-green-800 rounded-lg">
-                        <!-- Ikon Update -->
-                        <svg class="w-5 h-5 text-white" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 1 1 1.414 1.414Z"/>
-                        </svg>
-                        <span class="sr-only">Update</span>
-                    </div>
-                    <div class="ms-3 text-sm font-normal">{{ session('update') }}</div>
-                    <button type="button" onclick="closeToast()" class="ms-auto -mx-1.5 -my-1.5 bg-transparent text-white hover:text-gray-300 rounded-lg p-1.5">
-                        <svg class="w-3 h-3" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                        </svg>
-                    </button>
-                </div>
-                @endif
-         
-                <!-- Notifikasi Bahaya (Hapus Data) -->
-                @if(session('danger'))
-                <div id="toast-danger" class="flex items-center w-full max-w-xs p-4 mb-4 text-white bg-red-600 rounded-lg shadow dark:bg-red-700">
-                    <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-red-800 rounded-lg">
-                        <svg class="w-5 h-5 text-white" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
-                        </svg>
-                        <span class="sr-only">Danger</span>
-                    </div>
-                    <div class="ms-3 text-sm font-normal">{{ session('danger') }}</div>
-                    <button type="button" onclick="closeToast()" class="ms-auto -mx-1.5 -my-1.5 bg-transparent text-white hover:text-gray-300 rounded-lg p-1.5">
-                        <svg class="w-3 h-3" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                        </svg>
-                    </button>
-                </div>
-                @endif
+                <button type="button" onclick="this.parentElement.remove()" class="text-emerald-500 hover:text-emerald-700">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
             </div>
-            <div class="p-4 bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <div class="w-full mb-1">
-                    <div class="mb-4">
-                        <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Kelas</h1>
-                    </div>
-                    <div class="items-center justify-between block sm:flex">
-                        <!-- Search Form -->
-                        <form class="sm:pr-3" action="{{ route('staff_akademik.kelas.index') }}" method="GET">
-                            <label for="search" class="sr-only">Cari Kelas</label>
-                            <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
-                                <input type="text" name="search" id="search" value="{{ request()->get('search') }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="Cari kelas">
-                            </div>
-                        </form>
-                        <!-- Tombol Tambah Kelas dengan Modal -->
-                        <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-                        Tambah Kelas
-                        </button>
-                    </div>
+        @endif
+        @if(session('update'))
+            <div class="flex items-center justify-between p-4 text-xs font-medium text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-xl shadow-sm">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-circle-check text-sm text-emerald-600"></i>
+                    <span>{{ session('update') }}</span>
                 </div>
+                <button type="button" onclick="this.parentElement.remove()" class="text-emerald-500 hover:text-emerald-700">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
             </div>
-        
-            <!-- Tabel Kelas -->
-            <div class="p-4">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                        <thead class="bg-gray-100 dark:bg-gray-700">
-                            <tr>
-                                <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">No</th>
-                                <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">Nama Kelas</th>
-                                <th class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y dark:bg-gray-800 dark:divide-gray-700">
-                            @forelse($kelas as $index => $kel)
-                                <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                                    <td class="p-4 text-sm text-gray-500 dark:text-gray-400">{{ $index + 1 + ($kelas->currentPage() - 1) * $kelas->perPage() }}</td>
-                                    <td class="p-4 text-sm text-gray-900 dark:text-white">{{ $kel->nama_kelas }}</td>
-                                    <td class="p-4 space-x-2 whitespace-nowrap">
-                                        <!-- Tombol Update dengan Styling Baru -->
-                                        <button type="button" onclick="openEditModal('{{ $kel->id_kelas }}', '{{ $kel->nama_kelas }}')" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path>
-                                                <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path>
-                                            </svg>
-                                            Update
+        @endif
+        @if(session('danger'))
+            <div class="flex items-center justify-between p-4 text-xs font-medium text-rose-800 bg-rose-50 border border-rose-200 rounded-xl shadow-sm">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-triangle-exclamation text-sm text-rose-600"></i>
+                    <span>{{ session('danger') }}</span>
+                </div>
+                <button type="button" onclick="this.parentElement.remove()" class="text-rose-500 hover:text-rose-700">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+        @endif
+
+        {{-- Header & Breadcrumbs --}}
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="space-y-1">
+                <nav class="flex" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 md:space-x-2 text-xs">
+                        <li class="inline-flex items-center">
+                            <a href="{{ route('staff_akademik.dashboard') }}" class="text-slate-500 hover:text-brand-800 transition-colors flex items-center gap-1.5">
+                                <i class="fa-solid fa-house text-[11px]"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="flex items-center text-slate-400">
+                            <i class="fa-solid fa-chevron-right text-[10px] mx-1"></i>
+                            <span class="text-slate-800 font-medium">Master Data Kelas</span>
+                        </li>
+                    </ol>
+                </nav>
+                <h1 class="text-xl font-bold text-slate-900 tracking-tight">Master Data Kelas</h1>
+                <p class="text-xs text-slate-500">
+                    Kelola data identitas dan inventaris rombongan belajar / kelas akademik sekolah.
+                </p>
+            </div>
+            <div class="flex items-center gap-2">
+                <button type="button" onclick="openCreateModal()"
+                    class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-medium bg-brand-800 hover:bg-brand-900 text-white transition-colors shadow-sm">
+                    <i class="fa-solid fa-plus text-[11px]"></i>
+                    <span>Tambah Kelas</span>
+                </button>
+            </div>
+        </div>
+
+        {{-- Card Container --}}
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            {{-- Toolbar Filter & Pencarian --}}
+            <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-slate-50/40">
+                <h2 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Daftar Seluruh Kelas</h2>
+                <form action="{{ route('staff_akademik.kelas.index') }}" method="GET" class="flex items-center gap-2">
+                    <div class="relative w-full sm:w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                        <input type="text" name="search" id="search" value="{{ request()->get('search') }}"
+                            placeholder="Cari nama kelas..."
+                            class="w-full pl-9 pr-3 py-1.5 text-xs bg-white border border-slate-200 rounded-lg focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors">
+                    </div>
+                    <button type="submit"
+                        class="px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors shadow-sm">
+                        Cari
+                    </button>
+                    @if(request('search'))
+                        <a href="{{ route('staff_akademik.kelas.index') }}"
+                            class="px-2.5 py-1.5 text-xs text-slate-500 hover:text-slate-700 transition-colors" title="Reset filter">
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </a>
+                    @endif
+                </form>
+            </div>
+
+            {{-- Table --}}
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-slate-600">
+                    <thead class="bg-slate-50/75 border-b border-slate-100 text-slate-700 font-semibold uppercase text-[11px] tracking-wider">
+                        <tr>
+                            <th class="px-5 py-3 w-14 text-center">No</th>
+                            <th class="px-5 py-3">Nama Kelas</th>
+                            <th class="px-5 py-3 text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        @forelse($kelas as $index => $kel)
+                            <tr class="hover:bg-slate-50/60 transition-colors">
+                                <td class="px-5 py-3.5 text-center font-mono text-slate-400">
+                                    {{ $index + 1 + ($kelas->currentPage() - 1) * $kelas->perPage() }}
+                                </td>
+                                <td class="px-5 py-3.5 font-semibold text-slate-800">
+                                    <div class="inline-flex items-center gap-2">
+                                        <div class="w-7 h-7 rounded-lg bg-brand-50 border border-brand-100/60 text-brand-800 flex items-center justify-center font-bold text-xs font-mono">
+                                            {{ substr($kel->nama_kelas, 0, 2) }}
+                                        </div>
+                                        <span>Kelas {{ $kel->nama_kelas }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-5 py-3.5 text-right whitespace-nowrap">
+                                    <div class="inline-flex items-center gap-1.5 justify-end">
+                                        <button type="button" onclick="openEditModal('{{ $kel->id_kelas }}', '{{ $kel->nama_kelas }}')"
+                                            class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors shadow-sm"
+                                            title="Edit Kelas">
+                                            <i class="fa-solid fa-pen text-[10px] text-slate-500"></i>
+                                            <span>Edit</span>
                                         </button>
-                                    
-                                        <!-- Tombol Delete dengan Styling Baru -->
-                                        <form method="POST" action="{{ route('staff_akademik.kelas.destroy', $kel->id_kelas) }}" style="display:inline;">
+                                        <form method="POST" action="{{ route('staff_akademik.kelas.destroy', $kel->id_kelas) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kelas ini?');" class="inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
-                                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                                                </svg>
-                                                Delete item
+                                            <button type="submit"
+                                                class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-rose-700 bg-rose-50 border border-rose-100 rounded-lg hover:bg-rose-100 transition-colors"
+                                                title="Hapus Kelas">
+                                                <i class="fa-solid fa-trash text-[10px]"></i>
+                                                <span>Hapus</span>
                                             </button>
                                         </form>
-                                    </td>                                
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3" class="p-4 text-center text-gray-500 dark:text-gray-400">Tidak ada data kelas ditemukan.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                    <!-- Pagination -->
-                    <div class="mt-4">
-                        {{ $kelas->links() }}
-                    </div>
-                </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="px-5 py-12 text-center text-slate-400">
+                                    <i class="fa-regular fa-folder-open text-3xl mb-2 text-slate-300 block"></i>
+                                    <span>Belum ada data kelas yang terdaftar atau sesuai pencarian.</span>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
-        
-            <!-- Modal Tambah Kelas -->
-            <div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full p-4 h-full bg-black bg-opacity-50">
-                <div class="relative w-full max-w-md bg-white rounded-lg shadow dark:bg-gray-700">
-                    <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 rounded-lg text-sm w-8 h-8 dark:hover:bg-gray-600" data-modal-toggle="crud-modal">
-                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        <span class="sr-only">Close modal</span>
+
+            {{-- Pagination --}}
+            @if($kelas->hasPages())
+                <div class="px-5 py-3.5 border-t border-slate-100 bg-slate-50/40">
+                    {{ $kelas->links() }}
+                </div>
+            @endif
+        </div>
+    </div>
+
+    {{-- Modal Tambah Kelas --}}
+    <div id="crud-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+        <div class="relative w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            <div class="flex items-center justify-between p-4 md:p-5 border-b border-slate-100 bg-slate-50/50">
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900">Tambah Kelas Baru</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Daftarkan nama rombel atau tingkat kelas baru.</p>
+                </div>
+                <button type="button" onclick="closeCreateModal()"
+                    class="text-slate-400 hover:text-slate-700 rounded-lg text-xs w-8 h-8 inline-flex justify-center items-center transition-colors">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+            <form method="POST" action="{{ route('staff_akademik.kelas.store') }}" class="p-5 space-y-4">
+                @csrf
+                <div>
+                    <label for="create_nama_kelas" class="block text-xs font-semibold text-slate-700 mb-1.5">Nama Kelas</label>
+                    <input type="text" name="nama_kelas" id="create_nama_kelas"
+                        placeholder="Contoh: 7A, 8B, 9C"
+                        class="block w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors"
+                        required>
+                </div>
+                <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closeCreateModal()"
+                        class="px-3.5 py-2 text-xs font-medium text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors">
+                        Batal
                     </button>
-                    <form method="POST" action="{{ route('staff_akademik.kelas.store') }}" class="p-6">
-                        @csrf
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Tambah Kelas</h3>
-                        <div class="mt-4">
-                            <label for="create_nama_kelas" class="block text-sm font-medium text-gray-700 dark:text-white">Nama Kelas</label>
-                            <input type="text" name="nama_kelas" id="create_nama_kelas" class="block w-full mt-1 bg-gray-50 border border-gray-300 rounded-md dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white focus:ring-primary-500 focus:border-primary-500" required>
-                        </div>
-                        <button type="submit" class="w-full px-5 py-2 mt-4 font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">Tambah Kelas</button>
-                    </form>
-                </div>
-            </div>
-    
-            <!-- Modal Edit Kelas (Dinamis) -->
-            <div id="edit-modal" class="hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full p-4 h-full bg-black bg-opacity-50">
-                <div class="relative w-full max-w-md bg-white rounded-lg shadow dark:bg-gray-700">
-                    <!-- Tombol untuk Menutup Modal -->
-                    <button type="button" onclick="closeEditModal()" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 rounded-lg text-sm w-8 h-8 dark:hover:bg-gray-600">
-                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                        </svg>
-                        <span class="sr-only">Close modal</span>
+                    <button type="submit"
+                        class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-brand-800 hover:bg-brand-900 rounded-lg shadow-sm transition-colors">
+                        <i class="fa-solid fa-check text-[11px]"></i>
+                        <span>Simpan Kelas</span>
                     </button>
-    
-                    <!-- Form Edit Kelas -->
-                    <form method="POST" id="edit-form" class="p-6">
-                        @csrf
-                        @method('PUT')
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Edit Kelas</h3>
-                        <div class="mt-4">
-                            <label for="edit_nama_kelas" class="block text-sm font-medium text-gray-700 dark:text-white">Nama Kelas</label>
-                            <input type="text" name="nama_kelas" id="edit_nama_kelas" class="block w-full mt-1 bg-gray-50 border border-gray-300 rounded-md dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white focus:ring-primary-500 focus:border-primary-500" required>
-                        </div>
-                        <button type="submit" class="w-full px-5 py-2 mt-4 font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">Update Kelas</button>
-                    </form>
                 </div>
+            </form>
+        </div>
+    </div>
+
+    {{-- Modal Edit Kelas (Dinamis) --}}
+    <div id="edit-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+        <div class="relative w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            <div class="flex items-center justify-between p-4 md:p-5 border-b border-slate-100 bg-slate-50/50">
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900">Perbarui Nama Kelas</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Ubah nama rombongan belajar kelas yang dipilih.</p>
+                </div>
+                <button type="button" onclick="closeEditModal()"
+                    class="text-slate-400 hover:text-slate-700 rounded-lg text-xs w-8 h-8 inline-flex justify-center items-center transition-colors">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
             </div>
-    
-        </main>
-    
-        <script>
-            // Fungsi untuk membuka modal edit dan mengisi data dinamis
-            function openEditModal(id, name) {
-                // Update form action URL
-                const editForm = document.getElementById('edit-form');
-                editForm.action = `/staff_akademik/kelas/${id}`;
-        
-                // Update input values
-                document.getElementById('edit_nama_kelas').value = name;
-        
-                // Show the modal
-                const editModal = document.getElementById('edit-modal');
-                editModal.classList.remove('hidden');
-            }
-        
-            // Fungsi untuk menutup modal edit
-            function closeEditModal() {
-                const editModal = document.getElementById('edit-modal');
-                editModal.classList.add('hidden');
-            }
-        
-            // Menutup modal ketika area luar modal diklik
-            window.onclick = function(event) {
-                const editModal = document.getElementById('edit-modal');
-                if (event.target === editModal) {
-                    closeEditModal();
-                }
+            <form method="POST" id="edit-form" class="p-5 space-y-4">
+                @csrf
+                @method('PUT')
+                <div>
+                    <label for="edit_nama_kelas" class="block text-xs font-semibold text-slate-700 mb-1.5">Nama Kelas</label>
+                    <input type="text" name="nama_kelas" id="edit_nama_kelas"
+                        class="block w-full text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-3 py-2.5 focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-colors"
+                        required>
+                </div>
+                <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closeEditModal()"
+                        class="px-3.5 py-2 text-xs font-medium text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors">
+                        Batal
+                    </button>
+                    <button type="submit"
+                        class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-brand-800 hover:bg-brand-900 rounded-lg shadow-sm transition-colors">
+                        <i class="fa-solid fa-check text-[11px]"></i>
+                        <span>Simpan Perubahan</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-            function closeToast() {
-                const toast = document.getElementById("notification-container");
-                toast.style.display = 'none';
-            }
+    <script>
+        function openCreateModal() {
+            document.getElementById('crud-modal').classList.remove('hidden');
+        }
 
-            setTimeout(closeToast, 4000);
+        function closeCreateModal() {
+            document.getElementById('crud-modal').classList.add('hidden');
+        }
 
+        function openEditModal(id, name) {
+            const editForm = document.getElementById('edit-form');
+            editForm.action = `/staff_akademik/kelas/${id}`;
+            document.getElementById('edit_nama_kelas').value = name;
+            document.getElementById('edit-modal').classList.remove('hidden');
+        }
+
+        function closeEditModal() {
+            document.getElementById('edit-modal').classList.add('hidden');
+        }
+
+        window.onclick = function(event) {
+            const createModal = document.getElementById('crud-modal');
+            const editModal = document.getElementById('edit-modal');
+            if (event.target === createModal) {
+                closeCreateModal();
             }
-        </script>
-    </x-staffakademik-layout>
+            if (event.target === editModal) {
+                closeEditModal();
+            }
+        };
+    </script>
+</x-staffakademik-layout>

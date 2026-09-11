@@ -9,6 +9,7 @@ use App\Models\Siswa;
 use App\Services\Akademik\RaporService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -97,7 +98,7 @@ class RaporController extends Controller
         }
     }
 
-    public function updateNilai(): void
+    public function updateNilai(Request $request): JsonResponse|RedirectResponse
     {
         DB::table('nilai_ekstra')->delete();
         DB::table('nilai_matpel')->delete();
@@ -115,6 +116,15 @@ class RaporController extends Controller
                 $this->insertNilaiSiswa($siswa->id_siswa);
             }
         }
+
+        if ($request->wantsJson() || $request->ajax() || $request->header('X-Requested-With') === 'XMLHttpRequest') {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Nilai rapor berhasil dihitung dan disinkronkan untuk seluruh siswa!',
+            ]);
+        }
+
+        return redirect()->route('staff_akademik.rapor.index')->with('success', 'Nilai rapor berhasil dihitung dan disinkronkan!');
     }
 
     public function downloadPDF(string $id): Response

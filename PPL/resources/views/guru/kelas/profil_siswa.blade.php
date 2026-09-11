@@ -17,7 +17,7 @@
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             
             {{-- Banner Header --}}
-            <div class="h-28 bg-gradient-to-r from-brand-800 to-brand-950 relative"></div>
+            <div class="h-28 bg-[#06466C] relative"></div>
 
             {{-- Avatar & Identity --}}
             <div class="px-6 pb-6 pt-0 relative">

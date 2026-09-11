@@ -103,28 +103,28 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-medium text-slate-500 uppercase tracking-wider">Total Anggota</span>
-                    <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center text-sm">
+                    <span class="text-xs font-semibold text-slate-500">Total anggota</span>
+                    <div class="w-9 h-9 rounded-xl bg-[#06466C]/10 text-[#06466C] flex items-center justify-center text-sm">
                         <i class="fa-solid fa-users"></i>
                     </div>
                 </div>
                 <div class="mt-2">
-                    <p class="text-2xl font-bold text-slate-900" id="stat-total">{{ $totalAnggota }}</p>
+                    <p class="text-2xl font-bold font-mono text-slate-900" id="stat-total">{{ $totalAnggota }}</p>
                     <p class="text-[11px] text-slate-500 mt-0.5">Siswa terdaftar aktif</p>
                 </div>
             </div>
 
             <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-medium text-slate-500 uppercase tracking-wider">Sudah Dinilai</span>
-                    <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-sm">
+                    <span class="text-xs font-semibold text-slate-500">Sudah dinilai</span>
+                    <div class="w-9 h-9 rounded-xl bg-[#06466C]/10 text-[#06466C] flex items-center justify-center text-sm">
                         <i class="fa-solid fa-star"></i>
                     </div>
                 </div>
                 <div class="mt-2">
                     <div class="flex items-baseline gap-1.5">
-                        <p class="text-2xl font-bold text-slate-900" id="stat-dinilai">{{ $sudahDinilai }}</p>
-                        <span class="text-xs text-slate-400">/ {{ $totalAnggota }}</span>
+                        <p class="text-2xl font-bold font-mono text-slate-900" id="stat-dinilai">{{ $sudahDinilai }}</p>
+                        <span class="text-xs font-mono text-slate-400">/ {{ $totalAnggota }}</span>
                     </div>
                     <p class="text-[11px] text-emerald-600 font-semibold mt-0.5">
                         {{ $progressPersen }}% capaian penilaian
@@ -134,28 +134,28 @@
 
             <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-medium text-slate-500 uppercase tracking-wider">Belum Dinilai</span>
-                    <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center text-sm">
+                    <span class="text-xs font-semibold text-slate-500">Belum dinilai</span>
+                    <div class="w-9 h-9 rounded-xl bg-[#06466C]/10 text-[#06466C] flex items-center justify-center text-sm">
                         <i class="fa-solid fa-clock-rotate-left"></i>
                     </div>
                 </div>
                 <div class="mt-2">
-                    <p class="text-2xl font-bold text-slate-900" id="stat-belum">{{ $belumDinilai }}</p>
+                    <p class="text-2xl font-bold font-mono text-slate-900" id="stat-belum">{{ $belumDinilai }}</p>
                     <p class="text-[11px] text-slate-500 mt-0.5">Menunggu input nilai</p>
                 </div>
             </div>
 
             <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-medium text-slate-500 uppercase tracking-wider">Laporan Keaktifan</span>
-                    <div class="w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center text-sm">
+                    <span class="text-xs font-semibold text-slate-500">Laporan keaktifan</span>
+                    <div class="w-9 h-9 rounded-xl bg-[#06466C]/10 text-[#06466C] flex items-center justify-center text-sm">
                         <i class="fa-solid fa-file-signature"></i>
                     </div>
                 </div>
                 <div class="mt-2">
                     <div class="flex items-baseline gap-1.5">
-                        <p class="text-2xl font-bold text-slate-900">{{ $memilikiLaporan }}</p>
-                        <span class="text-xs text-slate-400">/ {{ $totalAnggota }}</span>
+                        <p class="text-2xl font-bold font-mono text-slate-900">{{ $memilikiLaporan }}</p>
+                        <span class="text-xs font-mono text-slate-400">/ {{ $totalAnggota }}</span>
                     </div>
                     <p class="text-[11px] text-slate-500 mt-0.5">Catatan keaktifan terisi</p>
                 </div>

@@ -11,7 +11,7 @@
                 <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Kelola Pengurus Ekstrakurikuler</h1>
             </div>
             <div class="flex items-center gap-2">
-                <a href="{{ route('data.pengurus.tambah') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-rose-700 hover:bg-rose-800 text-white text-sm font-medium shadow-sm transition-colors">
+                <a href="{{ route('data.pengurus.tambah') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#06466C] hover:bg-[#053a5a] text-white text-sm font-medium shadow-sm transition-colors">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
                     </svg>
@@ -72,7 +72,7 @@
                                 <td class="py-3.5 px-4">
                                     @forelse ($pengurus->pengurusEkstra as $pengurusEkstra)
                                         @if($pengurusEkstra->ekstrakurikuler)
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-rose-50 text-rose-700 border border-rose-200/60 mr-1 mb-1">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-[#06466C]/10 text-[#06466C] mr-1 mb-1">
                                                 {{ $pengurusEkstra->ekstrakurikuler->nama_ekstrakurikuler }}
                                             </span>
                                         @endif

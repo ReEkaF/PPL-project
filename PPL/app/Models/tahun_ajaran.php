@@ -66,21 +66,21 @@ class tahun_ajaran extends Model
 
     public function rapor()
     {
-        return $this->hasMany(Rapor::class);
+        return $this->hasMany(Rapor::class, 'tahun_ajaran_id', 'id_tahun_ajaran');
     }
 
     public function kelasmatapelajaran()
     {
-        return $this->hasMany(kelas_mata_pelajaran::class);
+        return $this->hasMany(kelas_mata_pelajaran::class, 'tahun_ajaran_id', 'id_tahun_ajaran');
     }
 
     public function penilaianekstra()
     {
-        return $this->hasMany(PenilaianEkstrakurikuler::class);
+        return $this->hasMany(PenilaianEkstrakurikuler::class, 'id_tahun_ajaran', 'id_tahun_ajaran');
     }
 
     public function kelassiswa()
     {
-        return $this->hasMany(KelasSiswa::class);
+        return $this->hasMany(KelasSiswa::class, 'tahun_ajaran', 'id_tahun_ajaran');
     }
 }

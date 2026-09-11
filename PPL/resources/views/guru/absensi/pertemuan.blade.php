@@ -83,8 +83,9 @@
                                 {{-- QR Code Preview --}}
                                 <td class="py-4 px-4 text-center">
                                     @if ($pertemuan->qr_code)
-                                        <button type="button" data-modal-target="qrModal-{{ $loop->iteration }}" data-modal-toggle="qrModal-{{ $loop->iteration }}"
-                                            class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-50 border border-slate-200 hover:bg-slate-100 text-slate-700 transition-colors text-[11px] font-medium">
+                                        <button type="button" onclick="openQrModal('{{ $loop->iteration }}', '{{ asset('storage/' . $pertemuan->qr_code) }}', '{{ \Carbon\Carbon::parse($pertemuan->tanggal_pertemuan)->translatedFormat('l, d F Y') }}')"
+                                            class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-50 border border-slate-200 hover:bg-slate-100 text-slate-700 transition-colors text-[11px] font-medium cursor-pointer"
+                                            title="Tampilkan QR Code">
                                             <i class="fa-solid fa-qrcode text-brand-700"></i>
                                             <span>Lihat QR</span>
                                         </button>
@@ -120,32 +121,6 @@
                                     </a>
                                 </td>
                             </tr>
-
-                            {{-- QR Code Modal --}}
-                            @if ($pertemuan->qr_code)
-                                <div id="qrModal-{{ $loop->iteration }}" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full bg-slate-900/60 backdrop-blur-sm">
-                                    <div class="relative w-full h-full max-w-md md:h-auto mx-auto mt-16">
-                                        <div class="relative bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
-                                            <div class="p-4 border-b border-slate-100 flex items-center justify-between">
-                                                <h3 class="text-sm font-bold text-slate-800">QR Code Pertemuan Ke-{{ $loop->iteration }}</h3>
-                                                <button type="button" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg" data-modal-hide="qrModal-{{ $loop->iteration }}">
-                                                    <i class="fa-solid fa-xmark text-sm"></i>
-                                                </button>
-                                            </div>
-                                            <div class="p-6 text-center space-y-3">
-                                                <div class="p-4 bg-white border border-slate-200 rounded-xl inline-block shadow-inner">
-                                                    <img src="{{ asset('storage/' . $pertemuan->qr_code) }}"
-                                                         alt="QR Code Pertemuan {{ $loop->iteration }}"
-                                                         class="w-64 h-64 mx-auto object-contain">
-                                                </div>
-                                                <p class="text-xs text-slate-500">
-                                                    Tampilkan QR code ini di proyektor kelas agar siswa dapat melakukan scan presensi secara mandiri.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
                         @empty
                             <tr>
                                 <td colspan="6" class="px-6 py-8 text-center text-slate-400 text-xs">
@@ -155,6 +130,39 @@
                         @endforelse
                     </tbody>
                 </table>
+            </div>
+        </div>
+
+        {{-- Modal Preview QR Code Dinamis --}}
+        <div id="qrModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+            <div class="relative w-full max-w-sm bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden text-center">
+                <div class="flex items-center justify-between p-4 border-b border-slate-100 bg-slate-50/50">
+                    <h3 class="text-xs font-bold text-slate-900" id="qrModalTitle">QR Code Presensi</h3>
+                    <button type="button" onclick="closeQrModal()"
+                        class="text-slate-400 hover:text-slate-700 rounded-lg text-xs w-8 h-8 inline-flex justify-center items-center transition-colors">
+                        <i class="fa-solid fa-xmark text-sm"></i>
+                    </button>
+                </div>
+                <div class="p-6 space-y-3">
+                    <div class="p-3 bg-white border border-slate-200 rounded-xl inline-block shadow-sm">
+                        <img id="qrModalImage" src="" alt="QR Code" class="w-56 h-56 mx-auto object-contain">
+                    </div>
+                    <p class="text-xs text-slate-600 font-medium" id="qrModalDate"></p>
+                    <p class="text-[11px] text-slate-400">
+                        Tampilkan QR code ini di layar proyektor kelas agar siswa dapat melakukan scan presensi secara mandiri.
+                    </p>
+                </div>
+                <div class="p-3 border-t border-slate-100 bg-slate-50/40 flex items-center justify-center gap-2">
+                    <a id="qrModalOpenTab" href="" target="_blank"
+                        class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-brand-800 bg-brand-50 hover:bg-brand-100 border border-brand-200 rounded-lg transition-colors">
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                        <span>Buka di Tab Baru</span>
+                    </a>
+                    <button type="button" onclick="closeQrModal()"
+                        class="px-4 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors">
+                        Tutup
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -224,5 +232,24 @@
                 });
             });
         });
+    });
+
+    function openQrModal(sesi, url, tanggal) {
+        document.getElementById('qrModalTitle').textContent = `QR Code Pertemuan Ke-${sesi}`;
+        document.getElementById('qrModalImage').src = url;
+        document.getElementById('qrModalOpenTab').href = url;
+        document.getElementById('qrModalDate').textContent = `Tanggal: ${tanggal}`;
+        document.getElementById('qrModal').classList.remove('hidden');
+    }
+
+    function closeQrModal() {
+        document.getElementById('qrModal').classList.add('hidden');
+    }
+
+    window.addEventListener('click', function(event) {
+        const modal = document.getElementById('qrModal');
+        if (event.target === modal) {
+            closeQrModal();
+        }
     });
 </script>

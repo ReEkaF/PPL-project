@@ -26,6 +26,11 @@ abstract class BaseRepository implements BaseRepositoryInterface
         return $this->model->with($relations)->paginate($perPage, $columns);
     }
 
+    public function find(string|int $id, array $columns = ['*'], array $relations = []): ?Model
+    {
+        return $this->findById($id, $columns, $relations);
+    }
+
     public function findById(string|int $id, array $columns = ['*'], array $relations = []): ?Model
     {
         return $this->model->with($relations)->find($id, $columns);

@@ -1,96 +1,93 @@
 <x-admin-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Tambah Pengurus Ekstrakurikuler') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                <nav class="text-sm text-gray-500 mb-4">
-                    <ol class="flex px-0 space-x-1">
-                        <li class="flex">
-                            <a href="{{ route('superadmin.dashboard') }}" class="text-gray-400 hover:text-gray-700">
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
-                        <div class="flex justify-center py-1">
-                            <svg class="flex w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7" />
-                            </svg>
-                        </div>
-                        <li class="flex">
-                            <a href="{{ route('superadmin.keloladatapengurus') }}" class="text-gray-400 hover:text-gray-700">
-                                <span>Kelola Data Pengurus Ekstrakurikuler</span>
-                            </a>
-                        </li>
-                        <div class="flex justify-center py-1">
-                            <svg class="flex w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7" />
-                            </svg>
-                        </div>
-                        <li class="flex">
-                            <a href="{{ route('data.pengurus.tambah') }}" class="text-black-500 hover:underline">
-                                <span><b>Tambah Pengurus Ekstrakurikuler</b></span>
-                            </a>
-                        </li>
-                    </ol>
+    <div class="space-y-6">
+        <!-- Breadcrumb & Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+                <nav class="flex items-center gap-2 text-xs text-slate-500 mb-1">
+                    <a href="{{ route('superadmin.dashboard') }}" class="hover:text-slate-900 transition-colors">Dashboard</a>
+                    <span>/</span>
+                    <a href="{{ route('superadmin.keloladatapengurus') }}" class="hover:text-slate-900 transition-colors">Pengurus Ekstrakurikuler</a>
+                    <span>/</span>
+                    <span class="text-slate-700 font-medium">Tambah Pengurus</span>
                 </nav>
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold mb-4">Pilih Siswa Untuk Menjadi Pengurus</h3>
-                    <div class="relative">
-                        <input type="text" id="search-input" placeholder="Search..." 
-                               class="border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-64">
-                        <svg class="absolute top-2.5 right-3 w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 10-14 0 7 7 0 0014 0z" />
-                        </svg>
-                    </div>
+                <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Pilih Siswa Sebagai Pengurus Ekstrakurikuler</h1>
+                <p class="text-sm text-slate-500 mt-1">Pilih siswa dari daftar berikut dan tentukan ekstrakurikuler serta status perannya</p>
+            </div>
+            <div>
+                <a href="{{ route('superadmin.keloladatapengurus') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 text-sm font-medium transition-colors">
+                    Kembali
+                </a>
+            </div>
+        </div>
+
+        <!-- Card Container -->
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="text-sm text-slate-500">
+                    Daftar Siswa Tersedia
                 </div>
-                <table class="min-w-full bg-white border border-gray-200 rounded-lg" id="search-table">
-                    <thead>
-                        <tr class="bg-gray-200 text-gray-600 text-sm leading-normal">
-                            <th class="py-3 px-4 text-left">Foto</th>
-                            <th class="py-3 px-4 text-left">Nama Siswa</th>
-                            <th class="py-3 px-4 text-left">NISN</th>
-                            <th class="py-3 px-4 text-left">Alamat</th>
-                            <th class="py-3 px-4 text-left">No. WA</th>
-                            <th class="py-3 px-4 text-left">E-Mail</th>
-                            <th class="py-3 px-4 text-left">Ekstrakurikuler</th>
-                            <th class="py-3 px-4 text-left">Role</th>
-                            <th class="py-3 px-4 text-left">Aksi</th>
+                <div class="relative w-full sm:w-64">
+                    <input type="text" id="search-input" placeholder="Cari nama atau NISN..."
+                        class="w-full text-xs rounded-lg border border-slate-300 pl-8 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors">
+                    <svg class="absolute left-2.5 top-2.5 w-3.5 h-3.5 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 10-14 0 7 7 0 0014 0z" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Table Responsive Wrapper -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm text-slate-600" id="search-table">
+                    <thead class="bg-slate-50/80 text-xs font-semibold uppercase tracking-wider text-slate-500 border-b border-slate-200/80">
+                        <tr>
+                            <th class="py-3.5 px-4 sm:px-6">Profil Siswa</th>
+                            <th class="py-3.5 px-4">NISN</th>
+                            <th class="py-3.5 px-4 hidden md:table-cell">Kontak & Email</th>
+                            <th class="py-3.5 px-4">Ekstrakurikuler & Role</th>
+                            <th class="py-3.5 px-4 sm:px-6 text-right">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="text-gray-600 text-sm font-light" id="table-body">
+                    <tbody class="divide-y divide-slate-100" id="table-body">
                         @foreach ($siswa as $sis)
-                            <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                <td class="py-3 px-4 text-left">
-                                    <img src="{{ asset('images/siswa/' . $sis->foto_siswa) }}" alt="Foto" class="w-10 h-10 rounded-full">
+                            <tr class="hover:bg-slate-50/60 transition-colors">
+                                <td class="py-3.5 px-4 sm:px-6">
+                                    <div class="flex items-center gap-3">
+                                        <img src="{{ $sis->foto_siswa ? asset('images/siswa/' . $sis->foto_siswa) : 'https://ui-avatars.com/api/?name='.urlencode($sis->nama_siswa).'&background=06466C&color=ffffff' }}"
+                                            alt="{{ $sis->nama_siswa }}"
+                                            class="w-10 h-10 rounded-full object-cover border border-slate-200 flex-shrink-0">
+                                        <div>
+                                            <div class="font-semibold text-slate-900">{{ $sis->nama_siswa }}</div>
+                                            <div class="text-xs text-slate-400 font-mono sm:hidden">NISN: {{ $sis->nisn }}</div>
+                                        </div>
+                                    </div>
                                 </td>
-                                <td class="py-3 px-4">{{ $sis->nama_siswa }}</td>
-                                <td class="py-3 px-4">{{ $sis->nisn }}</td>
-                                <td class="py-3 px-4">{{ $sis->alamat }}</td>
-                                <td class="py-3 px-4">{{ $sis->nomor_wa_siswa }}</td>
-                                <td class="py-3 px-4">{{ $sis->email }}</td>
-                                <td class="py-3 px-4">
-                                    <form action="{{ route('pengurus.store', $sis->id_siswa) }}" method="POST">
+                                <td class="py-3.5 px-4 font-mono text-xs text-slate-700">
+                                    {{ $sis->nisn }}
+                                </td>
+                                <td class="py-3.5 px-4 hidden md:table-cell text-xs">
+                                    <div class="text-slate-700">{{ $sis->email }}</div>
+                                    <div class="text-slate-400 font-mono mt-0.5">{{ $sis->nomor_wa_siswa ?: '-' }}</div>
+                                </td>
+                                <td class="py-3.5 px-4">
+                                    <form id="form-pengurus-{{ $sis->id_siswa }}" action="{{ route('pengurus.store', $sis->id_siswa) }}" method="POST" class="flex flex-col sm:flex-row items-center gap-2">
                                         @csrf
-                                        <select name="ekstrakurikuler" class="border border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500" required>
+                                        <select name="ekstrakurikuler" class="text-xs rounded-lg border border-slate-300 px-2.5 py-1.5 bg-white focus:outline-none focus:ring-1 focus:ring-[#06466C] focus:border-[#06466C] transition-colors" required>
                                             @foreach($ekstrakurikuler as $ekstrakurikulerItem)
                                                 <option value="{{ $ekstrakurikulerItem->id_ekstrakurikuler }}">{{ $ekstrakurikulerItem->nama_ekstrakurikuler }}</option>
                                             @endforeach
                                         </select>
-                                </td>
-                                <td class="py-3 px-4">
-                                        <select id="role_siswa" name="role_siswa" class="w-full border border-black rounded-md p-2.5 focus:outline-none focus:border-blue-500" required>
-                                            <option value="siswa" {{ old('role_siswa', $sis->role_siswa) == 'siswa' ? 'selected' : '' }}>Siswa</option>
+                                        <select id="role_siswa" name="role_siswa" class="text-xs rounded-lg border border-slate-300 px-2.5 py-1.5 bg-white focus:outline-none focus:ring-1 focus:ring-[#06466C] focus:border-[#06466C] transition-colors" required>
                                             <option value="pengurus" {{ old('role_siswa', $sis->role_siswa) == 'pengurus' ? 'selected' : '' }}>Pengurus</option>
+                                            <option value="siswa" {{ old('role_siswa', $sis->role_siswa) == 'siswa' ? 'selected' : '' }}>Siswa</option>
                                         </select>
-                                </td>
-                                <td class="py-3 px-4 flex space-x-2">
-                                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Tambah</button>
                                     </form>
-                                </td>                                                                                         
+                                </td>
+                                <td class="py-3.5 px-4 sm:px-6 text-right">
+                                    <button type="submit" form="form-pengurus-{{ $sis->id_siswa }}"
+                                        class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#06466C] hover:bg-[#053a5a] text-white shadow-sm transition-colors">
+                                        Tetapkan
+                                    </button>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

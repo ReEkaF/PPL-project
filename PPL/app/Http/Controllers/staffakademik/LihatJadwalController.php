@@ -28,10 +28,10 @@ class LihatJadwalController extends Controller
 
     public function guru_index(Request $request): View
     {
-        $guruList = Guru::all();
+        $guruList = Guru::orderBy('nama_guru')->get();
         $guruId = $request->input('guru_id');
 
-        $data = $guruId ? $this->jadwalService->getJadwalForGuru($guruId) : collect();
+        $data = $this->jadwalService->getJadwalForGuru($guruId ?: null);
 
         return view('staff_akademik.jadwalLihat.jadwal-guru', [
             'guru' => $guruList,

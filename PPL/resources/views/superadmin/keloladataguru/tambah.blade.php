@@ -1,149 +1,137 @@
 <x-admin-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Tambah Data Guru') }}
-        </h2>
-    </x-slot>
+    <div class="p-6 max-w-4xl mx-auto">
+        <!-- Breadcrumbs & Header -->
+        <div class="mb-6">
+            <nav class="flex items-center gap-2 text-xs text-slate-500 mb-2">
+                <a href="{{ route('superadmin.dashboard') }}" class="hover:text-slate-900 transition-colors">Dashboard</a>
+                <span>/</span>
+                <a href="{{ route('superadmin.keloladataguru') }}" class="hover:text-slate-900 transition-colors">Kelola Data Guru</a>
+                <span>/</span>
+                <span class="text-slate-700 font-medium">Tambah Data</span>
+            </nav>
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">Tambah Data Guru Baru</h1>
+            <p class="text-sm text-slate-500 mt-1">Lengkapi formulir untuk menambahkan akun dan data tenaga pendidik</p>
+        </div>
 
-    <div class="flex items-center justify-center min-h-screen bg-gray-50 py-8">
-        <div class="max-w-6xl w-full p-8 bg-white rounded-lg shadow-md border-2 border-black">
-            <nav class="text-sm text-gray-500 mb-4">
-                <ol class="flex px-0 space-x-1">
-                    <li class="flex">
-                        <a href="{{ route('superadmin.dashboard') }}" class="text-gray-400 hover:text-gray-700">
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <div class="flex justify-center py-1">
-                        <svg class="flex w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
-                        </svg>
-                    </div>
-                    <li class="flex">
-                        <a href="{{ route('superadmin.keloladataguru') }}" class="text-gray-400 hover:text-gray-700">
-                            <span>Kelola Data Guru</span>
-                        </a>
-                    </li>
-                    <div class="flex justify-center py-1">
-                        <svg class="flex w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
-                        </svg>
-                    </div>
-                    <li class="flex">
-                        <a href="#" class="text-gray-400 hover:text-gray-700">
-                            <span>Tambah Data Guru</span>
-                        </a>
-                    </li>
-                </ol>
-            </nav>  
-
-            <h2 class="text-lg font-semibold text-gray-800">Tambah Data Guru</h2>
-            <p class="text-sm text-gray-600 mb-6">Ini adalah halaman untuk menambah data guru</p>
-
-            <form action="{{ route('guru.store') }}" method="POST" enctype="multipart/form-data">
+        <!-- Form Card -->
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 sm:p-8">
+            <form action="{{ route('guru.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                 @csrf
 
-                <!-- Username -->
-                <div class="mb-4">
-                    <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username :</label>
-                    <input type="text" name="username" id="username" class="w-full border border-black rounded-md p-2.5 focus:outline-none focus:border-blue-500" value="{{ old('username') }}" >
-                    @error('username')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- Password -->
-                <div class="mb-4">
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password :</label>
-                    <input type="password" name="password" id="password" class="w-full border border-black rounded-md p-2.5 focus:outline-none focus:border-blue-500" >
-                    @error('password')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- Nama Guru -->
-                <div class="mb-4">
-                    <label for="nama_guru" class="block text-sm font-medium text-gray-700 mb-1">Nama :</label>
-                    <input type="text" name="nama_guru" id="nama_guru" class="w-full border border-black rounded-md p-2.5 focus:outline-none focus:border-blue-500" value="{{ old('nama_guru') }}" >
-                    @error('nama_guru')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- NIP -->
-                <div class="mb-4">
-                    <label for="nip" class="block text-sm font-medium text-gray-700 mb-1">NIP :</label>
-                    <input type="text" name="nip" id="nip" class="w-full border border-black rounded-md p-2.5 focus:outline-none focus:border-blue-500" value="{{ old('nip') }}" >
-                    @error('nip')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- Alamat -->
-                <div class="mb-4">
-                    <label for="alamat_guru" class="block text-sm font-medium text-gray-700 mb-1">Alamat :</label>
-                    <input type="text" name="alamat_guru" id="alamat_guru" class="w-full border border-black rounded-md p-2.5 focus:outline-none focus:border-blue-500" value="{{ old('alamat_guru') }}" >
-                    @error('alamat_guru')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- Role Guru -->
-                <div class="mb-4">
-                    <label for="role_guru" class="block text-sm font-medium text-gray-700 mb-1">Role Guru :</label>
-                    <select name="role_guru" id="role_guru" class="w-full border border-black rounded-md p-2.5 focus:outline-none focus:border-blue-500" >
-                        <option value="">Pilih Role</option>
-                        <option value="guru">Guru</option>
-                        <option value="pembina">Pembina</option>
-                        <option value="wali_kelas">Wali Kelas</option>
-                    </select>
-                    @error('role_guru')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- Foto Guru Upload -->
-                <div class="mb-4">
-                    <label for="foto_guru" class="block text-sm font-medium text-gray-700 mb-1">Foto :</label>
-                    <div class="flex flex-col items-center justify-center w-full h-32 border-2 border-black rounded-md cursor-pointer bg-gray-50 relative" onclick="document.getElementById('foto_guru').click()">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16v4h10v-4M5 12l7-7 7 7M12 5v13" />
-                        </svg>
-                        <div class="text-center text-sm">
-                            <span class="text-blue-500">Click to Upload</span>
-                            <span class="text-gray-500">or drag and drop</span>
-                            <br>
-                            <span class="text-gray-500">(Max. file size: 25 MB)</span>
-                        </div>
-                        <input type="file" name="foto_guru" id="foto_guru" class="hidden" >
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <!-- Username -->
+                    <div>
+                        <label for="username" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Username <span class="text-rose-500">*</span></label>
+                        <input type="text" name="username" id="username"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            value="{{ old('username') }}" placeholder="Username akun guru" required>
+                        @error('username')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
                     </div>
-                    @error('foto_guru')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
+
+                    <!-- Password -->
+                    <div>
+                        <label for="password" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Password <span class="text-rose-500">*</span></label>
+                        <input type="password" name="password" id="password"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            placeholder="Minimal 6 karakter" required>
+                        @error('password')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Nama Guru -->
+                    <div>
+                        <label for="nama_guru" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Nama Lengkap <span class="text-rose-500">*</span></label>
+                        <input type="text" name="nama_guru" id="nama_guru"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            value="{{ old('nama_guru') }}" placeholder="Nama beserta gelar" required>
+                        @error('nama_guru')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- NIP -->
+                    <div>
+                        <label for="nip" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">NIP <span class="text-rose-500">*</span></label>
+                        <input type="text" name="nip" id="nip"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 font-mono focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            value="{{ old('nip') }}" placeholder="18 digit NIP" required>
+                        @error('nip')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Role Guru -->
+                    <div>
+                        <label for="role_guru" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Peran Guru <span class="text-rose-500">*</span></label>
+                        <select name="role_guru" id="role_guru"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors" required>
+                            <option value="">Pilih Role</option>
+                            <option value="guru" {{ old('role_guru') == 'guru' ? 'selected' : '' }}>Guru Pengajar</option>
+                            <option value="pembina" {{ old('role_guru') == 'pembina' ? 'selected' : '' }}>Pembina Ekstrakurikuler</option>
+                            <option value="wali_kelas" {{ old('role_guru') == 'wali_kelas' ? 'selected' : '' }}>Wali Kelas</option>
+                        </select>
+                        @error('role_guru')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Alamat Email <span class="text-rose-500">*</span></label>
+                        <input type="email" name="email" id="email"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            value="{{ old('email') }}" placeholder="email@sekolah.sch.id" required>
+                        @error('email')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- No. WA -->
+                    <div>
+                        <label for="nomor_wa_guru" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">No. WhatsApp</label>
+                        <input type="text" name="nomor_wa_guru" id="nomor_wa_guru"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 font-mono focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            value="{{ old('nomor_wa_guru') }}" placeholder="08xxxxxxxxxx">
+                        @error('nomor_wa_guru')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Foto Guru Upload -->
+                    <div>
+                        <label for="foto_guru" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Foto Profil</label>
+                        <input type="file" name="foto_guru" id="foto_guru"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3 py-2 file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-[#06466C]/10 file:text-[#06466C] hover:file:bg-[#06466C]/20 cursor-pointer focus:outline-none"
+                            accept="image/*">
+                        @error('foto_guru')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Alamat -->
+                    <div class="sm:col-span-2">
+                        <label for="alamat_guru" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Alamat Lengkap</label>
+                        <textarea name="alamat_guru" id="alamat_guru" rows="3"
+                            class="w-full text-sm rounded-lg border border-slate-300 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#06466C]/20 focus:border-[#06466C] transition-colors"
+                            placeholder="Alamat domisili guru">{{ old('alamat_guru') }}</textarea>
+                        @error('alamat_guru')
+                            <p class="text-rose-500 text-xs mt-1.5">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
 
-                <!-- No. WA -->
-                <div class="mb-4">
-                    <label for="nomor_wa_guru" class="block text-sm font-medium text-gray-700 mb-1">No. WA :</label>
-                    <input type="text" name="nomor_wa_guru" id="nomor_wa_guru" class="w-full border border-black rounded-md p-2.5 focus:outline-none focus:border-blue-500" value="{{ old('nomor_wa_guru') }}" >
-                    @error('nomor_wa_guru')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- E-Mail -->
-                <div class="mb-4">
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email :</label>
-                    <input type="email" name="email" id="email" class="w-full border border-black rounded-md p-2.5 focus:outline-none focus:border-blue-500" value="{{ old('email') }}" >
-                    @error('email')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- Submit -->
-                <div class="flex justify-center">
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-full mt-4">
-                        Tambahkan Data
+                <!-- Submit & Cancel Buttons -->
+                <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+                    <a href="{{ route('superadmin.keloladataguru') }}"
+                        class="px-4 py-2.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-lg transition-colors">
+                        Batal
+                    </a>
+                    <button type="submit"
+                        class="px-5 py-2.5 text-sm font-semibold text-white bg-[#06466C] hover:bg-[#053a5a] rounded-lg shadow-sm transition-colors">
+                        Simpan Data Guru
                     </button>
                 </div>
             </form>

@@ -13,7 +13,7 @@
 
             {{-- Timer Box --}}
             <div class="flex items-center gap-2.5 px-3.5 py-1.5 bg-slate-800 border border-slate-700 rounded-xl shrink-0">
-                <svg class="w-4 h-4 text-amber-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
                 <div class="text-right">
@@ -87,7 +87,7 @@
                 </div>
 
                 <button type="submit" onclick="return confirm('Apakah kamu yakin ingin mengumpulkan ujian ini sekarang?')"
-                    class="px-6 py-2.5 bg-brand-800 hover:bg-brand-900 text-white text-sm font-semibold rounded-xl transition shadow-sm shrink-0">
+                    class="px-6 py-2.5 bg-[#06466C] hover:bg-[#053a5a] text-white text-sm font-semibold rounded-xl transition shadow-sm shrink-0">
                     Kumpulkan Jawaban
                 </button>
             </div>

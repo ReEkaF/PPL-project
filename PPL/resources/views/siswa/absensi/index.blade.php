@@ -35,15 +35,15 @@
             {{-- Card 1: Persentase Kehadiran --}}
             <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-sm">
                 <div class="flex items-center justify-between gap-2 mb-3">
-                    <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Tingkat Kehadiran</span>
-                    <div class="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                    <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Tingkat kehadiran</span>
+                    <div class="w-9 h-9 rounded-xl bg-[#06466C]/10 text-[#06466C] dark:bg-[#06466C]/30 dark:text-sky-300 flex items-center justify-center">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
-                    <span class="text-3xl font-extrabold text-slate-900 dark:text-white">{{ $overallStats->persentase }}%</span>
+                    <span class="text-3xl font-extrabold font-mono text-slate-900 dark:text-white">{{ $overallStats->persentase }}%</span>
                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium {{ $overallStats->persentase >= 80 ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-300' : ($overallStats->persentase >= 75 ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-300' : 'bg-rose-100 text-rose-800 dark:bg-rose-900/60 dark:text-rose-300') }}">
                         {{ $overallStats->status_label }}
                     </span>
@@ -56,15 +56,15 @@
             {{-- Card 2: Total Hadir --}}
             <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-sm">
                 <div class="flex items-center justify-between gap-2 mb-3">
-                    <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Hadir</span>
-                    <div class="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+                    <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Hadir</span>
+                    <div class="w-9 h-9 rounded-xl bg-[#06466C]/10 text-[#06466C] dark:bg-[#06466C]/30 dark:text-sky-300 flex items-center justify-center">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                         </svg>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
-                    <span class="text-3xl font-extrabold text-slate-900 dark:text-white">{{ $overallStats->hadir }}</span>
+                    <span class="text-3xl font-extrabold font-mono text-slate-900 dark:text-white">{{ $overallStats->hadir }}</span>
                     <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">dari {{ $overallStats->total }} sesi</span>
                 </div>
                 <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">
@@ -75,24 +75,24 @@
             {{-- Card 3: Izin & Sakit --}}
             <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-sm">
                 <div class="flex items-center justify-between gap-2 mb-3">
-                    <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Izin & Sakit</span>
-                    <div class="w-9 h-9 rounded-xl bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                    <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Izin & sakit</span>
+                    <div class="w-9 h-9 rounded-xl bg-[#06466C]/10 text-[#06466C] dark:bg-[#06466C]/30 dark:text-sky-300 flex items-center justify-center">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
-                    <span class="text-3xl font-extrabold text-slate-900 dark:text-white">{{ $overallStats->izin + $overallStats->sakit }}</span>
+                    <span class="text-3xl font-extrabold font-mono text-slate-900 dark:text-white">{{ $overallStats->izin + $overallStats->sakit }}</span>
                     <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">sesi berhalangan</span>
                 </div>
                 <div class="flex items-center gap-2 mt-2 text-xs text-slate-500 dark:text-slate-400">
-                    <span class="inline-flex items-center gap-1 text-purple-600 dark:text-purple-400 font-medium">
-                        <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>{{ $overallStats->izin }} Izin
+                    <span class="inline-flex items-center gap-1 text-slate-600 dark:text-slate-300 font-medium">
+                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>{{ $overallStats->izin }} Izin
                     </span>
                     <span>•</span>
-                    <span class="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400 font-medium">
-                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>{{ $overallStats->sakit }} Sakit
+                    <span class="inline-flex items-center gap-1 text-slate-600 dark:text-slate-300 font-medium">
+                        <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>{{ $overallStats->sakit }} Sakit
                     </span>
                 </div>
             </div>
@@ -100,15 +100,15 @@
             {{-- Card 4: Alpa / Tanpa Keterangan --}}
             <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-sm">
                 <div class="flex items-center justify-between gap-2 mb-3">
-                    <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Tanpa Keterangan</span>
-                    <div class="w-9 h-9 rounded-xl bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+                    <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Tanpa keterangan</span>
+                    <div class="w-9 h-9 rounded-xl bg-[#06466C]/10 text-[#06466C] dark:bg-[#06466C]/30 dark:text-sky-300 flex items-center justify-center">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                         </svg>
                     </div>
                 </div>
                 <div class="flex items-baseline gap-2">
-                    <span class="text-3xl font-extrabold {{ $overallStats->alpa > 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-white' }}">
+                    <span class="text-3xl font-extrabold font-mono {{ $overallStats->alpa > 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-white' }}">
                         {{ $overallStats->alpa }}
                     </span>
                     <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">sesi alpa</span>
@@ -121,23 +121,20 @@
 
         {{-- Active Session Alert Banner (if any) --}}
         @if ($overallStats->active_count > 0)
-            <div class="bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-emerald-500/5 border border-emerald-300 dark:border-emerald-700/60 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+            <div class="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
                 <div class="flex items-center gap-3">
-                    <span class="relative flex h-3.5 w-3.5 shrink-0">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500"></span>
-                    </span>
+                    <span class="w-3 h-3 rounded-full bg-emerald-500 shrink-0"></span>
                     <div>
-                        <p class="text-sm font-bold text-slate-800 dark:text-slate-100">
+                        <p class="text-sm font-bold text-emerald-900 dark:text-emerald-200">
                             Ada {{ $overallStats->active_count }} Mata Pelajaran dengan Sesi Presensi Aktif!
                         </p>
-                        <p class="text-xs text-slate-600 dark:text-slate-300">
+                        <p class="text-xs text-emerald-700 dark:text-emerald-300">
                             Sesi absensi dibuka oleh guru pengajar. Buka kartu mapel di bawah untuk melakukan absensi kehadiran.
                         </p>
                     </div>
                 </div>
                 <div class="shrink-0">
-                    <span class="inline-flex items-center gap-1 px-3 py-1 bg-emerald-500 text-white rounded-lg text-xs font-semibold shadow-sm">
+                    <span class="inline-flex items-center gap-1 px-3 py-1 bg-emerald-600 text-white rounded-lg text-xs font-semibold shadow-sm">
                         Sesi Aktif
                     </span>
                 </div>

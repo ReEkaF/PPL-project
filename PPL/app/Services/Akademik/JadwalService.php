@@ -148,7 +148,9 @@ class JadwalService
         [$waktuMulai, $waktuSelesai] = explode('-', $data['jam_pelajaran']);
         $kelasId = $data['kelas_id'];
         $hariId = $data['hari_id'];
-        $guruId = explode('_', $data['guruid_matpelid'])[0];
+        $parts = explode('_', $data['guruid_matpelid']);
+        $guruId = $parts[0];
+        $matpelId = $parts[1] ?? null;
 
         $tahunAjaranId = DB::table('tahun_ajaran')->where('aktif', 1)->value('id_tahun_ajaran');
         if (! $tahunAjaranId) {
@@ -185,13 +187,18 @@ class JadwalService
             throw new Exception("Guru {$namaGuru} sudah memiliki jadwal mengajar pada hari {$namaHari} pukul {$waktuMulai}-{$waktuSelesai}.");
         }
 
-        $this->jadwalRepo->updateJadwal($id, [
+        $updateData = [
             'kelas_id' => $kelasId,
             'hari_id' => $hariId,
             'waktu_mulai' => $waktuMulai,
             'waktu_selesai' => $waktuSelesai,
             'guru_id' => $guruId,
-        ]);
+        ];
+        if ($matpelId) {
+            $updateData['mata_pelajaran_id'] = $matpelId;
+        }
+
+        $this->jadwalRepo->updateJadwal($id, $updateData);
     }
 
     public function deleteJadwal(string $id): void
@@ -202,7 +209,7 @@ class JadwalService
         }
     }
 
-    public function getJadwalForGuru(string $guruId): Collection
+    public function getJadwalForGuru(?string $guruId = null): Collection
     {
         return $this->jadwalRepo->getJadwalForGuru($guruId);
     }

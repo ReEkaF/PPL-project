@@ -11,7 +11,7 @@
                 <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Direktori Peserta Didik</h1>
             </div>
             <div class="flex items-center gap-2">
-                <a href="{{ route('data.siswa.tambah') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-sm font-medium shadow-sm transition-colors">
+                <a href="{{ route('data.siswa.tambah') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#06466C] hover:bg-[#053a5a] text-white text-sm font-medium shadow-sm transition-colors">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
                     </svg>
@@ -47,7 +47,7 @@
                             </svg>
                         </span>
                         <input type="text" name="search" placeholder="Cari NISN siswa..." value="{{ request('search') }}"
-                            class="w-full pl-9 pr-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none transition-colors">
+                            class="w-full pl-9 pr-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#06466C] focus:ring-1 focus:ring-[#06466C]/20 focus:outline-none transition-colors">
                     </div>
                     <button type="submit" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg transition-colors flex-shrink-0">
                         Cari
@@ -89,15 +89,9 @@
                                     {{ $siswa->nisn }}
                                 </td>
                                 <td class="py-3.5 px-4">
-                                    @if(strtolower($siswa->jenis_kelamin_siswa) === 'laki-laki' || strtolower($siswa->jenis_kelamin_siswa) === 'l')
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200/60">
-                                            Laki-laki
-                                        </span>
-                                    @else
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-pink-50 text-pink-700 border border-pink-200/60">
-                                            Perempuan
-                                        </span>
-                                    @endif
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-700">
+                                        {{ strtolower($siswa->jenis_kelamin_siswa) === 'laki-laki' || strtolower($siswa->jenis_kelamin_siswa) === 'l' ? 'Laki-laki' : 'Perempuan' }}
+                                    </span>
                                 </td>
                                 <td class="py-3.5 px-4 hidden md:table-cell text-xs">
                                     <div class="text-slate-700">{{ $siswa->email }}</div>

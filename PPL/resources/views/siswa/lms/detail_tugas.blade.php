@@ -52,7 +52,7 @@
         @endif
 
         {{-- Hero Header Card --}}
-        <div class="relative bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 overflow-hidden bg-gradient-to-br from-white via-white to-slate-50/50">
+        <div class="relative bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 overflow-hidden">
 
             {{-- Metadata Badges Row --}}
             <div class="flex flex-wrap items-center gap-2 mb-4">

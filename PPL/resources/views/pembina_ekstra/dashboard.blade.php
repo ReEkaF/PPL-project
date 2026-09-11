@@ -14,7 +14,7 @@
                         </li>
                         <li class="flex items-center text-slate-400">
                             <i class="fa-solid fa-chevron-right text-[10px] mx-1"></i>
-                            <span class="text-slate-800 font-semibold">Ekstrakurikuler</span>
+                            <span class="text-slate-800 font-medium">Ekstrakurikuler</span>
                         </li>
                     </ol>
                 </nav>
@@ -26,37 +26,34 @@
         </div>
 
         @if ($ekstra)
-            {{-- Hero Banner Ekstrakurikuler --}}
-            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-700 via-amber-800 to-amber-950 p-6 md:p-8 text-white shadow-md">
-                <div class="absolute -right-10 -top-10 h-64 w-64 rounded-full bg-white/5 blur-2xl pointer-events-none"></div>
-                <div class="absolute right-32 -bottom-10 h-48 w-48 rounded-full bg-amber-500/10 blur-xl pointer-events-none"></div>
-
-                <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            {{-- Flat Light Panel Ekstrakurikuler --}}
+            <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                     <div class="space-y-2">
                         <div class="flex flex-wrap items-center gap-2">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/15 text-white backdrop-blur-sm">
-                                <i class="fa-solid fa-award text-amber-300"></i>
-                                Ekstrakurikuler Binaan
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-brand-50 text-brand-800 border border-brand-200/60">
+                                <i class="fa-solid fa-award text-brand-700"></i>
+                                Ekstrakurikuler binaan
                             </span>
-                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider {{ $ekstra->status === 'buka' ? 'bg-emerald-500/30 text-emerald-200 border border-emerald-400/30' : 'bg-slate-500/30 text-slate-200 border border-slate-400/30' }}">
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium {{ $ekstra->status === 'buka' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-600 border border-slate-200' }}">
                                 <i class="fa-solid fa-circle text-[6px]"></i>
-                                Status Pendaftaran: {{ $ekstra->status ?? 'Tutup' }}
+                                Pendaftaran: {{ $ekstra->status === 'buka' ? 'Dibuka' : 'Ditutup' }}
                             </span>
                         </div>
-                        <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">
+                        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
                             {{ $ekstra->nama_ekstrakurikuler }}
                         </h2>
-                        <p class="text-xs md:text-sm text-amber-100/90 max-w-2xl leading-relaxed">
+                        <p class="text-xs md:text-sm text-slate-500 max-w-2xl leading-relaxed">
                             {{ $ekstra->deskripsi ?: 'Bimbing dan pantau perkembangan minat & bakat siswa pada kegiatan ekstrakurikuler resmi SMPN 2 Kamal.' }}
                         </p>
                     </div>
 
-                    <div class="shrink-0 bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/15 text-left sm:text-right min-w-[200px] space-y-1">
-                        <p class="text-[11px] uppercase tracking-wider text-amber-200 font-medium">Guru Pembina</p>
-                        <p class="text-sm md:text-base font-bold text-white">{{ $guru->nama_guru }}</p>
-                        <p class="text-xs text-amber-200/80 pt-1 flex items-center sm:justify-end gap-1.5">
+                    <div class="shrink-0 bg-slate-50 rounded-lg p-4 border border-slate-200 text-left sm:text-right min-w-[210px] space-y-1">
+                        <p class="text-[11px] text-slate-500 font-medium">Guru pembina</p>
+                        <p class="text-sm font-bold text-slate-900">{{ $guru->nama_guru }}</p>
+                        <p class="text-xs text-slate-500 pt-1 flex items-center sm:justify-end gap-1.5">
                             <i class="fa-regular fa-calendar-check text-[11px]"></i>
-                            Tahun Ajaran: {{ $tahunAjaranAktif ? $tahunAjaranAktif->tahun_mulai . '/' . $tahunAjaranAktif->tahun_selesai : '2024/2025' }}
+                            Tahun ajaran: {{ $tahunAjaranAktif ? $tahunAjaranAktif->tahun_mulai . '/' . $tahunAjaranAktif->tahun_selesai : '2024/2025' }}
                         </p>
                     </div>
                 </div>
@@ -65,15 +62,15 @@
             {{-- 3 KPI Metrics Summary Cards --}}
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {{-- Total Anggota --}}
-                <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
                     <div class="flex items-center justify-between">
-                        <span class="text-xs font-medium text-slate-500 uppercase tracking-wider">Anggota Terdaftar</span>
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center">
-                            <i class="fa-solid fa-users text-base"></i>
+                        <span class="text-xs font-medium text-slate-500">Anggota terdaftar</span>
+                        <div class="w-9 h-9 rounded-lg bg-brand-50 text-brand-800 border border-brand-100/50 flex items-center justify-center text-sm">
+                            <i class="fa-solid fa-users"></i>
                         </div>
                     </div>
                     <div class="mt-3">
-                        <p class="text-2xl md:text-3xl font-bold text-slate-900">{{ $totalAnggota }}</p>
+                        <p class="text-2xl font-bold text-slate-900 font-mono">{{ $totalAnggota }}</p>
                         <p class="text-xs text-slate-500 mt-1">
                             Siswa aktif dengan status pendaftaran diterima
                         </p>
@@ -81,17 +78,17 @@
                 </div>
 
                 {{-- Anggota Dinilai --}}
-                <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
                     <div class="flex items-center justify-between">
-                        <span class="text-xs font-medium text-slate-500 uppercase tracking-wider">Nilai Rapor</span>
-                        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center">
-                            <i class="fa-solid fa-star text-base"></i>
+                        <span class="text-xs font-medium text-slate-500">Nilai rapor terisi</span>
+                        <div class="w-9 h-9 rounded-lg bg-brand-50 text-brand-800 border border-brand-100/50 flex items-center justify-center text-sm">
+                            <i class="fa-solid fa-star"></i>
                         </div>
                     </div>
                     <div class="mt-3">
                         <div class="flex items-baseline gap-2">
-                            <p class="text-2xl md:text-3xl font-bold text-slate-900">{{ $totalDinilai }}</p>
-                            <span class="text-xs text-slate-400">/ {{ $totalAnggota }} anggota</span>
+                            <p class="text-2xl font-bold text-slate-900 font-mono">{{ $totalDinilai }}</p>
+                            <span class="text-xs text-slate-400 font-mono">/ {{ $totalAnggota }} anggota</span>
                         </div>
                         <p class="text-xs text-slate-500 mt-1">
                             Predikat nilai ekstrakurikuler yang tersimpan
@@ -100,15 +97,15 @@
                 </div>
 
                 {{-- Total Inventaris --}}
-                <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
                     <div class="flex items-center justify-between">
-                        <span class="text-xs font-medium text-slate-500 uppercase tracking-wider">Perlengkapan Ekstra</span>
-                        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
-                            <i class="fa-solid fa-boxes-stacked text-base"></i>
+                        <span class="text-xs font-medium text-slate-500">Perlengkapan ekstra</span>
+                        <div class="w-9 h-9 rounded-lg bg-brand-50 text-brand-800 border border-brand-100/50 flex items-center justify-center text-sm">
+                            <i class="fa-solid fa-boxes-stacked"></i>
                         </div>
                     </div>
                     <div class="mt-3">
-                        <p class="text-2xl md:text-3xl font-bold text-slate-900">{{ $totalInventaris }}</p>
+                        <p class="text-2xl font-bold text-slate-900 font-mono">{{ $totalInventaris }}</p>
                         <p class="text-xs text-slate-500 mt-1">
                             Jenis barang sarana & inventaris terdaftar
                         </p>
@@ -118,92 +115,90 @@
 
             {{-- 3 Kartu Menu Fitur Ekstrakurikuler --}}
             <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h2 class="text-base font-bold text-slate-900">Menu & Fitur Pembina</h2>
-                        <p class="text-xs text-slate-500">Pilih modul tugas pembina yang ingin diakses</p>
-                    </div>
+                <div>
+                    <h2 class="text-sm font-bold text-slate-900">Menu & Fitur Pembina</h2>
+                    <p class="text-xs text-slate-500">Akses modul evaluasi penilaian nilai, anggota, dan perlengkapan sarana</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                    {{-- Card 1: Penilaian Nilai --}}
-                    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md hover:border-amber-300 transition-all flex flex-col justify-between space-y-5 group">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {{-- Card 1: Penilaian Nilai (Primary) --}}
+                    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between space-y-4">
                         <div class="space-y-3">
-                            <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                            <div class="w-10 h-10 rounded-lg bg-brand-50 text-brand-800 border border-brand-100/50 flex items-center justify-center text-base">
                                 <i class="fa-solid fa-star"></i>
                             </div>
                             <div>
-                                <h3 class="font-bold text-slate-900 text-base group-hover:text-amber-800 transition-colors">
+                                <h3 class="font-semibold text-slate-900 text-sm">
                                     Penilaian Nilai Ekstrakurikuler
                                 </h3>
-                                <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
                                     Periksa laporan kegiatan siswa dan berikan predikat nilai rapor resmi (A, B, C, D, E) untuk seluruh anggota.
                                 </p>
                             </div>
                         </div>
 
-                        <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
-                            <span class="text-[11px] font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-lg">
-                                {{ $totalDinilai }} Nilai Tersimpan
+                        <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+                            <span class="text-[11px] font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded">
+                                {{ $totalDinilai }} Nilai tersimpan
                             </span>
                             <a href="{{ route('pembina.penilaian') }}"
-                                class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-700 hover:bg-amber-800 text-white transition-colors shadow-sm">
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-brand-800 hover:bg-brand-900 text-white transition-colors">
                                 <span>Kelola Nilai</span>
                                 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                             </a>
                         </div>
                     </div>
 
-                    {{-- Card 2: Data Anggota --}}
-                    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md hover:border-blue-300 transition-all flex flex-col justify-between space-y-5 group">
+                    {{-- Card 2: Data Anggota (Secondary Outline) --}}
+                    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between space-y-4">
                         <div class="space-y-3">
-                            <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                            <div class="w-10 h-10 rounded-lg bg-brand-50 text-brand-800 border border-brand-100/50 flex items-center justify-center text-base">
                                 <i class="fa-solid fa-users"></i>
                             </div>
                             <div>
-                                <h3 class="font-bold text-slate-900 text-base group-hover:text-blue-800 transition-colors">
+                                <h3 class="font-semibold text-slate-900 text-sm">
                                     Data Anggota Siswa
                                 </h3>
-                                <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
                                     Lihat daftar lengkap siswa yang bergabung, nomor induk (NISN), alamat domisili, dan status pendaftaran.
                                 </p>
                             </div>
                         </div>
 
-                        <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
-                            <span class="text-[11px] font-semibold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-lg">
-                                {{ $totalAnggota }} Siswa Terdaftar
+                        <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+                            <span class="text-[11px] font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded">
+                                {{ $totalAnggota }} Siswa terdaftar
                             </span>
                             <a href="{{ route('pembina.anggota') }}"
-                                class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-blue-700 hover:bg-blue-800 text-white transition-colors shadow-sm">
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors">
                                 <span>Lihat Anggota</span>
                                 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                             </a>
                         </div>
                     </div>
 
-                    {{-- Card 3: Perlengkapan & Inventaris --}}
-                    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md hover:border-emerald-300 transition-all flex flex-col justify-between space-y-5 group">
+                    {{-- Card 3: Perlengkapan & Inventaris (Secondary Outline) --}}
+                    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm flex flex-col justify-between space-y-4">
                         <div class="space-y-3">
-                            <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                            <div class="w-10 h-10 rounded-lg bg-brand-50 text-brand-800 border border-brand-100/50 flex items-center justify-center text-base">
                                 <i class="fa-solid fa-boxes-stacked"></i>
                             </div>
                             <div>
-                                <h3 class="font-bold text-slate-900 text-base group-hover:text-emerald-800 transition-colors">
+                                <h3 class="font-semibold text-slate-900 text-sm">
                                     Perlengkapan & Inventaris
                                 </h3>
-                                <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
                                     Pantau stok perlengkapan sarana ekstrakurikuler dan riwayat histori peminjaman barang oleh siswa.
                                 </p>
                             </div>
                         </div>
 
-                        <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
-                            <span class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg">
-                                {{ $totalInventaris }} Barang Terdaftar
+                        <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+                            <span class="text-[11px] font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded">
+                                {{ $totalInventaris }} Barang terdaftar
                             </span>
                             <a href="{{ route('pembina.perlengkapan') }}"
-                                class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-700 hover:bg-emerald-800 text-white transition-colors shadow-sm">
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors">
                                 <span>Kelola Barang</span>
                                 <i class="fa-solid fa-arrow-right text-[10px]"></i>
                             </a>
@@ -213,32 +208,32 @@
             </div>
 
             {{-- 2 Kolom Preview Ringkasan Cepat --}}
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-1">
                 {{-- Preview Anggota --}}
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                    <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
                         <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-user-group text-blue-600 text-xs"></i>
-                            <h3 class="font-bold text-slate-800 text-xs">Anggota Baru Terdaftar</h3>
+                            <i class="fa-solid fa-user-group text-brand-800 text-xs"></i>
+                            <h3 class="font-semibold text-slate-800 text-xs">Anggota Baru Terdaftar</h3>
                         </div>
-                        <a href="{{ route('pembina.anggota') }}" class="text-xs font-semibold text-brand-700 hover:text-brand-800 transition-colors flex items-center gap-1">
-                            Lihat Semua
+                        <a href="{{ route('pembina.anggota') }}" class="text-xs font-medium text-brand-800 hover:text-brand-900 transition-colors flex items-center gap-1">
+                            Lihat semua
                             <i class="fa-solid fa-chevron-right text-[10px]"></i>
                         </a>
                     </div>
                     <div class="divide-y divide-slate-100 text-xs">
                         @forelse ($anggotaTerbaru as $reg)
-                            <div class="p-3.5 flex items-center justify-between hover:bg-slate-50/50 transition-colors">
+                            <div class="px-4 py-3 flex items-center justify-between hover:bg-slate-50 transition-colors">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-7 h-7 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-[11px]">
+                                    <div class="w-7 h-7 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center font-semibold text-[11px]">
                                         {{ substr($reg->siswa->nama_siswa ?? 'S', 0, 1) }}
                                     </div>
                                     <div>
-                                        <p class="font-semibold text-slate-900">{{ $reg->siswa->nama_siswa ?? 'Siswa' }}</p>
-                                        <p class="text-[11px] text-slate-400">NISN: {{ $reg->siswa->nisn ?? '-' }}</p>
+                                        <p class="font-medium text-slate-900">{{ $reg->siswa->nama_siswa ?? 'Siswa' }}</p>
+                                        <p class="text-[11px] text-slate-400 font-mono">NISN: {{ $reg->siswa->nisn ?? '-' }}</p>
                                     </div>
                                 </div>
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
                                     {{ $reg->status }}
                                 </span>
                             </div>
@@ -251,29 +246,27 @@
                 </div>
 
                 {{-- Preview Perlengkapan --}}
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                    <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
                         <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-boxes-stacked text-emerald-600 text-xs"></i>
-                            <h3 class="font-bold text-slate-800 text-xs">Perlengkapan & Stok</h3>
+                            <i class="fa-solid fa-boxes-stacked text-brand-800 text-xs"></i>
+                            <h3 class="font-semibold text-slate-800 text-xs">Perlengkapan & Stok</h3>
                         </div>
-                        <a href="{{ route('pembina.perlengkapan') }}" class="text-xs font-semibold text-brand-700 hover:text-brand-800 transition-colors flex items-center gap-1">
-                            Lihat Semua
+                        <a href="{{ route('pembina.perlengkapan') }}" class="text-xs font-medium text-brand-800 hover:text-brand-900 transition-colors flex items-center gap-1">
+                            Lihat semua
                             <i class="fa-solid fa-chevron-right text-[10px]"></i>
                         </a>
                     </div>
                     <div class="divide-y divide-slate-100 text-xs">
                         @forelse ($inventarisList as $item)
-                            <div class="p-3.5 flex items-center justify-between hover:bg-slate-50/50 transition-colors">
+                            <div class="px-4 py-3 flex items-center justify-between hover:bg-slate-50 transition-colors">
                                 <div>
-                                    <p class="font-semibold text-slate-900">{{ $item->nama_barang }}</p>
-                                    <p class="text-[11px] text-slate-400">ID: {{ Str::limit($item->id_inventaris, 15) }}</p>
+                                    <p class="font-medium text-slate-900">{{ $item->nama_barang }}</p>
+                                    <p class="text-[11px] text-slate-400 font-mono">ID: {{ Str::limit($item->id_inventaris, 15) }}</p>
                                 </div>
                                 <div class="text-right">
-                                    <span class="inline-flex items-center gap-1 font-bold text-slate-800">
-                                        <span class="px-2 py-0.5 rounded-lg bg-slate-100 border border-slate-200 text-xs">
-                                            Stok: {{ $item->stok }}
-                                        </span>
+                                    <span class="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-xs font-mono text-slate-700">
+                                        Stok: {{ $item->stok }}
                                     </span>
                                 </div>
                             </div>
@@ -288,8 +281,8 @@
 
         @else
             {{-- Empty State: Guru belum memiliki ekskul binaan --}}
-            <div class="bg-white rounded-2xl border border-slate-200 p-12 text-center shadow-sm space-y-4 max-w-lg mx-auto">
-                <div class="w-16 h-16 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl mx-auto">
+            <div class="bg-white rounded-xl border border-slate-200 p-12 text-center shadow-sm space-y-4 max-w-lg mx-auto">
+                <div class="w-12 h-12 rounded-lg bg-brand-50 text-brand-800 border border-brand-100/50 flex items-center justify-center text-xl mx-auto">
                     <i class="fa-solid fa-award"></i>
                 </div>
                 <div class="space-y-1.5">
@@ -300,7 +293,7 @@
                 </div>
                 <div class="pt-2">
                     <a href="{{ route('guru.dashboard') }}"
-                        class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">
+                        class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">
                         <i class="fa-solid fa-arrow-left text-[10px]"></i>
                         <span>Kembali ke Dashboard Guru</span>
                     </a>
